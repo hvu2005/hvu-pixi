@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "baseUrl": "./src",
+    "paths": {
+      "@pixi.alias": ["engine/pixi.alias.js"],
+      "@three.alias": ["engine/three.alias.js"],
+      "@engine": ["engine/engine.js"]
+    }
+  }
+}

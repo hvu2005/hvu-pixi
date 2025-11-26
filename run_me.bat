@@ -1,0 +1,2 @@
+py html_generator/generate_all.py
+pause

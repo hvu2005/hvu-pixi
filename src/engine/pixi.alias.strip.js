@@ -1,0 +1,12 @@
+export { AnimatedSprite } from 'pixi.js';
+export { Assets } from 'pixi.js';
+export { Container } from 'pixi.js';
+export { Graphics } from 'pixi.js';
+export { Rectangle } from 'pixi.js';
+export { RenderTexture } from 'pixi.js';
+export { Sprite } from 'pixi.js';
+export { Text } from 'pixi.js';
+export { TextStyle } from 'pixi.js';
+export { Texture } from 'pixi.js';
+export { TilingSprite } from 'pixi.js';
+export { WebGLRenderer } from 'pixi.js';

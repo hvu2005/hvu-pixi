@@ -32,8 +32,6 @@ import { stripImports } from "./strip.import.config.js";
                 global: "globalThis",
             },
             splitting: false,
-            // external: ['pixi.js', 'three'],
-            // globalName: 'PIXI',
             plugins: [
                 inlineCss(),
                 babel({
@@ -69,15 +67,17 @@ import { stripImports } from "./strip.import.config.js";
             },
             logLevel: "info",
             metafile: true, // bật phân tích
-            alias: {
-                "@pixi.alias": `./src/engine/pixi.alias${isProd ? ".min" : ""}.js`,
-                "@three.alias": `./src/engine/three.alias${isProd ? ".min" : ""}.js`,
-            },
+            // alias: {
+            //     "@pixi.alias": `./src/engine/pixi.alias${isProd ? ".min" : ""}.js`,
+            //     "@three.alias": `./src/engine/three.alias${isProd ? ".min" : ""}.js`,
+            // },
         });
 
         // Lưu metafile JSON
-        const result = await ctx.rebuild();
-        fs.writeFileSync('meta.json', JSON.stringify(result.metafile, null, 2));
+
+        // const result = await ctx.rebuild();
+        // fs.writeFileSync('meta.json', JSON.stringify(result.metafile, null, 2));
+
         // console.log('✅ Build thành công! Metafile lưu ở meta.json');
 
         // // In phân tích ra terminal

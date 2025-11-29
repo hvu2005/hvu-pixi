@@ -1,5 +1,5 @@
-import { pixiApp, threeApp } from "@engine";
-const { GameScene } = require("scene/GameScene");
+const { pixi } = require("engine/core/app/Pixi");
+const { init } = require("engine/init");
 
 
 // Asynchronous IIFE
@@ -9,5 +9,5 @@ const { GameScene } = require("scene/GameScene");
 })();
 
 async function startGame() {
-    new GameScene({pixi: pixiApp, three: threeApp, designW: 981, designH: 1230 });
+    await init({pixi: pixi});
 }

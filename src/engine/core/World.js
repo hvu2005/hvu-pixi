@@ -1,4 +1,4 @@
-import { Pixi } from "./app/Pixi";
+
 
 
 class World {
@@ -13,18 +13,16 @@ class World {
      * @param {Three} options.three 
      */
     async init(options = { pixi, three }) {
-        /**
-         * @type {Pixi}
-         */
+  
         this.pixi = options.pixi;
-        /**
-         * @type {Three}
-         */
+ 
         this.three = options.three;
 
         await this.pixi?.init();
         await this.initSystems();
-        
+
+        this.pixi?.onResize(981,1230);
+
         this.run();
     }
 

@@ -1,4 +1,4 @@
-import { Container, WebGLRenderer } from "@pixi.alias";
+import { Container, Rectangle, WebGLRenderer } from "@pixi.alias";
 
 
 
@@ -6,6 +6,7 @@ export class Pixi {
     async init(threeContext = null) {
         this.renderer = new WebGLRenderer();
         this.stage = new Container();
+        this.stage.eventMode = "static";
 
         const WIDTH = window.innerWidth;
         const HEIGHT = window.innerHeight;

@@ -1,11 +1,36 @@
+import { Entity2D } from "engine/core/entities/Entity2D";
 
 export class Component {
-    constructor(entity) {
-        this.entity = entity;
+    constructor() {
+        this._enabled = true;
     }
 
     async init() {
+        
+    }
 
+    create(entity) {
+        /**
+         * @type {Entity2D}
+         */
+        this.entity = entity;
+    }
+
+    get enabled() {
+        return this._enabled;
+    }
+
+    set enabled(value) {    
+        if(this._enabled === value) return;
+        this._enabled = value;
+        if(!this.entity?.activeSelf) return;
+        
+        if(value) {
+            this._onEnable();
+        }
+        else {
+            this._onDisable();
+        }
     }
 
     _onEnable() {
@@ -17,6 +42,6 @@ export class Component {
     }
 
     _onDestroy() {
-        
+
     }
 }

@@ -2,12 +2,17 @@ import { Pixi } from "./app/Pixi";
 
 
 class World {
+    constructor() {
+        this.systems = [];
+        this.entities = [];
+    }
+
     /**
      * 
      * @param {Pixi} options.pixi 
      * @param {Three} options.three 
      */
-    async init(options = {pixi, three}) {
+    async init(options = { pixi, three }) {
         /**
          * @type {Pixi}
          */
@@ -17,11 +22,9 @@ class World {
          */
         this.three = options.three;
 
-        this.pixi?.init();
-
-        this.systems = [];
-        this.entities = [];
-
+        await this.pixi?.init();
+        await this.initSystems();
+        
         this.run();
     }
 
@@ -47,6 +50,12 @@ class World {
     update(dt) {
         for (const system of this.systems) {
             system.update(dt);
+        }
+    }
+
+    async initSystems() {
+        for (const system of this.systems) {
+            await system.init();
         }
     }
 

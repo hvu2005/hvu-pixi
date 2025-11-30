@@ -17,5 +17,6 @@ async function startGame() {
     await init({pixi: pixi});   
 
     createEntityTest();
+    createEntityTest();
 
 }

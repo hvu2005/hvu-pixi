@@ -83,18 +83,18 @@ export class Behaviour extends Component {
     }
 
     onPointerOver(event) {
-        
-    }
-
-    onTriggerEnter(collision) {
 
     }
 
-    onTriggerExit(collision) {
+    onCollisionEnter(collision) {
 
     }
 
-    onTriggerStay(collision) {
+    onCollisionExit(collision) {
+
+    }
+
+    onCollisionStay(collision) {
 
     }
 

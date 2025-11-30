@@ -46,6 +46,8 @@ export class Behaviour extends Component {
             pixi.stage.on("pointerup", onStagePointerUp);
             pixi.stage.on("pointerupoutside", onStagePointerUp);
         }, this);
+
+        sprite.on("pointerover", this.onPointerOver, this);
     }
 
     get eventMode() {
@@ -78,6 +80,10 @@ export class Behaviour extends Component {
 
     onPointerMove(event) {
 
+    }
+
+    onPointerOver(event) {
+        
     }
 
     onTriggerEnter(collision) {

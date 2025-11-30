@@ -23,6 +23,8 @@ export class Entity2D {
         return this.container ?? this.renderer;
     }
 
+
+
     add(component) {
         this.components.push(component);
         component.create(this);

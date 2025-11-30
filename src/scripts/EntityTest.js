@@ -36,10 +36,15 @@ class EntityTest extends Behaviour {
     }
 
     onPointerMove(event) {
-        // Lấy vị trí chuột từ event (Pixi.js v8)
-        const globalPos = event.data?.global || event.global;
+        // // Lấy vị trí chuột từ event (Pixi.js v8)
+        // const globalPos = event.data?.global || event.global;
         
-        // Di chuyển entity theo vị trí chuột
-        this.transform.position.set(globalPos.x, globalPos.y);
+        // // Di chuyển entity theo vị trí chuột
+        // this.transform.position.set(globalPos.x, globalPos.y);
+        console.log("vcl move");
+    }
+
+    onPointerOver(event) {
+        console.log("vcl over");
     }
 }

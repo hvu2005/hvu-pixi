@@ -1,0 +1,133 @@
+@startuml Layer Diagram - Game Engine Backend Architecture
+
+!define RECTANGLE class
+
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+package "Application Layer" {
+    [index.js\nEntry Point] as IndexJS
+    [init.js\nInitialization] as InitJS
+}
+
+package "World/Orchestration Layer" {
+    [World.js\nGame Loop Manager] as World
+}
+
+package "System Layer" {
+    [System.js\nBase System] as SystemBase
+    [BehaviourSystem\nBehavior Processing] as BehaviourSystem
+    [Physic2DSystem\nPhysics Processing] as PhysicSystem
+}
+
+package "Entity Layer" {
+    [Entity2D\nEntity Container] as Entity
+}
+
+package "Component Layer" {
+    [Component.js\nBase Component] as ComponentBase
+    [Transform2D\nPosition/Rotation/Scale] as Transform
+    [SpriteRenderer\nVisual Rendering] as SpriteRenderer
+    [Collider2D\nBase Collider] as ColliderBase
+    [BoxCollider2D\nBox Collider] as BoxCollider
+    [Behaviour\nGame Logic] as Behaviour
+}
+
+package "Event Layer" {
+    [EventBus\nEvent Manager] as EventBus
+    [CoreEventType\nEvent Types] as EventType
+}
+
+package "Asset Layer" {
+    [AssetLoader\nResource Manager] as AssetLoader
+}
+
+package "Rendering Layer" {
+    [Pixi.js Wrapper\nGraphics Engine] as PixiWrapper
+}
+
+package "Physics Layer" {
+    [Matter.js\nPhysics Engine] as MatterJS
+}
+
+' Application Layer connections
+IndexJS --> InitJS
+InitJS --> World
+InitJS --> AssetLoader
+
+' World Layer connections
+World --> SystemBase
+World --> PixiWrapper
+
+' System Layer connections
+SystemBase <|-- BehaviourSystem
+SystemBase <|-- PhysicSystem
+BehaviourSystem --> Entity
+PhysicSystem --> MatterJS
+PhysicSystem --> ColliderBase
+
+' Entity Layer connections
+Entity --> ComponentBase
+
+' Component Layer connections
+ComponentBase <|-- Transform
+ComponentBase <|-- SpriteRenderer
+ComponentBase <|-- ColliderBase
+ComponentBase <|-- Behaviour
+ColliderBase <|-- BoxCollider
+
+' Event Layer connections
+Behaviour --> EventBus
+ColliderBase --> EventBus
+EventBus --> EventType
+
+' Rendering Layer connections
+SpriteRenderer --> PixiWrapper
+Transform --> PixiWrapper
+
+' Physics Layer connections
+PhysicSystem --> MatterJS
+
+note right of World
+  **Game Loop:**
+  init() → run() → 
+  update(dt) → render()
+end note
+
+note right of Entity
+  **Entity Structure:**
+  - components[]
+  - behaviours[]
+  - transform
+  - container
+  - renderer
+  - activeSelf
+end note
+
+note right of ComponentBase
+  **Component Lifecycle:**
+  create() → init() → 
+  _onEnable() → 
+  [enabled] → 
+  _onDisable() → 
+  _onDestroy()
+end note
+
+note right of BehaviourSystem
+  **Behaviour Processing:**
+  - Queue management
+  - awake() → start()
+  - update(dt) per frame
+end note
+
+note right of PhysicSystem
+  **Physics Processing:**
+  - Matter.js integration
+  - Transform sync
+  - Collision detection
+  - Debug rendering
+end note
+
+@enduml
+
+

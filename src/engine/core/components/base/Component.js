@@ -1,6 +1,5 @@
 
 import { Entity2D } from "engine/core/entities/Entity2D";
-import { Body } from "matter-js";
 
 export class Component {
     constructor() {

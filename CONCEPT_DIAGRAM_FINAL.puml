@@ -1,0 +1,88 @@
+@startuml Concept Diagram - ECS Architecture (Final)
+
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+title Game Engine - Concept Architecture (ECS Pattern - Final)
+
+package "Concept Layer" {
+    rectangle "World\n(Điều phối)" as WorldConcept #LightBlue
+    
+    package "System Types" {
+        rectangle "System\n(Xử lý Logic)" as SystemConcept #LightGreen
+        rectangle "System\n(Utility/Service)" as SystemUtility #LightCyan
+    }
+    
+    rectangle "Entity\n(Container)" as EntityConcept #LightYellow
+    
+    package "Component Types" {
+        rectangle "Component\n(Có System)" as ComponentWithSystem #LightCoral
+        rectangle "Component\n(Độc lập)" as ComponentStandalone #LightPink
+    }
+}
+
+' Relationships
+WorldConcept --> SystemConcept : "quản lý\n(manages)"
+WorldConcept --> SystemUtility : "quản lý\n(manages)"
+
+SystemConcept --> EntityConcept : "xử lý\n(processes)"
+SystemConcept --> ComponentWithSystem : "xử lý\n(processes)"
+
+EntityConcept --> ComponentWithSystem : "chứa\n(contains)"
+EntityConcept --> ComponentStandalone : "chứa\n(contains)"
+
+ComponentWithSystem --> SystemConcept : "đăng ký\n(registers)"
+
+ComponentWithSystem ..> SystemUtility : "sử dụng\n(uses)"
+ComponentStandalone ..> SystemUtility : "sử dụng\n(uses)"
+EntityConcept ..> SystemUtility : "sử dụng\n(uses)"
+
+note top of WorldConcept
+  **World - Điều phối viên**
+  - Quản lý game loop
+  - Điều phối tất cả systems
+  - Update/Render cycle
+end note
+
+note right of SystemConcept
+  **System - Xử lý Components**
+  - Xử lý entities/components
+  - Logic nghiệp vụ chuyên biệt
+  - Ví dụ: BehaviourSystem, Physic2DSystem
+  - Update mỗi frame
+end note
+
+note right of SystemUtility
+  **System - Utility/Service**
+  - Cung cấp services/utilities
+  - Không xử lý components trực tiếp
+  - Ví dụ: InputSystem, AudioSystem
+  - Có thể được sử dụng bởi Components
+end note
+
+note bottom of EntityConcept
+  **Entity - Container**
+  - Chứa các components
+  - Quản lý lifecycle
+  - Trạng thái active/inactive
+end note
+
+note left of ComponentWithSystem
+  **Component - Có System**
+  - Đăng ký với Systems
+  - Được xử lý bởi Systems
+  - Ví dụ: Behaviour, Collider2D
+end note
+
+note left of ComponentStandalone
+  **Component - Độc lập**
+  - Không đăng ký với Systems
+  - Tự quản lý logic
+  - Ví dụ: SpriteRenderer, Transform2D
+end note
+
+@enduml
+
+

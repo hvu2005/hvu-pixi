@@ -1,9 +1,8 @@
-import { Body, Events } from "matter-js";
+
 import { Component } from "../base/Component";
 import { physic2DSystem } from "engine/core/systems/physic/Physic2DSystem";
-
-
-
+import { eventBus } from "engine/core/event/EventBus";
+import { CoreEventType } from "engine/core/event/CoreEventType";
 
 
 export class Collider2D extends Component {
@@ -21,6 +20,12 @@ export class Collider2D extends Component {
     async init() {
         this.body = this._createBody();
         physic2DSystem.addCollider(this);
+    }
+
+    onCollisionEnter(other) {
+        this.entity.behaviours.forEach(behaviour => {
+            behaviour.onCollisionEnter(other);
+        });
     }
 
     _createBody() {

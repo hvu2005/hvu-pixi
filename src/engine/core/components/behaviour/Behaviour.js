@@ -1,18 +1,32 @@
 import { behaviourSystem } from "engine/core/systems/behaviour/BehaviourSystem";
 import { Component } from "../base/Component";
-import { SpriteRenderer } from "../renderer/SpriteRenderer";
 import { world } from "engine/core/World";
+import { eventBus } from "engine/core/event/EventBus";
+import { CoreEventType } from "engine/core/event/CoreEventType";
+
 
 
 
 
 
 export class Behaviour extends Component {
+
+    //#region INIT
     async init() {
         behaviourSystem.addBehaviour(this);
+        this.entity.behaviours.push(this);
 
         this._eventMode = 'none';
+        this._registEvents();
     }
+
+    _registEvents() {
+        eventBus.onSystem(CoreEventType.ON_COLLISION_ENTER, this.onCollisionEnter, this);
+    }
+
+    //#endregion
+
+    //#region GETTER SETTER
 
     set eventMode(mode) {
         if(this._eventMode === mode) return;
@@ -57,6 +71,10 @@ export class Behaviour extends Component {
     get transform() {
         return this.entity.transform;
     }
+    
+    //#endregion
+
+    //#region EVENTS
 
     awake() {
 
@@ -86,16 +104,30 @@ export class Behaviour extends Component {
 
     }
 
-    onCollisionEnter(collision) {
+    onCollisionEnter(other) {
 
     }
 
-    onCollisionExit(collision) {
+    onCollisionExit(other) {
 
     }
 
-    onCollisionStay(collision) {
+    onCollisionStay(other) {
 
     }
+
+    _onDestroy() {
+        eventBus.clearSystem(this);
+    }
+
+    _onEnable() {
+
+    }
+    
+    _onDisable() {
+
+    }
+
+    //#endregion
 
 }

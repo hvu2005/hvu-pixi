@@ -1,0 +1,117 @@
+@startuml Layer Diagram - Component View
+
+!theme plain
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title Game Engine Backend - Layer Architecture Diagram
+
+package "Layer 1: Application" #LightBlue {
+    component [index.js\nEntry Point] as AppEntry
+    component [init.js\nInitialization] as Init
+}
+
+package "Layer 2: Orchestration" #LightGreen {
+    component [World.js\nGame Loop\nSystem Manager] as World
+}
+
+package "Layer 3: Systems" #LightYellow {
+    component [System.js\nBase] as SystemBase
+    component [BehaviourSystem\nLogic Processing] as BehaviourSys
+    component [Physic2DSystem\nPhysics Processing] as PhysicSys
+}
+
+package "Layer 4: Entities" #LightCoral {
+    component [Entity2D\nComponent Container] as Entity
+}
+
+package "Layer 5: Components" #LightPink {
+    component [Component.js\nBase] as CompBase
+    component [Transform2D\nTransform] as Transform
+    component [SpriteRenderer\nRendering] as Sprite
+    component [Collider2D\nBase] as Collider
+    component [BoxCollider2D\nBox] as BoxCol
+    component [Behaviour\nGame Logic] as Behaviour
+}
+
+package "Layer 6: Events" #LightGray {
+    component [EventBus\nEvent Manager] as Events
+    component [CoreEventType\nTypes] as EventTypes
+}
+
+package "Layer 7: Assets" #LightCyan {
+    component [AssetLoader\nResource Manager] as Assets
+}
+
+package "Layer 8: Rendering" #Lavender {
+    component [Pixi.js\nGraphics Engine] as Pixi
+}
+
+package "Layer 9: Physics" #Wheat {
+    component [Matter.js\nPhysics Engine] as Matter
+}
+
+' Layer 1 -> Layer 2
+AppEntry --> Init
+Init --> World
+Init --> Assets
+
+' Layer 2 -> Layer 3
+World --> SystemBase
+World --> Pixi
+
+' Layer 3 connections
+SystemBase <|-- BehaviourSys
+SystemBase <|-- PhysicSys
+BehaviourSys --> Entity
+PhysicSys --> Matter
+PhysicSys --> Collider
+
+' Layer 4 -> Layer 5
+Entity --> CompBase
+
+' Layer 5 connections
+CompBase <|-- Transform
+CompBase <|-- Sprite
+CompBase <|-- Collider
+CompBase <|-- Behaviour
+Collider <|-- BoxCol
+
+' Layer 5 -> Layer 6
+Behaviour --> Events
+Collider --> Events
+Events --> EventTypes
+
+' Layer 5 -> Layer 8
+Sprite --> Pixi
+Transform --> Pixi
+
+' Layer 3 -> Layer 9
+PhysicSys --> Matter
+
+note top of World
+  **Core Orchestrator**
+  - Manages game loop
+  - Coordinates systems
+  - Handles update/render cycle
+end note
+
+note right of Entity
+  **Entity-Component Pattern**
+  - Contains components
+  - Manages lifecycle
+  - Active/Inactive state
+end note
+
+note bottom of SystemBase
+  **System Pattern**
+  - Processes entities
+  - Update per frame
+  - Domain-specific logic
+end note
+
+@enduml
+
+

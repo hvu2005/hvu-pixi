@@ -1,34 +1,32 @@
-import { Container } from "@pixi.alias";
+
 
 export class Entity2D {
 
     constructor() {
         this.components = [];
+        this.behaviours = [];
 
-        /**
-         * @type {Container}
-         */
+        this.transform = null;
         this.container = null;
-
         this.renderer = null;
 
         this.activeSelf = true;
     }
     
     async init() {
- 
+
     }
 
-    get transform() {
-        return this.container ?? this.renderer;
-    }
-
-
+    // get transform() {
+    //     return this.container ?? this.renderer;
+    // }
 
     add(component) {
         this.components.push(component);
         component.create(this);
         component.init();
+
+        return component;
     }
 
     get(component) {

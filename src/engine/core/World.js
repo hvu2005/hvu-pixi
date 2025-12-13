@@ -4,7 +4,6 @@
 class World {
     constructor() {
         this.systems = [];
-        this.entities = [];
     }
 
     /**

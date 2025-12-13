@@ -1,0 +1,63 @@
+@startuml Layer Diagram - Core Architecture (Simplified)
+
+!theme plain
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 14
+
+title Game Engine Backend - Core Layer Architecture
+
+package "Layer 1: World" #LightBlue {
+    component [World\nGame Loop\nOrchestrator] as World
+}
+
+package "Layer 2: System" #LightGreen {
+    component [System\nProcessing Logic] as System
+}
+
+package "Layer 3: Entity" #LightYellow {
+    component [Entity\nComponent Container] as Entity
+}
+
+package "Layer 4: Component" #LightCoral {
+    component [Component\nFunctionality] as Component
+}
+
+' Core relationships
+World --> System : manages
+System --> Entity : processes
+Entity --> Component : contains
+Component --> System : registers with
+
+note top of World
+  **World Layer**
+  - Manages game loop
+  - Coordinates all systems
+  - Update/Render cycle
+end note
+
+note right of System
+  **System Layer**
+  - Processes entities
+  - Domain-specific logic
+  - Update per frame
+end note
+
+note bottom of Entity
+  **Entity Layer**
+  - Container for components
+  - Manages lifecycle
+  - Active/Inactive state
+end note
+
+note left of Component
+  **Component Layer**
+  - Extends entity functionality
+  - Registers with systems
+  - Lifecycle management
+end note
+
+@enduml
+
+

@@ -21,6 +21,19 @@ class Physic2DSystem extends System {
 
     _registEvents() {
         Events.on(this.engine, "afterUpdate", () => this._syncTransform());
+
+        Events.on(this.engine, 'collisionStart', (event) => {
+            for (const pair of event.pairs) {
+                const bodyA = pair.bodyA;
+                const bodyB = pair.bodyB;
+
+                const colliderA = bodyA.collider;
+                const colliderB = bodyB.collider;
+
+                colliderA?.onCollisionEnter?.(colliderB);
+                colliderB?.onCollisionEnter?.(colliderA);
+            }
+        });
     }
 
     _syncTransform() {
@@ -28,6 +41,8 @@ class Physic2DSystem extends System {
             const t = collider.entity.transform;
             const x = t.position.x + collider.options.x;
             const y = t.position.y + collider.options.y;
+
+
             Body.setPosition(collider.body, {x: x, y: y});
             Body.setAngle(collider.body, t.rotation);
             if(collider.currentScaleX != t.scale.x || collider.currentScaleY != t.scale.y) {
@@ -45,7 +60,10 @@ class Physic2DSystem extends System {
     }
 
     addCollider(collider) {
-        World.add(this.engine.world, collider.body);
+        const body = collider.body;
+        body.collider = collider;
+        
+        World.add(this.engine.world, body);
         this.colliders.push(collider);
     }
     

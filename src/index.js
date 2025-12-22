@@ -1,11 +1,13 @@
-const { pixi } = require("engine/core/app/Pixi");
-const { init } = require("engine/init");
 
 import { Asset } from "engine/asset/AssetLoader";
-import { Behaviour } from "engine/core/components/behaviour/Behaviour";
-import { SpriteRenderer } from "engine/core/components/renderer/SpriteRenderer";
-import { Entity2D } from "engine/core/entities/Entity2D";
-import { createEntityTest } from "scripts/EntityTest";
+import { World } from "engine/core/World";
+import { pixi } from "engine/core/app/Pixi";
+import { init } from "engine/init";
+import { create } from "engine/runtime/create";
+import { SpriteRenderer } from "engine/runtime/pixi/component/SpriteRenderer";
+import { Transform2D } from "engine/runtime/pixi/component/Transform2D";
+import { worldContext } from "engine/runtime/worldContext";
+
 
 // Asynchronous IIFE
 (async () => {
@@ -14,9 +16,15 @@ import { createEntityTest } from "scripts/EntityTest";
 })();
 
 async function startGame() {
-    await init({pixi: pixi});   
+    await init();
 
-    createEntityTest();
-    createEntityTest();
+    const world = new World();
+    await world.init({ pixi: pixi });
+    worldContext.current = world;
 
+    const gameObject = create();
+    gameObject.addComponent(new SpriteRenderer(Asset.ITEM));
+    
+    const transform = gameObject.getComponent(Transform2D);
+    transform.setPosition(500, 500);
 }

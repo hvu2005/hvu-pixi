@@ -5,6 +5,8 @@ export class World {
         this.systems = [];
         this.entities = [];
         this.components = new Map();
+
+        this.componentToSystems = new Map();
     }
 
     /**
@@ -43,14 +45,6 @@ export class World {
         requestAnimationFrame(loop);
     }
 
-    addToPixiStage(pixiNode) {
-        this.pixi.stage.addChild(pixiNode);
-    }
-
-    addToThreeScene(threeNode) {
-        this.three.scene.add(threeNode);
-    }
-
     render() {
         this.stats.begin();
         this.pixi?.render();
@@ -58,6 +52,7 @@ export class World {
         this.stats.end();
     }
 
+    //#region Systems
     update(dt) {
         for (const system of this.systems) {
             system.update(dt);
@@ -95,6 +90,60 @@ export class World {
      */
     getSystem(SystemClass) {
         return this.systems.find(s => s.constructor === SystemClass);
+    }
+
+    //#endregion
+
+    //#region Events
+    onComponentAdded(component) {
+        const targetSystems = this.componentToSystems.get(component.constructor);
+        if (!targetSystems) return;
+
+        for (const system of targetSystems) {
+            system.onComponentAdded(component);
+        }
+    }
+
+    onComponentRemoved(component) {
+        const targetSystems = this.componentToSystems.get(component.constructor);
+        if (!targetSystems) return;
+
+        for (const system of targetSystems) {
+            system.onComponentRemoved(component);
+        }
+    }
+    //#endregion
+
+    /**
+     * @template T
+     * @param {new (...args:any[]) => T} gameObjectClass 
+     * @returns {T}
+     */
+    createGameObject(gameObjectClass) {
+        const gameObject = new gameObjectClass(this);
+
+        this.entities.push(gameObject);
+        return gameObject;
+    }
+
+    /**
+     * @template T
+     * @param {new (...args:any[]) => T} systemClass 
+     * @returns {T}
+     */
+    createSystem(systemClass) {
+        const system = new systemClass(this);
+        this.systems.push(system);
+
+        const interests = system.interestedComponents || [];
+        for (const componentType of interests) {
+            if (!this.componentToSystems.has(componentType)) {
+                this.componentToSystems.set(componentType, []);
+            }
+            this.componentToSystems.get(componentType).push(system);
+        }
+
+        return system;
     }
 
     destroy() {

@@ -1,71 +1,71 @@
-import { Container, Rectangle, WebGLRenderer } from "@pixi.alias";
+    import { Container, Rectangle, WebGLRenderer } from "@pixi.alias";
 
 
 
-export class Pixi {
-    async init(threeContext = null) {
-        this.renderer = new WebGLRenderer();
-        this.stage = new Container();
-        this.stage.eventMode = "static";
+    export class Pixi {
+        async init(threeContext = null) {
+            this.renderer = new WebGLRenderer();
+            this.stage = new Container();
+            this.stage.eventMode = "static";
 
-        const WIDTH = window.innerWidth;
-        const HEIGHT = window.innerHeight;
-        const renderer = this.renderer;
+            const WIDTH = window.innerWidth;
+            const HEIGHT = window.innerHeight;
+            const renderer = this.renderer;
 
-        // Initialize PixiJS renderer with shared context
-        await renderer.init({
-            context: threeContext,
-            width: WIDTH,
-            height: HEIGHT,
-            clearBeforeRender: false, // Don't clear the canvas as Three.js will handle that
-        });
+            // Initialize PixiJS renderer with shared context
+            await renderer.init({
+                context: threeContext,
+                width: WIDTH,
+                height: HEIGHT,
+                clearBeforeRender: false, // Don't clear the canvas as Three.js will handle that
+            });
 
-        // Create PixiJS scene graph
-        !threeContext && document.body.appendChild(renderer.canvas);
-    }
-
-    render() {
-        this.renderer.resetState();
-        this.renderer.render({ container: this.stage });
-    }
-
-    onResize(width, height) {
-        const DESIGN_WIDTH = width;
-        const DESIGN_HEIGHT = height;
-
-        const windowW = window.innerWidth;
-        const windowH = window.innerHeight;
-
-        let logicWidth, logicHeight, scale;
-
-        // --- Tính toán scale logic ---
-        if (windowW <= windowH) {
-            // Portrait → fit width
-            scale = windowW / DESIGN_WIDTH;
-            logicWidth = DESIGN_WIDTH;
-            logicHeight = windowH / scale;
-        } else {
-            // Landscape → fit height
-            scale = windowH / DESIGN_HEIGHT;
-            logicHeight = DESIGN_HEIGHT;
-            logicWidth = windowW / scale;
+            // Create PixiJS scene graph
+            !threeContext && document.body.appendChild(renderer.canvas);
         }
 
-        // --- PIXI.JS ---
-        const renderer = this.renderer;
+        render() {
+            this.renderer.resetState();
+            this.renderer.render({ container: this.stage });
+        }
 
-        // set CSS canvas full window
-        renderer.canvas.style.width = windowW + "px";
-        renderer.canvas.style.height = windowH + "px";
+        onResize(width, height) {
+            const DESIGN_WIDTH = width;
+            const DESIGN_HEIGHT = height;
 
-        // resize renderer logic size
-        renderer.resize(logicWidth, logicHeight);
+            const windowW = window.innerWidth;
+            const windowH = window.innerHeight;
 
-        // stage hitArea logic
-        if (this.stage) {
-            this.stage.hitArea = new Rectangle(0, 0, logicWidth, logicHeight);
+            let logicWidth, logicHeight, scale;
+
+            // --- Tính toán scale logic ---
+            if (windowW <= windowH) {
+                // Portrait → fit width
+                scale = windowW / DESIGN_WIDTH;
+                logicWidth = DESIGN_WIDTH;
+                logicHeight = windowH / scale;
+            } else {
+                // Landscape → fit height
+                scale = windowH / DESIGN_HEIGHT;
+                logicHeight = DESIGN_HEIGHT;
+                logicWidth = windowW / scale;
+            }
+
+            // --- PIXI.JS ---
+            const renderer = this.renderer;
+
+            // set CSS canvas full window
+            renderer.canvas.style.width = windowW + "px";
+            renderer.canvas.style.height = windowH + "px";
+
+            // resize renderer logic size
+            renderer.resize(logicWidth, logicHeight);
+
+            // stage hitArea logic
+            if (this.stage) {
+                this.stage.hitArea = new Rectangle(0, 0, logicWidth, logicHeight);
+            }
         }
     }
-}
 
-export const pixi = new Pixi();
+    export const pixi = new Pixi();

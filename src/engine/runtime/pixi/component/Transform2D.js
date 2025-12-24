@@ -2,13 +2,18 @@ import { Transform } from "engine/core/component/Transform";
 import { Container } from "@pixi.alias";
 
 
-
-
 export class Transform2D extends Transform {
     constructor() {
         super();
 
         this.group = new Container();
+    }
+
+    /**
+     * @returns {Container}
+     */
+    getNode() {
+        return this.group;
     }
 
     _onAttach() {

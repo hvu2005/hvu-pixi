@@ -1,6 +1,7 @@
 import { Renderer } from "engine/core/component/Renderer";
+import { Transform } from "engine/core/component/Transform";
 import { Sprite } from "pixi.js";
-import { Transform2D } from "./Transform2D";
+
 
 
 
@@ -18,11 +19,11 @@ export class SpriteRenderer extends Renderer {
     }
 
     _onAttach() {
-        this.gameObject.getComponent(Transform2D).addChild(this.sprite);
+        this.gameObject.getComponent(Transform).addChild(this.sprite);
     }
 
     _onDestroy() {
-        this.gameObject.getComponent(Transform2D).removeChild(this.sprite);
+        this.gameObject.getComponent(Transform).removeChild(this.sprite);
     }
     
     _onEnable() {

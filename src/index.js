@@ -2,8 +2,10 @@
 import { Asset } from "engine/asset/AssetLoader";
 import { World } from "engine/core/World";
 import { pixi } from "engine/core/app/Pixi";
-import { init } from "engine/init";import { instantiate } from "engine/runtime/instantiate";
-;
+import { init } from "engine/init";
+import { MonoBehaviour } from "engine/runtime/behaviour/MonoBehaviour";
+import { MonoBehaviourSystem } from "engine/runtime/behaviour/MonoBehaviourSystem";
+import { instantiate } from "engine/runtime/instantiate";
 import { SpriteRenderer } from "engine/runtime/pixi/component/SpriteRenderer";
 import { Transform2D } from "engine/runtime/pixi/component/Transform2D";
 import { GameObject2D } from "engine/runtime/pixi/entity/GameObject2D";
@@ -24,11 +26,14 @@ async function startGame() {
     await world.init({ pixi: pixi });
     worldContext.current = world;
 
-    const render2DSystem = world.createSystem(Render2DSystem);
+    world.createSystem(Render2DSystem);
+    world.createSystem(MonoBehaviourSystem);
 
     const gameObject = instantiate(GameObject2D);
+    gameObject.addComponent(new MonoBehaviour());
     gameObject.addComponent(new SpriteRenderer(Asset.ITEM));
     
     const transform = gameObject.getComponent(Transform2D);
-    transform.setPosition(500, 500);
+    transform.setPosition(150, 150);
+
 }

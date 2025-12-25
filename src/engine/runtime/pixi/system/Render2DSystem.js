@@ -18,7 +18,7 @@ export class Render2DSystem extends System {
      */
     onComponentAdded(component) {
         const node = component.getNode();
-        if (node || node.parent) return;
+        if (!node || node.parent) return;
 
         this.stage.addChild(component.getNode());
     }
@@ -29,6 +29,8 @@ export class Render2DSystem extends System {
      */
     onComponentRemoved(component) {
         const node = component.getNode();
+        if (!node) return;
+        
         const parent = node.parent;
         if (parent) {
             parent.removeChild(node);

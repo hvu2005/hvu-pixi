@@ -96,20 +96,30 @@ export class World {
 
     //#region Events
     onComponentAdded(component) {
-        const targetSystems = this.componentToSystems.get(component.constructor);
-        if (!targetSystems) return;
-
-        for (const system of targetSystems) {
-            system.onComponentAdded(component);
+        let ctor = component.constructor;
+    
+        while (ctor) {
+            const systems = this.componentToSystems.get(ctor);
+            if (systems) {
+                for (const system of systems) {
+                    system.onComponentAdded(component);
+                }
+            }
+            ctor = Object.getPrototypeOf(ctor);
         }
     }
-
+        
     onComponentRemoved(component) {
-        const targetSystems = this.componentToSystems.get(component.constructor);
-        if (!targetSystems) return;
-
-        for (const system of targetSystems) {
-            system.onComponentRemoved(component);
+        let ctor = component.constructor;
+    
+        while (ctor) {
+            const systems = this.componentToSystems.get(ctor);
+            if (systems) {
+                for (const system of systems) {
+                    system.onComponentRemoved(component);
+                }
+            }
+            ctor = Object.getPrototypeOf(ctor);
         }
     }
     //#endregion
@@ -144,9 +154,5 @@ export class World {
         }
 
         return system;
-    }
-
-    destroy() {
-        WorldContext.current = null;
     }
 }

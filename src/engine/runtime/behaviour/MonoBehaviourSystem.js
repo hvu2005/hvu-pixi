@@ -27,7 +27,6 @@ export class MonoBehaviourSystem extends System {
     onComponentAdded(component) {
         this.monoBehaviours.push(component);
         this.startQueue.push(component);
-        component.awake();
     }
 
     /**

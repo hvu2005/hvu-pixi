@@ -6,6 +6,11 @@ import { Sprite } from "pixi.js";
 
 
 export class SpriteRenderer extends Renderer {
+    /**
+     * 
+     * @param {import("pixi.js").Texture} texture 
+     * @param {import("pixi.js").SpriteOptions} options 
+     */
     constructor(texture, options = {}) {
         super();
 
@@ -19,11 +24,11 @@ export class SpriteRenderer extends Renderer {
     }
 
     _onAttach() {
-        this.gameObject.getComponent(Transform).addChild(this.sprite);
+        this.gameObject.getComponent(Transform).addRenderNode(this.sprite);
     }
 
     _onDestroy() {
-        this.gameObject.getComponent(Transform).removeChild(this.sprite);
+        this.gameObject.getComponent(Transform).removeRenderNode(this.sprite);
     }
     
     _onEnable() {

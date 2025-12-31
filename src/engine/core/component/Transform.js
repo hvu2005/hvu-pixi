@@ -7,6 +7,15 @@ export class Transform extends Component {
 
     constructor() {
         super();
+
+        /**
+         * @type {Transform}
+         */
+        this._parent = null; 
+        /**
+         * @type {Transform[]}
+         */
+        this._children = [];
     }
     
     addChild(child) {
@@ -17,40 +26,48 @@ export class Transform extends Component {
         throw new Error("Transform.removeChild is not implemented.");
     }
 
-    setPosition(...pos) {
-        throw new Error("Transform.setPosition is not implemented.");
+    addRenderNode(node) {
+        throw new Error("Transform.addRenderNode is not implemented.");
     }
 
-    setRotation(...rotation) {
-        throw new Error("Transform.setRotation is not implemented.");
+    removeRenderNode(node) {
+        throw new Error("Transform.removeRenderNode is not implemented.");
     }
 
-    setScale(...scale) {
-        throw new Error("Transform.setScale is not implemented.");
+    get parent() {
+        throw new Error("Transform.parent is not implemented.");
     }
 
-    setParent(parent) {
-        throw new Error("Transform.setParent is not implemented.");
+    set parent(parent) {
+        throw new Error("Transform.parent is not implemented.");
     }
 
-    getPosition() {
-        throw new Error("Transform.getPosition is not implemented.");
+    get children() {
+        throw new Error("Transform.children is not implemented.");
     }
 
-    getRotation() {
-        throw new Error("Transform.getRotation is not implemented.");
+    get position() {
+        throw new Error("Transform.position is not implemented.");
+    }
+    
+    set position(position) {
+        throw new Error("Transform.position is not implemented.");
     }
 
-    getScale() {
-        throw new Error("Transform.getScale is not implemented.");
+    get rotation() {
+        throw new Error("Transform.rotation is not implemented.");
     }
 
-    getParent() {
-        throw new Error("Transform.getParent is not implemented.");
+    set rotation(rotation) {
+        throw new Error("Transform.rotation is not implemented.");
     }
 
-    getChildren() {
-        throw new Error("Transform.getChildren is not implemented.");
+    get scale() {
+        throw new Error("Transform.scale is not implemented.");
+    }
+
+    set scale(scale) {
+        throw new Error("Transform.scale is not implemented.");
     }
     
 }

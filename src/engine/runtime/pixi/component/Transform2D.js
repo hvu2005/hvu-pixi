@@ -3,10 +3,17 @@ import { Container } from "@pixi.alias";
 
 
 export class Transform2D extends Transform {
-    constructor() {
+    /**
+     * @param {import("pixi.js").ContainerOptions} options 
+     */
+    constructor(options = {}) {
         super();
+        const defaultOptions = {
+            sortableChildren: true,
+        }
+        const mergedOptions = { ...defaultOptions, ...options };
 
-        this.group = new Container();
+        this.group = new Container(mergedOptions);
     }
 
     /**
@@ -33,43 +40,75 @@ export class Transform2D extends Transform {
         this.group.visible = false;
     }
 
+    addRenderNode(node) {
+        this.group.addChild(node);
+    }
+
+    removeRenderNode(node) {
+        this.group.removeChild(node);
+    }
+
     addChild(child) {
-        this.group.addChild(child);
+        this.group.addChild(child.getNode());
+        this._children.push(child);
+        child.parent = this;
     }
 
-    setPosition(x,y) {
-        this.group.position.set(x,y);
+    /**
+     * @param {Transform2D} child 
+     */
+    removeChild(child) {
+        this.group.removeChild(child.getNode());
+        this._children = this._children.filter(c => c !== child);
     }
 
-    setRotation(rotation) {
-        this.group.rotation = rotation;
-    }
-
-    setScale(x,y) {
-        this.group.scale.set(x,y);
-    }
-
-    getPosition() {
+    get position() {
         return this.group.position;
     }
 
-    getRotation() {
+    set position(position) {
+        this.group.position.set(position.x, position.y);
+    }
+
+    get rotation() {
         return this.group.rotation;
     }
 
-    getScale() {
+    set rotation(rotation) {
+        this.group.rotation = rotation;
+    }
+
+    get scale() {
         return this.group.scale;
     }
 
-    getParent() {
-        return this.group.parent;
+    set scale(scale) {
+        this.group.scale.set(scale.x, scale.y);
     }
 
-    setParent(parent) {
-        this.group.parent = parent;
+    /**
+     * @param {Transform2D} parent 
+     */
+    get parent() {
+        return this._parent;
     }
 
-    getChildren() {
-        return this.group.children;
+    /**
+     * @param {Transform2D} parent 
+     */
+    set parent(parent) {
+        if(this._parent) {
+            this._parent.removeChild(this);
+        }
+
+        this._parent = parent;
+        this._parent.addChild(this);
+    }
+
+    /**
+     * @returns {Transform2D[]}
+     */
+    get children() {
+        return this._children;
     }
 }

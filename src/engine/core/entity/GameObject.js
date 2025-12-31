@@ -1,10 +1,20 @@
 
 export class GameObject {
+   /**
+    * 
+    * @param {import("../World").World} world 
+    */
    constructor(world) {
       this.components = [];
 
       this.world = world;
       this.activeSelf = true;
+
+      /**
+       * @type {import("../component/Transform").Transform}
+       */
+      this.transform;
+
    }
 
    /**
@@ -21,7 +31,12 @@ export class GameObject {
       this.components.push(component);
       component.attach(this);
 
-      this.world?.onComponentAdded(component);
+      if(this.world) {
+         this.world.onComponentAdded(component);
+      }
+      else {
+         console.warn("GameObject is not attached to a world");
+      }
 
       return component;
    }
@@ -38,7 +53,6 @@ export class GameObject {
    setActive(isActive) {
       if (this.activeSelf === isActive) return;
       this.activeSelf = isActive;
-      this.node.visible = isActive;
 
       for (const component of this.components) {
          component.enabled = isActive;

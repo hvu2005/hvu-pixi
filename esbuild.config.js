@@ -22,8 +22,9 @@ import { stripImports } from "./strip.import.config.js";
             sourcemap: false,
             outfile: "dist/bundle.js",
             format: "iife",
-            target: ["es2017"],
+            target: ["esnext"],
             minify: true,
+            keepNames: true,
             // drop: ['console', 'debugger'],
             treeShaking: true,
             legalComments: 'none',
@@ -66,7 +67,7 @@ import { stripImports } from "./strip.import.config.js";
                 '.stl': 'dataurl',
             },
             logLevel: "info",
-            metafile: true, // bật phân tích
+            // metafile: true, // bật phân tích
             // alias: {
             //     "@pixi.alias": `./src/engine/pixi.alias${isProd ? ".min" : ""}.js`,
             //     "@three.alias": `./src/engine/three.alias${isProd ? ".min" : ""}.js`,

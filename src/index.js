@@ -11,6 +11,7 @@ import { Transform2D } from "engine/runtime/pixi/component/Transform2D";
 import { GameObject2D } from "engine/runtime/pixi/entity/GameObject2D";
 import { Render2DSystem } from "engine/runtime/pixi/system/Render2DSystem";
 import { worldContext } from "engine/runtime/worldContext";
+import { GameObjectTest } from "scripts/GameObjectTest";
 
 
 // Asynchronous IIFE
@@ -29,11 +30,13 @@ async function startGame() {
     world.createSystem(Render2DSystem);
     world.createSystem(MonoBehaviourSystem);
 
-    const gameObject = instantiate(GameObject2D);
-    gameObject.addComponent(new MonoBehaviour());
-    gameObject.addComponent(new SpriteRenderer(Asset.ITEM));
+    // const gameObject = instantiate(GameObject2D);
+    // gameObject.addComponent(new MonoBehaviour());
+    // gameObject.addComponent(new SpriteRenderer(Asset.ITEM));
     
-    const transform = gameObject.getComponent(Transform2D);
-    transform.setPosition(150, 150);
+    // const transform = gameObject.getComponent(Transform2D);
+    // transform.setPosition(150, 150);
+
+    GameObjectTest();
 
 }

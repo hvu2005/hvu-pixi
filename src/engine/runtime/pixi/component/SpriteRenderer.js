@@ -1,5 +1,4 @@
 import { Renderer } from "engine/core/component/Renderer";
-import { Transform } from "engine/core/component/Transform";
 import { Sprite } from "pixi.js";
 
 
@@ -24,11 +23,11 @@ export class SpriteRenderer extends Renderer {
     }
 
     _onAttach() {
-        this.gameObject.getComponent(Transform).addRenderNode(this.sprite);
+        this.gameObject.transform.addRenderNode(this.sprite);
     }
 
     _onDestroy() {
-        this.gameObject.getComponent(Transform).removeRenderNode(this.sprite);
+        this.gameObject.transform.removeRenderNode(this.sprite);
     }
     
     _onEnable() {

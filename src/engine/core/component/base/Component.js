@@ -9,6 +9,10 @@ export class Component {
          * @type {GameObject}
          */
         this.gameObject = null;
+
+        /**
+         * @private
+         */
         this._enabled = true;
     }
 
@@ -40,16 +44,28 @@ export class Component {
         return null;
     }
     
+    /**
+     * @protected
+     */
     _onAttach() {
         console.warn(`Component ${this.constructor.name} does not implement _onAttach method.`);    
     }
+    /**
+     * @protected
+     */
     _onDestroy() {
         console.warn(`Component ${this.constructor.name} does not implement _onDestroy method.`);
     }
 
+    /**
+     * @protected
+     */
     _onEnable() {
         console.warn(`Component ${this.constructor.name} does not implement _onEnable method.`);
     }
+    /**
+     * @protected
+     */
     _onDisable() {
         console.warn(`Component ${this.constructor.name} does not implement _onDisable method.`);
     }

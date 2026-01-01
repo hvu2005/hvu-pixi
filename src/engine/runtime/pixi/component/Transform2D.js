@@ -40,6 +40,18 @@ export class Transform2D extends Transform {
         this.group.visible = false;
     }
 
+    _onPositionChanged(x, y) {
+        this.group.position.set(x, y);
+    }
+
+    _onRotationChanged(x, y , z) {
+        this.group.rotation = z;
+    }
+
+    _onScaleChanged(x, y) {
+        this.group.scale.set(x, y);
+    }
+
     addRenderNode(node) {
         this.group.addChild(node);
     }
@@ -54,36 +66,12 @@ export class Transform2D extends Transform {
         child.parent = this;
     }
 
-    /**
+    /** 
      * @param {Transform2D} child 
      */
     removeChild(child) {
         this.group.removeChild(child.getNode());
         this._children = this._children.filter(c => c !== child);
-    }
-
-    get position() {
-        return this.group.position;
-    }
-
-    set position(position) {
-        this.group.position.set(position.x, position.y);
-    }
-
-    get rotation() {
-        return this.group.rotation;
-    }
-
-    set rotation(rotation) {
-        this.group.rotation = rotation;
-    }
-
-    get scale() {
-        return this.group.scale;
-    }
-
-    set scale(scale) {
-        this.group.scale.set(scale.x, scale.y);
     }
 
     /**
@@ -102,7 +90,7 @@ export class Transform2D extends Transform {
         }
 
         this._parent = parent;
-        this._parent.addChild(this);
+        // this._parent.addChild(this);
     }
 
     /**

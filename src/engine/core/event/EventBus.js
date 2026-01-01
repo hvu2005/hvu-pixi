@@ -81,7 +81,7 @@ export class EventBus {
             const listeners = Array.from(this._listeners.get(event));
             for (const listener of listeners) {
                 try {
-                    listener(...data, event);
+                    listener(...data);
                 } catch (error) {
                     console.error(`Error in event listener for "${event}":`, error);
                 }
@@ -95,7 +95,7 @@ export class EventBus {
             
             for (const listener of onceListeners) {
                 try {
-                    listener(...data, event);
+                    listener(...data);
                 } catch (error) {
                     console.error(`Error in once event listener for "${event}":`, error);
                 }
@@ -115,30 +115,5 @@ export class EventBus {
             this._listeners.clear();
             this._onceListeners.clear();
         }
-    }
-
-    /**
-     * Get the number of listeners for an event
-     * @param {string} event - Event name
-     * @returns {number} Number of listeners
-     */
-    listenerCount(event) {
-        let count = 0;
-        if (this._listeners.has(event)) {
-            count += this._listeners.get(event).size;
-        }
-        if (this._onceListeners.has(event)) {
-            count += this._onceListeners.get(event).size;
-        }
-        return count;
-    }
-
-    /**
-     * Check if an event has any listeners
-     * @param {string} event - Event name
-     * @returns {boolean}
-     */
-    hasListeners(event) {
-        return this.listenerCount(event) > 0;
     }
 }

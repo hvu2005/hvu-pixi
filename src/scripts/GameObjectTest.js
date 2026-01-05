@@ -8,9 +8,9 @@ import { GameObject2D } from "engine/runtime/pixi/entity/game-object-2d";
 
 export function GameObjectTest() {
     const gameObject = instantiate(GameObject2D);
-    gameObject.addComponent(new BehaviourTest());
-    gameObject.addComponent(new SpriteRenderer(Asset.ITEM));
-    gameObject.addComponent(new Collider2D({isStatic: false, isSensor: false}));
+    gameObject.addComponent(new BehaviourTest());   
+    gameObject.addComponent(new SpriteRenderer(Asset.ITEM_TEST));
+    gameObject.addComponent(new Collider2D({isStatic: false, isSensor: false}));    
     gameObject.transform.position.set(450, 450, 0);
     gameObject.transform.scale.set(1);
 
@@ -36,7 +36,7 @@ export class BehaviourTest extends MonoBehaviour {
     }
 
     update(dt) {
-        this.gameObject.transform.rotation.z += 1 * dt;
+        // this.gameObject.transform.rotation.z += 1 * dt;
     }
 
     onCollisionEnter(other) {

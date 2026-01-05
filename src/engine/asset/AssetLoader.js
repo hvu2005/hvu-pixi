@@ -1,6 +1,7 @@
 import { Assets, Texture, Rectangle } from "engine/alias/pixi-alias";
 
 import item from "assets/AS_1.png";
+import { loadPixiTexture } from "./load-pixi-texture";
 
 export const Asset = {}; // enum động
 
@@ -28,6 +29,8 @@ class AssetLoader {
     //load assets ở đây
     async loadAssets() {
         await this.load("ITEM", item);
+
+        Asset.ITEM_TEST = await loadPixiTexture(item);
     }
 
 

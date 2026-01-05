@@ -1,4 +1,4 @@
-import { Renderer } from "engine/core/component/Renderer";
+import { Renderer } from "engine/core/component/renderer";
 import { Sprite } from "engine/alias/pixi-alias";
 
 

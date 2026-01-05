@@ -12,7 +12,7 @@ export class GameObject {
       this.activeSelf = true;
 
       /**
-       * @type {import("../component/Transform").Transform}
+       * @type {import("../component/transform").Transform}
        */
       this.transform;
 

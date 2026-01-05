@@ -1,4 +1,4 @@
-import { Transform } from "engine/core/component/Transform";
+import { Transform } from "engine/core/component/transform";
 import { Container } from "engine/alias/pixi-alias";
 
 

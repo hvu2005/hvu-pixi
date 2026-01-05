@@ -1,5 +1,5 @@
-import { System } from "engine/core/system/base/System";
-import { MonoBehaviour } from "./MonoBehaviour";
+import { System } from "engine/core/system/base/system";
+import { MonoBehaviour } from "./mono-behaviour";
 
 
 

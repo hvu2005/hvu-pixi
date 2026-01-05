@@ -1,4 +1,4 @@
-import { Behaviour } from "engine/core/component/Behaviour";
+import { Behaviour } from "engine/core/component/behaviour";
 
 
 

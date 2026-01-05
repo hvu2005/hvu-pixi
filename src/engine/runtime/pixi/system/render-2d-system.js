@@ -1,5 +1,5 @@
-import { System } from "engine/core/system/base/System";
-import { Transform2D } from "../component/Transform2D";
+import { System } from "engine/core/system/base/system";
+import { Transform2D } from "../component/transform-2d";
 
 
 

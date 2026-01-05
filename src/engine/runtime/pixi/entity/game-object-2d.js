@@ -1,5 +1,5 @@
-import { GameObject } from "engine/core/entity/GameObject";
-import { Transform2D } from "../component/Transform2D";
+import { GameObject } from "engine/core/entity/game-object";
+import { Transform2D } from "../component/transform-2d";
 
 
 

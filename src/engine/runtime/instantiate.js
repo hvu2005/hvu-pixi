@@ -1,4 +1,4 @@
-import { worldContext } from "./worldContext";
+import { worldContext } from "./world-context";
 
 /**
  * @template T

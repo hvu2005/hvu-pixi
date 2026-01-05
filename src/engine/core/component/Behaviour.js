@@ -1,6 +1,4 @@
-import { Component } from "./base/Component";
-
-
+import { Component } from "./base/component";
 
 
 

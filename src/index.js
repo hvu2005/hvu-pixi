@@ -1,12 +1,12 @@
 
 import { Asset } from "engine/asset/AssetLoader";
-import { World } from "engine/core/World";
-import { pixi } from "engine/core/app/Pixi";
+import { pixi } from "engine/core/app/pixi-app";
+import { World } from "engine/core/world";
 import { init } from "engine/init";
-import { MonoBehaviourSystem } from "engine/runtime/behaviour/MonoBehaviourSystem";
-import { Physic2DSystem } from "engine/runtime/pixi/system/Physic2DSystem";
-import { Render2DSystem } from "engine/runtime/pixi/system/Render2DSystem";
-import { worldContext } from "engine/runtime/worldContext";
+import { MonoBehaviourSystem } from "engine/runtime/behaviour/mono-behaviour-system";
+import { Physic2DSystem } from "engine/runtime/pixi/system/physic-2d-system";
+import { Render2DSystem } from "engine/runtime/pixi/system/render-2d-system";
+import { worldContext } from "engine/runtime/world-context";
 import { GameObjectTest } from "scripts/GameObjectTest";
 import { GameObjectTest2 } from "scripts/GameObjectTest2";
 

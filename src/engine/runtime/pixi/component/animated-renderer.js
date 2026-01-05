@@ -1,5 +1,5 @@
-import { Component } from "engine/core/component/base/Component";
-import { AnimatedSprite } from "@pixi.alias";
+import { Component } from "engine/core/component/base/component";
+import { AnimatedSprite } from "engine/alias/pixi-alias";
 
 
 export class AnimatedRenderer extends Component {

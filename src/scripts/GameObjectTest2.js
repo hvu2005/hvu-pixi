@@ -1,9 +1,9 @@
 import { Asset } from "engine/asset/AssetLoader";
-import { MonoBehaviour } from "engine/runtime/behaviour/MonoBehaviour";
+import { MonoBehaviour } from "engine/runtime/behaviour/mono-behaviour";
 import { instantiate } from "engine/runtime/instantiate";
-import { Collider2D } from "engine/runtime/pixi/component/Collider2D";
-import { SpriteRenderer } from "engine/runtime/pixi/component/SpriteRenderer";
-import { GameObject2D } from "engine/runtime/pixi/entity/GameObject2D";
+import { Collider2D } from "engine/runtime/pixi/component/collider-2d";
+import { SpriteRenderer } from "engine/runtime/pixi/component/sprite-renderer";
+import { GameObject2D } from "engine/runtime/pixi/entity/game-object-2d";
 
 
 export function GameObjectTest2() {

@@ -3,7 +3,7 @@
 export class GameObject {
    /**
     * 
-    * @param {import("../World").World} world 
+    * @param {import("../world").World} world 
     */
    constructor(world) {
       this.components = [];

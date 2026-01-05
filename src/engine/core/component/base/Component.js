@@ -1,4 +1,4 @@
-import { GameObject } from "engine/core/entity/GameObject";
+import { GameObject } from "engine/core/entity/game-object";
 
 /**
  * @abstract

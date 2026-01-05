@@ -1,4 +1,4 @@
-import { Assets, Texture, Rectangle } from "@pixi.alias";
+import { Assets, Texture, Rectangle } from "engine/alias/pixi-alias";
 
 import item from "assets/AS_1.png";
 

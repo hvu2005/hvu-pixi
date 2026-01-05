@@ -23,7 +23,7 @@ export class Transform extends Component {
          * @protected
          */
         this._children = [];
-
+        
         const self = this;
 
         /**
@@ -44,21 +44,21 @@ export class Transform extends Component {
             },
             set x(x) {
                 this._x = x;
-                self._onPositionChanged(x, this._y, this._z);
+                self._onSetPosition(x, this._y, this._z);
             },
             set y(y) {
                 this._y = y;
-                self._onPositionChanged(this._x, y, this._z);
+                self._onSetPosition(this._x, y, this._z);
             },
             set z(z) {
                 this._z = z;
-                self._onPositionChanged(this._x, this._y, z);
+                self._onSetPosition(this._x, this._y, z);
             },
             set(x, y, z) {
                 this._x = x;
                 this._y = y;
                 this._z = z;
-                self._onPositionChanged(x, y, z);
+                self._onSetPosition(x, y, z);
             }
         }
 
@@ -80,21 +80,21 @@ export class Transform extends Component {
             },
             set x(x) {
                 this._x = x;
-                self._onRotationChanged(x, this._y, this._z);
+                self._onSetRotation(x, this._y, this._z);
             },
             set y(y) {
                 this._y = y;
-                self._onRotationChanged(this._x, y, this._z);
+                self._onSetRotation(this._x, y, this._z);
             },
             set z(z) {
                 this._z = z;
-                self._onRotationChanged(this._x, this._y, z);
+                self._onSetRotation(this._x, this._y, z);
             },
             set(x, y, z) {
                 this._x = x;
                 this._y = y;
                 this._z = z;
-                self._onRotationChanged(x, y, z);
+                self._onSetRotation(x, y, z);
             }
         }
 
@@ -116,21 +116,21 @@ export class Transform extends Component {
             },
             set x(x) {
                 this._x = x;
-                self._onScaleChanged(x, this._y, this._z);
+                self._onSetScale(x, this._y, this._z);
             },
             set y(y) {
                 this._y = y;
-                self._onScaleChanged(this._x, y, this._z);
+                self._onSetScale(this._x, y, this._z);
             },
             set z(z) {
                 this._z = z;
-                self._onScaleChanged(this._x, this._y, z);
+                self._onSetScale(this._x, this._y, z);
             },
             set(x, y = x, z = x) {
                 this._x = x;
                 this._y = y;
                 this._z = z;
-                self._onScaleChanged(x, y, z);
+                self._onSetScale(x, y, z);
             }
         }
 
@@ -139,6 +139,14 @@ export class Transform extends Component {
          * @private
          */
         this._eventBus = new EventBus();
+    }
+
+    on(event, callback) {
+        return this._eventBus.on(event, callback);
+    }
+
+    off(event, callback) {
+        this._eventBus.off(event, callback);
     }
 
     addChild(child) {
@@ -193,16 +201,135 @@ export class Transform extends Component {
         throw new Error("Transform.children is not implemented.");
     }
 
+    /**
+     * @private
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _onSetPosition(x, y, z) {
+        this._applyPosition(x, y, z);
+        this._onPositionChanged(x, y, z);
+    }
+
+    /**
+     * @private
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _onSetRotation(x, y, z) {
+        this._applyRotation(x, y, z);
+        this._onRotationChanged(x, y, z);
+    }
+
+    /**
+     * @private
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _onSetScale(x, y, z) {
+        this._applyScale(x, y, z);
+        this._onScaleChanged(x, y, z);
+    }
+
+    /**
+     * @internal
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _setPositionInternal(x, y, z) {
+        this._position._x = x;
+        this._position._y = y;
+        this._position._z = z;
+        this._applyPosition(x, y, z);
+    }
+
+    /**
+     * @internal
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _setRotationInternal(x, y, z) {
+        this._rotation._x = x;
+        this._rotation._y = y;
+        this._rotation._z = z;
+        this._applyRotation(x, y, z);
+    }
+
+    /**
+     * @internal
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    setScaleInternal(x, y, z) {
+        this._scale._x = x;
+        this._scale._y = y;
+        this._scale._z = z;
+        this._applyScale(x, y, z);
+    }
+
+    /**
+     * @protected
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
     _onPositionChanged(x, y, z) {
         this._eventBus.emit(Transform.POSITION_CHANGED,  x, y, z );
     }
 
+    /**
+     * @protected
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
     _onRotationChanged(x, y, z) {
         this._eventBus.emit(Transform.ROTATION_CHANGED, x, y, z);
     }
 
+    /**
+     * @protected
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
     _onScaleChanged(x, y, z) {
         this._eventBus.emit(Transform.SCALE_CHANGED, x, y, z);
     }
 
+    /**
+     * @protected
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _applyPosition(x, y, z) {
+
+    }
+
+    /**
+     * @protected
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _applyRotation(x, y, z) {
+
+    }
+
+    /**
+     * @protected
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} z 
+     */
+    _applyScale(x, y, z) {
+
+    }
 }

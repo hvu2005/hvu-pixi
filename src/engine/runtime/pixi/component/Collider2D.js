@@ -1,7 +1,13 @@
+import { Transform } from "engine/core/component/Transform";
 import { Component } from "engine/core/component/base/Component";
+import { EventBus } from "engine/core/event/EventBus";
 import { Bodies, Body } from "matter-js";
 
 export class Collider2D extends Component {
+    static ON_COLLISION_ENTER = "onCollisionEnter";
+    static ON_COLLISION_EXIT = "onCollisionExit";
+    static ON_COLLISION_STAY = "onCollisionStay";
+
     constructor(options = {}) {
         super();
 
@@ -13,8 +19,8 @@ export class Collider2D extends Component {
             mass = 1,
             friction = 0.5,
             restitution = 0.5,
-            isStatic = false,
-            isSensor = false,
+            isStatic = true,
+            isSensor = true,
             angle = 0
         } = options;
 
@@ -27,7 +33,37 @@ export class Collider2D extends Component {
             angle
         });
 
+        /**
+         * @private
+         * @type {{x: number, y: number}}
+         */
         this._lastScale = { x: 1, y: 1 };
+
+        /**
+         * @private
+         * @type {EventBus}
+         */
+        this._eventBus = new EventBus();
+    }
+
+    on(event, callback) {
+        return this._eventBus.on(event, callback);
+    }
+
+    off(event, callback) {
+        this._eventBus.off(event, callback);
+    }
+
+    onCollisionEnter(other) {
+        this._eventBus.emit(Collider2D.ON_COLLISION_ENTER, other);
+    }
+    
+    onCollisionExit(other) {
+        this._eventBus.emit(Collider2D.ON_COLLISION_EXIT, other);
+    }
+
+    onCollisionStay(other) {
+        this._eventBus.emit(Collider2D.ON_COLLISION_STAY, other);
     }
     
     _onAttach() {
@@ -48,11 +84,9 @@ export class Collider2D extends Component {
      */
     _syncPosition() {
         const transform = this.gameObject.transform;
-        const oldSetPosition = transform._onPositionChanged.bind(transform);
-        transform._onPositionChanged = (x, y) => {
-            oldSetPosition(x, y);
+        this.offPositionSync = transform.on(Transform.POSITION_CHANGED, (x, y, z) => {
             Body.setPosition(this.body, { x, y });
-        }
+        });
     }
 
     /**
@@ -60,11 +94,9 @@ export class Collider2D extends Component {
      */
     _syncRotation() {
         const transform = this.gameObject.transform;
-        const oldSetRotation = transform._onRotationChanged.bind(transform);
-        transform._onRotationChanged = (x, y, z) => {
-            oldSetRotation(x, y, z);
+        this.offRotationSync = transform.on(Transform.ROTATION_CHANGED, (x, y, z) => {
             Body.setAngle(this.body, z);
-        }
+        });
     }
 
     /**
@@ -72,15 +104,20 @@ export class Collider2D extends Component {
      */
     _syncScale() {
         const transform = this.gameObject.transform;
-        const oldSetScale = transform._onScaleChanged.bind(transform);
-        transform._onScaleChanged = (x, y, z) => {
-            oldSetScale(x, y, z);
+        this.offScaleSync = transform.on(Transform.SCALE_CHANGED, (x, y, z) => {
             const scaleX = x / this._lastScale.x;
             const scaleY = y / this._lastScale.y;
             Body.scale(this.body, scaleX, scaleY);
             this._lastScale.x = x;
             this._lastScale.y = y;
-        }
+        });
+    }
+
+    _onDestroy() {
+        this._eventBus.clear();
+        this.offPositionSync();
+        this.offRotationSync();
+        this.offScaleSync();
     }
     
     /**

@@ -1,4 +1,5 @@
 
+
 export class GameObject {
    /**
     * 
@@ -50,16 +51,16 @@ export class GameObject {
       return this.components.find(c => c instanceof component);
    }
 
+   /**
+    * 
+    * @param {boolean} isActive 
+    */
    setActive(isActive) {
       if (this.activeSelf === isActive) return;
       this.activeSelf = isActive;
 
       for (const component of this.components) {
          component.enabled = isActive;
-      }
-
-      for (const child of this.children) {
-         child.setActive(isActive);
       }
    }
 }

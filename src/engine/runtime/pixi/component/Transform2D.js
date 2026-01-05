@@ -23,10 +23,6 @@ export class Transform2D extends Transform {
         return this.group;
     }
 
-    _onAttach() {
-
-    }
-
     _onDestroy() {
         this.group.destroy();
         this.gameObject = null;
@@ -40,15 +36,16 @@ export class Transform2D extends Transform {
         this.group.visible = false;
     }
 
-    _onPositionChanged(x, y) {
+    _applyPosition(x, y, z) 
+    {
         this.group.position.set(x, y);
     }
 
-    _onRotationChanged(x, y , z) {
+    _applyRotation(x, y, z) {
         this.group.rotation = z;
     }
 
-    _onScaleChanged(x, y) {
+    _applyScale(x, y, z) {
         this.group.scale.set(x, y);
     }
 

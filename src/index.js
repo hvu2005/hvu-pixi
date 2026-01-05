@@ -8,6 +8,7 @@ import { Physic2DSystem } from "engine/runtime/pixi/system/Physic2DSystem";
 import { Render2DSystem } from "engine/runtime/pixi/system/Render2DSystem";
 import { worldContext } from "engine/runtime/worldContext";
 import { GameObjectTest } from "scripts/GameObjectTest";
+import { GameObjectTest2 } from "scripts/GameObjectTest2";
 
 
 // Asynchronous IIFE
@@ -28,4 +29,5 @@ async function startGame() {
     world.createSystem(Physic2DSystem);
 
     GameObjectTest();
+    GameObjectTest2();
 }

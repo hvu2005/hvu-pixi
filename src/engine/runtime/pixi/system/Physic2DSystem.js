@@ -15,6 +15,9 @@ export class Physic2DSystem extends System {
          */
         this.components = [];
 
+        /** @type {WeakMap<Matter.Body, Collider2D>} */
+        this.bodyToCollider = new WeakMap();
+
         const stage = this.stage;
 
         this.engine = Engine.create({
@@ -29,33 +32,76 @@ export class Physic2DSystem extends System {
         // collision events (để sẵn)
         Events.on(this.engine, "collisionStart", (event) => {
             for (const pair of event.pairs) {
-                const a = pair.bodyA;
-                const b = pair.bodyB;
-                // console.log("Collision:", a.id, b.id);
+                const colA = this.bodyToCollider.get(pair.bodyA);
+                const colB = this.bodyToCollider.get(pair.bodyB);
+        
+                if (colA.enabled && colA.onCollisionEnter) {
+                    colA.onCollisionEnter(colB);
+                }
+                if (colB.enabled && colB.onCollisionEnter) {
+                    colB.onCollisionEnter(colA);
+                }
+            }
+        });
+
+        Events.on(this.engine, "collisionEnd", (event) => {
+            for (const pair of event.pairs) {
+                const colA = this.bodyToCollider.get(pair.bodyA);
+                const colB = this.bodyToCollider.get(pair.bodyB);
+        
+                if (colA.enabled && colA.onCollisionExit) {
+                    colA.onCollisionExit(colB);
+                }
+                if (colB.enabled && colB.onCollisionExit) {
+                    colB.onCollisionExit(colA);
+                }
+            }
+        });
+
+        Events.on(this.engine, "collisionActive", (event) => {
+            for (const pair of event.pairs) {
+                const colA = this.bodyToCollider.get(pair.bodyA);
+                const colB = this.bodyToCollider.get(pair.bodyB);
+        
+                if (colA.enabled && colA.onCollisionStay) {
+                    colA.onCollisionStay(colB);
+                }
+                if (colB.enabled && colB.onCollisionStay) {
+                    colB.onCollisionStay(colA);
+                }
             }
         });
     }
 
-    syncTransforms() {
+    syncTransformsToPhysics() {
         for (const component of this.components) {
-            const transform = component.gameObject.transform;
             const body = component.getNode();
-            transform.position.set(body.position.x, body.position.y);
-            transform.rotation.set(body.angle);
+            if (!component.enabled || body.isStatic) continue;
+            
+            const transform = component.gameObject.transform;
+            transform._setPositionInternal(
+                body.position.x,
+                body.position.y,
+                transform.position.z
+            );
+            transform._setRotationInternal(0, 0, body.angle);
         }
     }
 
     update(dt) {
         Engine.update(this.engine, dt * 1000);
+        this.syncTransformsToPhysics();
+
         this.drawDebug();
-        this.syncTransforms();
     }
 
     /**
      * @param {Collider2D} component
      */
     onComponentAdded(component) {
-        World.add(this.engine.world, component.getNode());
+        const body = component.getNode();
+        World.add(this.engine.world, body);
+        this.bodyToCollider.set(body, component);
         this.components.push(component);
     }
 
@@ -63,9 +109,12 @@ export class Physic2DSystem extends System {
      * @param {Collider2D} component
      */
     onComponentRemoved(component) {
-        World.remove(this.engine.world, component.getNode());
+        const body = component.getNode();
+        World.remove(this.engine.world, body);
+        this.bodyToCollider.delete(body);
         this.components = this.components.filter(c => c !== component);
     }
+
 
     drawDebug() {
         const g = this.debugGraphics;
@@ -77,28 +126,27 @@ export class Physic2DSystem extends System {
     }
 
     drawBody(g, body) {
-        g.clear();
 
-            const verts = body.vertices;
-            if (!verts || verts.length === 0) return;
-            // Bắt đầu vẽ polygon
-            g.stroke({ width: 2, color: 0x00ff00, alpha: 1 })  // outline xanh lá
-                .fill({ color: 0x00ff00, alpha: 0 });            // nền mờ xanh lá
+        const verts = body.vertices;
+        if (!verts || verts.length === 0) return;
+        // Bắt đầu vẽ polygon
+        g.stroke({ width: 2, color: 0x00ff00, alpha: 1 })  // outline xanh lá
+            .fill({ color: 0x00ff00, alpha: 0 });            // nền mờ xanh lá
 
-            // Đỉnh đầu tiên
-            const first = g.parent.toLocal({ x: verts[0].x, y: verts[0].y });
-            g.moveTo(first.x, first.y);
+        // Đỉnh đầu tiên
+        const first = g.parent.toLocal({ x: verts[0].x, y: verts[0].y });
+        g.moveTo(first.x, first.y);
 
-            // Các đỉnh tiếp theo
-            for (let i = 1; i < verts.length; i++) {
-                const v = verts[i];
-                const local = this.debugGraphics.parent.toLocal({ x: v.x, y: v.y });
-                this.debugGraphics.lineTo(local.x, local.y);
-            }
+        // Các đỉnh tiếp theo
+        for (let i = 1; i < verts.length; i++) {
+            const v = verts[i];
+            const local = this.debugGraphics.parent.toLocal({ x: v.x, y: v.y });
+            this.debugGraphics.lineTo(local.x, local.y);
+        }
 
-            // Đóng path và vẽ
-            g.closePath().fill().stroke();
+        // Đóng path và vẽ
+        g.closePath().fill().stroke();
     }
-    
+
 
 }

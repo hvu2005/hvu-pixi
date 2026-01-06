@@ -7,11 +7,11 @@ import { GameObject2D } from "engine/runtime/pixi/entity/game-object-2d";
 
 
 export function GameObjectTest() {
-    const gameObject = instantiate(GameObject2D);
+    const gameObject = instantiate(GameObject2D, {layer: 2, tag: "GameObjectTest"});
     gameObject.addComponent(new BehaviourTest());   
     gameObject.addComponent(new SpriteRenderer(Asset.ITEM_TEST));
-    gameObject.addComponent(new Collider2D({isStatic: false, isSensor: false}));    
-    gameObject.transform.position.set(450, 450, 0);
+    gameObject.addComponent(new Collider2D({isStatic: true, isSensor: true}));    
+    gameObject.transform.position.set(450, 1150, 0);
     gameObject.transform.scale.set(1);
 
 
@@ -27,7 +27,7 @@ export function GameObjectTest() {
 
 export class BehaviourTest extends MonoBehaviour {
     awake() {
-
+        this.time = 0;
     }
 
     start() {
@@ -36,10 +36,17 @@ export class BehaviourTest extends MonoBehaviour {
     }
 
     update(dt) {
-        this.gameObject.transform.rotation.z += 1 * dt;
+        // this.time += dt;
+        // if (this.time >= 3) {
+        //     console.log("3 seconds passed");
+        //     this.gameObject.transform.position.set(450, 0, 0);
+        //     this.time = 0;
+        // }
+        // this.gameObject.transform.rotation.z += 1 * dt;  
     }
 
     onCollisionEnter(other) {
-
+        console.log("onCollisionEnter", other.gameObject);
     }
+    
 }

@@ -129,8 +129,9 @@ export class World {
      * @returns {T}
      */
     createGameObject(gameObjectClass, options = {layer: 0}) {
-        const gameObject = new gameObjectClass(this);
-        
+        this.renderPipeline.addLayer(options.layer || 0);
+        const gameObject = new gameObjectClass(this, options);
+
         this.entities.push(gameObject);
         return gameObject;
     }

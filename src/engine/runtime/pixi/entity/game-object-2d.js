@@ -5,8 +5,8 @@ import { Transform2D } from "../component/transform-2d";
 
 
 export class GameObject2D extends GameObject {
-    constructor(world) {
-        super(world);
+    constructor(world, options = {layer: 0, tag: ""}) {
+        super(world, options);
 
         this.transform = this.addComponent(new Transform2D());
     }

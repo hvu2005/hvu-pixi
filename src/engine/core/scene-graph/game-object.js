@@ -4,12 +4,15 @@ export class GameObject {
    /**
     * 
     * @param {import("../world").World} world 
+    * @param {{layer: number, tag: string}} options 
     */
-   constructor(world) {
+   constructor(world, options = {layer: 0, tag: ""}) {
       this.components = [];
 
       this.world = world;
       this.activeSelf = true;
+      this.layer = options.layer || 0;
+      this.tag = options.tag || "";
 
       /**
        * @type {import("../component/transform").Transform}

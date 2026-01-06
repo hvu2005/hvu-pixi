@@ -57,18 +57,25 @@ export class Transform2D extends Transform {
         this.group.removeChild(node);
     }
 
-    addChild(child) {
-        this.group.addChild(child.getNode());
-        this._children.push(child);
-        child.parent = this;
-    }
-
-    /** 
+    /**
      * @param {Transform2D} child 
      */
-    removeChild(child) {
+    _applyAddChild(child) {
+        this.group.addChild(child.getNode());
+    }
+
+    /**
+     * @param {Transform2D} child 
+     */
+    _applyRemoveChild(child) {
         this.group.removeChild(child.getNode());
-        this._children = this._children.filter(c => c !== child);
+    }
+
+    /**
+     * @param {Transform2D} parent 
+     */
+    _applyParentChanged(parent) {
+        this.group.parent = parent.getNode();
     }
 
     /**

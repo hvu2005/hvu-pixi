@@ -84,6 +84,7 @@ export class Transform extends Component {
      */
     addChild(child) {
         this._children.push(child);
+        this._applyAddChild(child);
         child._setParentInternal(this);
     }
 
@@ -92,6 +93,7 @@ export class Transform extends Component {
      */
     removeChild(child) {
         this._children = this._children.filter(c => c !== child);
+        this._applyRemoveChild(child);
         child._setParentInternal(null);
     }
 
@@ -151,8 +153,12 @@ export class Transform extends Component {
      * @internal
      * @param {Transform} parent 
      */
-    _setParentInternal(parent) {
+    _setParentInternal(parent, emitEvent = true) {
         this._parent = parent;
+        this._applyParentChanged(parent);
+        if (emitEvent) {
+            this._emit(Transform.PARENT_CHANGED, parent);
+        }
     }
 
     /**
@@ -232,6 +238,30 @@ export class Transform extends Component {
      * @param {number} z 
      */
     _applyScale(x, y, z) {
+
+    }
+
+    /**
+     * @protected
+     * @param {Transform} child 
+     */
+    _applyAddChild(child) {
+
+    }
+
+    /**
+     * @protected
+     * @param {Transform} child 
+     */
+    _applyRemoveChild(child) {
+
+    }
+
+    /**
+     * @protected
+     * @param {Transform} child 
+     */
+    _applyParentChanged(parent) {
 
     }
     //#endregion

@@ -1,3 +1,5 @@
+import { Container } from "@pixi.alias";
+import { Scene } from "three";
 
 
 
@@ -23,8 +25,6 @@ export class RenderPipeline {
     }
 
     render() {
-        this.three?.render();
-        this.pixi?.render();
         this._layers.forEach(layerId => {
             this.three?.render(layerId);
             this.pixi?.render(layerId);
@@ -42,6 +42,9 @@ export class RenderPipeline {
         const index = this._findInsertIndex(layerId);
         this._layers.splice(index, 0, layerId);
         this._layerSet.add(layerId);
+
+        this.pixi?.stages.set(layerId, new Container());
+        this.three?.scenes.set(layerId, new Scene());
     }
 
     /**
@@ -51,17 +54,16 @@ export class RenderPipeline {
      */
     _findInsertIndex(layerId) {
         let low = 0;
-        let high = this._layers.length;
-    
-        while (low < high) {
-            const mid = (low + high) >> 1;
-            if (this._layers[mid].order <= layerId) {
+        let high = this._layers.length - 1;
+
+        while (low <= high) {
+            const mid = low + ((high - low) >> 1);
+            if (this._layers[mid] < layerId) {
                 low = mid + 1;
             } else {
-                high = mid;
+                high = mid - 1;
             }
         }
-    
         return low;
     }
 }

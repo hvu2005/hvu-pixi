@@ -8,6 +8,11 @@ export class PixiRenderer {
         this.stage = new Container();
         this.stage.eventMode = "static";
 
+        /**
+         * @type {Map<number, Container>}
+         */
+        this.stages = new Map();
+
         const WIDTH = window.innerWidth;
         const HEIGHT = window.innerHeight;
         const renderer = this.renderer;
@@ -24,9 +29,13 @@ export class PixiRenderer {
         !threeContext && document.body.appendChild(renderer.canvas);
     }
 
-    render() {
+    render(layerId) {
         this.renderer.resetState();
         this.renderer.render({ container: this.stage });
+
+        let stage = this.stages.get(layerId);
+        this.renderer.resetState();
+        this.renderer.render({ container: stage });
     }
 
     onResize(width, height) {

@@ -7,9 +7,9 @@ import { GameObject2D } from "engine/runtime/pixi/entity/game-object-2d";
 
 
 export function GameObjectTest2() {
-    const gameObject = instantiate(GameObject2D);
+    const gameObject = instantiate(GameObject2D, {layer: 1, tag: "GameObjectTest2"});
     gameObject.addComponent(new SpriteRenderer(Asset.ITEM));
-    gameObject.addComponent(new Collider2D({isSensor: false}));
+    gameObject.addComponent(new Collider2D({isSensor: true})); 
     gameObject.transform.position.set(450,  1250, 0);
     gameObject.transform.scale.set(1);
 

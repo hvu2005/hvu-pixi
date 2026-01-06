@@ -42,15 +42,15 @@ export class Collider2D extends Component {
 
 
     onCollisionEnter(other) {
-        this._emit(Collider2D.ON_COLLISION_ENTER, other);
+        this._emit(Collider2D.COLLISION_ENTER, other);
     }
     
     onCollisionExit(other) {
-        this._emit(Collider2D.ON_COLLISION_EXIT, other);
+        this._emit(Collider2D.COLLISION_EXIT, other);
     }
 
     onCollisionStay(other) {
-        this._emit(Collider2D.ON_COLLISION_STAY, other);
+        this._emit(Collider2D.COLLISION_STAY, other);
     }
     
     _onAttach() {

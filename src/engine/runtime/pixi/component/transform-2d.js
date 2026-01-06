@@ -45,7 +45,7 @@ export class Transform2D extends Transform {
         this.group.rotation = z;
     }
 
-    _applyScale(x, y, z) {
+    _applyScale(x, y = x, z = x) {
         this.group.scale.set(x, y);
     }
 

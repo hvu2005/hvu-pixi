@@ -1,32 +1,32 @@
 import Stats from 'stats.js';
+import { RenderPipeline } from './render/render-pipeline';
 
 export class World {
-    constructor() {
+    /**
+    * @param {{
+    *   pixi?: import("engine/core/render/pixi-renderer").PixiRenderer,
+    *   three?: import("engine/core/render/three-renderer").ThreeRenderer
+    * }} options
+    */
+    constructor({ pixi, three }) {
         this.systems = [];
         this.entities = [];
         this.components = new Map();
 
         this.componentToSystems = new Map();
+        this.pixi = pixi;
+        this.three = three;
+        this.renderPipeline = new RenderPipeline({ pixi: this.pixi, three: this.three });
     }
 
-    /**
-     * 
-     * @param {Pixi} options.pixi 
-     * @param {Three} options.three 
-     */
-    async init(options = { pixi, three }) {
-        this.pixi = options.pixi;
-
-        this.three = options.three;
+    async init() {
 
         this.stats = new Stats();
         this.stats.showPanel(0); // 0: FPS, 1: ms, 2: memory
         document.body.appendChild(this.stats.dom);
 
-        await this.pixi?.init();
+        await this.renderPipeline.init();
         await this.initSystems();
-
-        this.pixi?.onResize(981, 1230);
 
         this.run();
     }
@@ -47,8 +47,7 @@ export class World {
 
     render() {
         this.stats.begin();
-        this.pixi?.render();
-        this.three?.render();
+        this.renderPipeline.render();
         this.stats.end();
     }
 
@@ -97,7 +96,7 @@ export class World {
     //#region Events
     onComponentAdded(component) {
         let ctor = component.constructor;
-    
+
         while (ctor) {
             const systems = this.componentToSystems.get(ctor);
             if (systems) {
@@ -108,10 +107,10 @@ export class World {
             ctor = Object.getPrototypeOf(ctor);
         }
     }
-        
+
     onComponentRemoved(component) {
         let ctor = component.constructor;
-    
+
         while (ctor) {
             const systems = this.componentToSystems.get(ctor);
             if (systems) {
@@ -129,9 +128,9 @@ export class World {
      * @param {new (...args:any[]) => T} gameObjectClass 
      * @returns {T}
      */
-    createGameObject(gameObjectClass) {
+    createGameObject(gameObjectClass, options = {layer: 0}) {
         const gameObject = new gameObjectClass(this);
-
+        
         this.entities.push(gameObject);
         return gameObject;
     }

@@ -1,14 +1,20 @@
 import { System } from "engine/core/system/base/system";
 import { Collider2D } from "../component/collider-2d";
 import { Engine, World, Events } from "matter-js";
-import { Graphics } from "pixi.js";
+import { Graphics } from "@pixi.alias";
 
 
 export class Physic2DSystem extends System {
+    /**
+     * 
+     * @param {import("engine/core/world").World} world 
+     */
     constructor(world) {
         super(world, [Collider2D]);
 
         this.stage = world.pixi.stage;
+        this.fixedDt = 1 / 60;
+        this.accumulator = 0;
 
         /**
          * @type {Collider2D[]}
@@ -77,21 +83,26 @@ export class Physic2DSystem extends System {
         for (const component of this.components) {
             const body = component.getNode();
             if (!component.enabled || body.isStatic) continue;
-            
             const transform = component.gameObject.transform;
             transform._setPositionInternal(
                 body.position.x,
                 body.position.y,
-                transform.position.z
+                transform.position.z,
+                false
             );
-            transform._setRotationInternal(0, 0, body.angle);
+            transform._setRotationInternal(0, 0, body.angle, false);
         }
     }
 
     update(dt) {
-        Engine.update(this.engine, dt * 1000);
+        this.accumulator += dt;
+    
+        while (this.accumulator >= this.fixedDt) {
+            Engine.update(this.engine, this.fixedDt * 1000);
+            this.accumulator -= this.fixedDt;
+        }
+    
         this.syncTransformsToPhysics();
-
         this.drawDebug();
     }
 

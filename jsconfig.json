@@ -3,8 +3,7 @@
     "baseUrl": "./src",
     "paths": {
       "@pixi.alias": ["engine/alias/pixi-alias.js"],
-
-      // "@three.alias": ["engine/three.alias.js"],
+      "@three.alias": ["engine/alias/three-alias.js"],
       // "@engine": ["engine/engine.js"]
     },
   },

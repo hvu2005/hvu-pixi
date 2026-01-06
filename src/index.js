@@ -1,6 +1,6 @@
 
-import { Asset } from "engine/asset/AssetLoader";
-import { pixi } from "engine/core/app/pixi-app";
+import { pixi } from "engine/core/render/pixi-renderer";
+import { three } from "engine/core/render/three-renderer";
 import { World } from "engine/core/world";
 import { init } from "engine/init";
 import { MonoBehaviourSystem } from "engine/runtime/behaviour/mono-behaviour-system";
@@ -20,8 +20,8 @@ import { GameObjectTest2 } from "scripts/GameObjectTest2";
 async function startGame() {
     await init();
 
-    const world = new World();
-    await world.init({ pixi: pixi });
+    const world = new World({ pixi: pixi, three: three });
+    await world.init();
     worldContext.current = world;
 
     world.createSystem(Render2DSystem);

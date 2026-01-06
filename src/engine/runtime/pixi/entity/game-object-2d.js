@@ -1,4 +1,4 @@
-import { GameObject } from "engine/core/entity/game-object";
+import { GameObject } from "engine/core/scene-graph/game-object";
 import { Transform2D } from "../component/transform-2d";
 
 

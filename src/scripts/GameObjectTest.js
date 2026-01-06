@@ -32,14 +32,14 @@ export class BehaviourTest extends MonoBehaviour {
 
     start() {
         this.collider = this.gameObject.getComponent(Collider2D);
-        this.collider.on(Collider2D.ON_COLLISION_ENTER, this.onCollisionEnter.bind(this));
+        this.collider.on(Collider2D.COLLISION_ENTER, this.onCollisionEnter.bind(this));
     }
 
     update(dt) {
-        // this.gameObject.transform.rotation.z += 1 * dt;
+        this.gameObject.transform.rotation.z += 1 * dt;
     }
 
     onCollisionEnter(other) {
-        console.log("onCollisionEnter", other.gameObject);
+
     }
 }

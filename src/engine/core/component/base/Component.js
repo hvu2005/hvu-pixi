@@ -1,4 +1,5 @@
-import { GameObject } from "engine/core/entity/game-object";
+import { GameObject } from "engine/core/scene-graph/game-object";
+import { EventBus } from "engine/core/event/event-bus";
 
 /**
  * @abstract
@@ -14,7 +15,31 @@ export class Component {
          * @private
          */
         this._enabled = true;
+
+        /**
+         * @protected
+         * @type {EventBus}
+         */
+        this._eventBus = new EventBus();
     }
+
+    on(event, callback) {
+        return this._eventBus.on(event, callback);
+    }
+
+    off(event, callback) {
+        this._eventBus.off(event, callback);
+    }
+
+    /**
+     * @protected
+     * @param {string} event 
+     * @param  {...any} args 
+     */
+    _emit(event, ...args) {
+        this._eventBus.emit(event, ...args);
+    }
+
 
     get enabled() {
         return this._enabled;

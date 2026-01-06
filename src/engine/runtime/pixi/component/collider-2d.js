@@ -4,9 +4,9 @@ import { EventBus } from "engine/core/event/event-bus";
 import { Bodies, Body } from "matter-js";
 
 export class Collider2D extends Component {
-    static ON_COLLISION_ENTER = "onCollisionEnter";
-    static ON_COLLISION_EXIT = "onCollisionExit";
-    static ON_COLLISION_STAY = "onCollisionStay";
+    static COLLISION_ENTER = "onCollisionEnter";
+    static COLLISION_EXIT = "onCollisionExit";
+    static COLLISION_STAY = "onCollisionStay";
 
     constructor(options = {}) {
         super();
@@ -38,39 +38,26 @@ export class Collider2D extends Component {
          * @type {{x: number, y: number}}
          */
         this._lastScale = { x: 1, y: 1 };
-
-        /**
-         * @private
-         * @type {EventBus}
-         */
-        this._eventBus = new EventBus();
     }
 
-    on(event, callback) {
-        return this._eventBus.on(event, callback);
-    }
-
-    off(event, callback) {
-        this._eventBus.off(event, callback);
-    }
 
     onCollisionEnter(other) {
-        this._eventBus.emit(Collider2D.ON_COLLISION_ENTER, other);
+        this._emit(Collider2D.ON_COLLISION_ENTER, other);
     }
     
     onCollisionExit(other) {
-        this._eventBus.emit(Collider2D.ON_COLLISION_EXIT, other);
+        this._emit(Collider2D.ON_COLLISION_EXIT, other);
     }
 
     onCollisionStay(other) {
-        this._eventBus.emit(Collider2D.ON_COLLISION_STAY, other);
+        this._emit(Collider2D.ON_COLLISION_STAY, other);
     }
     
     _onAttach() {
         const transform = this.gameObject.transform;
         const { x, y } = transform.position;
         Body.setPosition(this.body, { x, y });
-
+        
         if (!this._synced) {
             this._syncPosition();
             this._syncRotation();

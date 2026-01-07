@@ -9,6 +9,8 @@ export class Render3DSystem extends System {
      */
     constructor(world) {
         super(world, [Transform3D]);
+
+        this.renderContext = world.renderContext;
     }
     
     /**
@@ -16,11 +18,10 @@ export class Render3DSystem extends System {
      */
     onComponentAdded(component) {
         const node = component.getNode();
-        if (!node || node.parent) return;
+        if (!node) return;
 
         const layerId = component.gameObject.layer;
-        const scene = this.world.three.scenes.get(layerId);
-        scene.add(component.getNode());
+        this.renderContext.addNode3D(node, layerId);
     }
 
     /**

@@ -19,6 +19,11 @@ export class GameObject {
        */
       this.transform;
 
+      /**
+       * @type {import("../component/layer").Layer}
+       */
+      this.layer;
+
    }
 
    /**
@@ -66,6 +71,7 @@ export class GameObject {
          component.enabled = isActive;
       }
    }
+
 }
 
 

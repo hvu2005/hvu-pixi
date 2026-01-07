@@ -1,5 +1,8 @@
 import Stats from 'stats.js';
 import { RenderPipeline } from './render/render-pipeline';
+import { GameObject } from './scene-graph/game-object';
+import { Component } from './component/base/component';
+import { System } from './system/base/system';
 
 export class World {
     /**
@@ -12,11 +15,8 @@ export class World {
         this.systems = [];
         this.entities = [];
         this.components = new Map();
-
         this.componentToSystems = new Map();
-        this.pixi = pixi;
-        this.three = three;
-        this.renderPipeline = new RenderPipeline({ pixi: this.pixi, three: this.three });
+        this.renderContext = new RenderPipeline({ pixi: pixi, three: three });
     }
 
     async init() {
@@ -25,8 +25,7 @@ export class World {
         this.stats.showPanel(0); // 0: FPS, 1: ms, 2: memory
         document.body.appendChild(this.stats.dom);
 
-        await this.renderPipeline.init();
-        await this.initSystems();
+        await this.renderContext.init();
 
         this.run();
     }
@@ -37,18 +36,17 @@ export class World {
             const delta = (now - this.lastTime) / 1000;
             this.lastTime = now;
 
+            this.stats.begin();
+
             this.update(delta);
-            this.render();
+            this.renderContext?.render();
+
+            this.stats.end();
+
 
             requestAnimationFrame(loop);
         }
         requestAnimationFrame(loop);
-    }
-
-    render() {
-        this.stats.begin();
-        this.renderPipeline.render();
-        this.stats.end();
     }
 
     //#region Systems
@@ -58,26 +56,30 @@ export class World {
         }
     }
 
-    async initSystems() {
-        for (const system of this.systems) {
-            try {
-                await system.init(this);
-            } catch (e) {
-                console.error(`Error initializing system ${system.constructor?.name || ''}:`, e);
-            }
-        }
-    }
-
     /**
-     * @Template T
-     * @param {new (...args:any[]) => T} system 
+     * @template {System} T
+     * @param {new (...args:any[]) => T} systemClass 
      * @returns {T}
      */
-    addSystem(system) {
+    createSystem(systemClass) {
+        const system = new systemClass(this);
+
         this.systems.push(system);
+        const interests = system.interestedComponents || [];
+        for (const componentType of interests) {
+            if (!this.componentToSystems.has(componentType)) {
+                this.componentToSystems.set(componentType, []);
+            }
+            this.componentToSystems.get(componentType).push(system);
+        }
+
         return system;
     }
 
+    /**
+     * 
+     * @param {System} system 
+     */
     removeSystem(system) {
         this.systems = this.systems.filter(s => s !== system);
     }
@@ -94,6 +96,11 @@ export class World {
     //#endregion
 
     //#region Events
+
+    /**
+     * 
+     * @param {Component} component 
+     */
     onComponentAdded(component) {
         let ctor = component.constructor;
 
@@ -108,6 +115,10 @@ export class World {
         }
     }
 
+    /**
+     * 
+     * @param {Component} component 
+     */
     onComponentRemoved(component) {
         let ctor = component.constructor;
 
@@ -124,35 +135,16 @@ export class World {
     //#endregion
 
     /**
-     * @template T
+     * @template {GameObject} T
      * @param {new (...args:any[]) => T} gameObjectClass 
      * @returns {T}
      */
-    createGameObject(gameObjectClass, options = {layer: 0}) {
-        this.renderPipeline.addLayer(options.layer || 0);
+    createGameObject(gameObjectClass, options = { layer: 0 }) {
+        this.renderContext.createLayer(options.layer || 0);
+
         const gameObject = new gameObjectClass(this, options);
-
         this.entities.push(gameObject);
+
         return gameObject;
-    }
-
-    /**
-     * @template T
-     * @param {new (...args:any[]) => T} systemClass 
-     * @returns {T}
-     */
-    createSystem(systemClass) {
-        const system = new systemClass(this);
-        this.systems.push(system);
-
-        const interests = system.interestedComponents || [];
-        for (const componentType of interests) {
-            if (!this.componentToSystems.has(componentType)) {
-                this.componentToSystems.set(componentType, []);
-            }
-            this.componentToSystems.get(componentType).push(system);
-        }
-
-        return system;
     }
 }

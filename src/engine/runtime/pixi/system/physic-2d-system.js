@@ -12,7 +12,7 @@ export class Physic2DSystem extends System {
     constructor(world) {
         super(world, [Collider2D]);
 
-        this.stage = world.pixi.stage;
+        this.stage = world.renderContext.pixi.stage;
         this.fixedDt = 1 / 60;
         this.accumulator = 0;
 

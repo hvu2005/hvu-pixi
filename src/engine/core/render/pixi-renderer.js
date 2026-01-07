@@ -1,8 +1,9 @@
 import { Container, Rectangle, WebGLRenderer } from "@pixi.alias";
+import { RenderService } from "./render-service";
 
 
 
-export class PixiRenderer {
+export class PixiRenderer extends RenderService {
     async init(threeContext = null) {
         this.renderer = new WebGLRenderer();
         this.stage = new Container();
@@ -29,11 +30,37 @@ export class PixiRenderer {
         !threeContext && document.body.appendChild(renderer.canvas);
     }
 
+    createLayer(layerId) {
+        if (this.stages.has(layerId)) return;
+
+        const stage = new Container();
+        stage.eventMode = "static";
+        this.stages.set(layerId, stage);
+    }
+
+    getLayer(layerId) {
+        if (!this.stages.has(layerId)) this.createLayer(layerId);
+        return this.stages.get(layerId);
+    }
+
+    addNode(node, layerId) {
+        const stage = this.getLayer(layerId);
+        stage.addChild(node);
+    }
+
+    removeNode(node, layerId) {
+        if (!node || !node.parent) return;
+        const stage = this.getLayer(layerId);
+        if (stage && node.parent === stage) {
+            stage.removeChild(node);
+        }
+    }
+
     render(layerId) {
         this.renderer.resetState();
         this.renderer.render({ container: this.stage });
 
-        let stage = this.stages.get(layerId);
+        let stage = this.getLayer(layerId);
         this.renderer.resetState();
         this.renderer.render({ container: stage });
     }
@@ -72,6 +99,10 @@ export class PixiRenderer {
 
         // stage hitArea logic
         this.stage.hitArea = new Rectangle(0, 0, logicWidth, logicHeight);
+        
+        for(const st of this.stages.values()) {
+            st.hitArea = new Rectangle(0, 0, logicWidth, logicHeight);
+        }
     }
 }
 

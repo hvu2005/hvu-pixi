@@ -1,5 +1,5 @@
 import { Transform } from "engine/core/component/transform";
-import { Container } from "engine/alias/pixi-alias";
+import { Container } from "@pixi.alias";
 
 
 export class Transform2D extends Transform {

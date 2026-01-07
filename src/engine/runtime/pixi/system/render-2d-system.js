@@ -12,7 +12,7 @@ export class Render2DSystem extends System {
     constructor(world) {
         super(world, [Transform2D]);
 
-        this.stages = world.pixi.stages;
+        this.renderContext = world.renderContext;
     }
 
     /**
@@ -24,8 +24,7 @@ export class Render2DSystem extends System {
         if (!node || node.parent) return;
 
         const layerId = component.gameObject.layer;
-        const stage = this.stages.get(layerId);
-        stage.addChild(component.getNode());
+        this.renderContext.addNode2D(node, layerId);
     }
 
     /**
@@ -41,4 +40,6 @@ export class Render2DSystem extends System {
             parent.removeChild(node);
         }
     }
+
+
 }

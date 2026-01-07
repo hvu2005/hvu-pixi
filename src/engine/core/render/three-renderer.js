@@ -1,8 +1,9 @@
 import { PerspectiveCamera, Scene, WebGLRenderer } from "@three.alias";
+import { RenderService } from "./render-service";
 
 
 
-export class ThreeRenderer {
+export class ThreeRenderer extends RenderService {
     async init() {
         this.renderer = new WebGLRenderer({ antialias: true, stencil: true, alpha: true });
         this.scene = new Scene();
@@ -22,12 +23,36 @@ export class ThreeRenderer {
         document.body.appendChild(this.renderer.domElement);
     }
 
+    createLayer(layerId) {
+        if (this.scenes.has(layerId)) return;
+
+        const scene = new Scene();
+        this.scenes.set(layerId, scene);
+    }
+
+    getLayer(layerId) {
+        if (!this.scenes.has(layerId)) this.createLayer(layerId);
+        return this.scenes.get(layerId);
+    }
+
+    addNode(node, layerId) {
+        const scene = this.getLayer(layerId);
+        scene.add(node);
+    }
+
+    removeNode(node, layerId) {
+        if (!node || !node.parent) return;
+        const scene = this.getLayer(layerId);
+        if (scene && node.parent === scene) {
+            scene.remove(node);
+        }
+    }
+
     render(layerId) {
         // this.renderer.resetState();
         // this.renderer.render(this.scene, this.camera);
 
-        let scene = this.scenes.get(layerId);
-
+        const scene = this.getLayer(layerId);
         this.renderer.resetState();
         this.renderer.render(scene, this.camera);
     }

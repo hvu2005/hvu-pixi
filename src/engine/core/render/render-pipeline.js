@@ -13,10 +13,10 @@ export class RenderPipeline {
 
         this._layers = [];              // sorted layer ids
         this._layerSet = new Set();
-        
+
         this._layer2D = new Set();      // layer có pixi content
         this._layer3D = new Set();      // layer có three content
-        
+
     }
 
     async init() {
@@ -29,12 +29,12 @@ export class RenderPipeline {
         this.ensureLayer2D(layerId);
         this.pixi?.addNode(node, layerId);
     }
-    
+
     addNode3D(node, layerId) {
         this.ensureLayer3D(layerId);
         this.three?.addNode(node, layerId);
     }
-    
+
 
     removeNode2D(node, layerId) {
         this.pixi?.removeNode(node, layerId);
@@ -62,17 +62,31 @@ export class RenderPipeline {
     }
 
     ensureLayer2D(layerId) {
-        this.ensureLayer(layerId);
+        if (this._layer2D.has(layerId)) return;
+
+        const index = this._findInsertIndex(layerId);
+        if (layerId !== this._layers[index]) {
+            this._layers.splice(index, 0, layerId);
+            this._layerSet.add(layerId);
+        }
+
         this._layer2D.add(layerId);
         this.pixi?.createLayer(layerId);
     }
-    
+
     ensureLayer3D(layerId) {
-        this.ensureLayer(layerId);
+        if (this._layer3D.has(layerId)) return;
+
+        const index = this._findInsertIndex(layerId);
+        if (layerId !== this._layers[index]) {
+            this._layers.splice(index, 0, layerId);
+            this._layerSet.add(layerId);
+        }
+
         this._layer3D.add(layerId);
         this.three?.createLayer(layerId);
     }
-    
+
 
     createLayer2D(layerId) {
         const index = this._findInsertIndex(layerId);
@@ -89,7 +103,7 @@ export class RenderPipeline {
 
         this.three?.createLayer(layerId);
     }
-    
+
 
     /**
      * @private

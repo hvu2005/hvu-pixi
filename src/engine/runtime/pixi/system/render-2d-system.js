@@ -29,11 +29,11 @@ export class Render2DSystem extends System {
         const node = transform.getNode();
         const layerId = component.getNode();
 
-        this.renderContext.ensureLayer(layerId);
+        this.renderContext.ensureLayer2D(layerId);
         this.renderContext.addNode2D(node, layerId);
 
         component.__onOrderChanged = component.on(RenderOrder2D.ORDER_CHANGED, (newOrder) => {
-            this.renderContext.ensureLayer(newOrder);
+            this.renderContext.ensureLayer2D(newOrder);
             this.renderContext.removeNode2D(node);
             this.renderContext.addNode2D(node, newOrder);
         });

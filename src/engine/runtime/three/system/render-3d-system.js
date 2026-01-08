@@ -27,11 +27,11 @@ export class Render3DSystem extends System {
         const node = transform.getNode();
         const layerId = component.getNode();
 
-        this.renderContext.ensureLayer(layerId);
+        this.renderContext.ensureLayer3D(layerId);
         this.renderContext.addNode3D(node, layerId);
 
         component.__onOrderChanged = component.on(RenderOrder3D.ORDER_CHANGED, (newOrder) => {
-            this.renderContext.ensureLayer(newOrder);
+            this.renderContext.ensureLayer3D(newOrder);
             this.renderContext.removeNode3D(node);
             this.renderContext.addNode3D(node, newOrder);
         });

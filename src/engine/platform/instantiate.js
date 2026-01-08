@@ -6,7 +6,7 @@ import { worldContext } from "./world-context";
  * @param {{layer: number, tag: string}} options 
  * @returns {T}
  */
-export function instantiate(gameObjectClass, options = {layer: 0, tag: ""}) {
+export function instantiate(gameObjectClass, options = {renderOrder: 0, tag: ""}) {
     const go = worldContext.current.createGameObject(gameObjectClass, options);
     go.init();
 

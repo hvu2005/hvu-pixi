@@ -1,5 +1,5 @@
 import { Transform } from "engine/core/component/transform";
-import { Group } from "three";
+import { Group } from "@three.alias";
 
 
 

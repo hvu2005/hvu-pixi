@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 
 export function GameObjecTest3D2() {
-    const gameObject = instantiate(GameObject3D, { layer: -1, tag: "GameObjectTest3D" });
+    const gameObject = instantiate(GameObject3D, { renderOrder: 4, tag: "GameObjectTest3D" });
 
     const transform = gameObject.transform;
 

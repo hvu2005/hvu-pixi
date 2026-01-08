@@ -2,15 +2,16 @@ import { System } from "engine/core/system/base/system";
 import { Collider2D } from "../component/collider-2d";
 import { Engine, World, Events } from "matter-js";
 import { Graphics } from "@pixi.alias";
+import { interestedComponent } from "engine/core/decorator/interested-component";
 
-
+@interestedComponent(Collider2D)
 export class Physic2DSystem extends System {
     /**
      * 
      * @param {import("engine/core/world").World} world 
      */
     constructor(world) {
-        super(world, [Collider2D]);
+        super(world);
 
         this.stage = world.renderContext.pixi.stage;
         this.fixedDt = 1 / 60;

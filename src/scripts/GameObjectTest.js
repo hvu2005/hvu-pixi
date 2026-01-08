@@ -2,12 +2,13 @@ import { Asset } from "engine/asset/AssetLoader";
 import { MonoBehaviour } from "engine/runtime/behaviour/mono-behaviour";
 import { instantiate } from "engine/runtime/instantiate";
 import { Collider2D } from "engine/runtime/pixi/component/collider-2d";
+import { RenderOrder2D } from "engine/runtime/pixi/component/render-order-2d";
 import { SpriteRenderer } from "engine/runtime/pixi/component/sprite-renderer";
 import { GameObject2D } from "engine/runtime/pixi/entity/game-object-2d";
 
 
 export function GameObjectTest() {
-    const gameObject = instantiate(GameObject2D, {layer: 2, tag: "GameObjectTest"});
+    const gameObject = instantiate(GameObject2D, {renderOrder: 1, tag: "GameObjectTest"});
     gameObject.addComponent(new BehaviourTest());   
     gameObject.addComponent(new SpriteRenderer(Asset.ITEM_TEST));
     gameObject.addComponent(new Collider2D({isStatic: true, isSensor: true}));    
@@ -33,6 +34,9 @@ export class BehaviourTest extends MonoBehaviour {
     start() {
         this.collider = this.gameObject.getComponent(Collider2D);
         this.collider.on(Collider2D.COLLISION_ENTER, this.onCollisionEnter.bind(this));
+
+        this.renderOrder = this.gameObject.getComponent(RenderOrder2D);
+        this.renderOrder.order = 15;
     }
 
     update(dt) {

@@ -65,7 +65,7 @@ export class World {
         const system = new systemClass(this);
 
         this.systems.push(system);
-        const interests = system.interestedComponents || [];
+        const interests = systemClass.interestedComponents || [];
         for (const componentType of interests) {
             if (!this.componentToSystems.has(componentType)) {
                 this.componentToSystems.set(componentType, []);
@@ -139,9 +139,7 @@ export class World {
      * @param {new (...args:any[]) => T} gameObjectClass 
      * @returns {T}
      */
-    createGameObject(gameObjectClass, options = { layer: 0 }) {
-        this.renderContext.createLayer(options.layer || 0);
-
+    createGameObject(gameObjectClass, options = {renderOrder: 0, tag: ""}) {
         const gameObject = new gameObjectClass(this, options);
         this.entities.push(gameObject);
 

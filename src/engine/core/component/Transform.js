@@ -31,7 +31,18 @@ export class Transform extends Component {
          * @private
          */
         this._position = {
-            _x: 0, _y: 0, _z: 0,
+            /**
+             * @private
+             */
+            _x: 0, 
+            /**
+             * @private
+             */
+            _y: 0, 
+            /**
+             * @private
+             */
+            _z: 0,
             get x() { return this._x; },
             get y() { return this._y; },
             get z() { return this._z; },
@@ -47,7 +58,18 @@ export class Transform extends Component {
          * @private
          */
         this._rotation = {
-            _x: 0, _y: 0, _z: 0,
+            /**
+             * @private
+             */
+            _x: 0, 
+            /**
+             * @private
+             */
+            _y: 0, 
+            /**
+             * @private
+             */
+            _z: 0,
             get x() { return this._x; },
             get y() { return this._y; },
             get z() { return this._z; },
@@ -63,7 +85,18 @@ export class Transform extends Component {
          * @private
          */
         this._scale = {
-            _x: 1, _y: 1, _z: 1,
+            /**
+             * @private
+             */
+            _x: 1, 
+            /**
+             * @private
+             */
+            _y: 1, 
+            /**
+             * @private
+             */
+            _z: 1,
             get x() { return this._x; },
             get y() { return this._y; },
             get z() { return this._z; },
@@ -86,6 +119,7 @@ export class Transform extends Component {
         this._children.push(child);
         this._applyAddChild(child);
         child._setParentInternal(this);
+        this._emit(Transform.CHILD_ADDED, child);
     }
 
     /**
@@ -95,6 +129,7 @@ export class Transform extends Component {
         this._children = this._children.filter(c => c !== child);
         this._applyRemoveChild(child);
         child._setParentInternal(null);
+        this._emit(Transform.CHILD_REMOVED, child);
     }
 
     addRenderNode(node) {
@@ -135,16 +170,20 @@ export class Transform extends Component {
     }
 
     set parent(parent) {
+        if (this._parent === parent) return;
+    
         if (this._parent) {
             this._parent.removeChild(this);
         }
-
-        this._parent = parent;
-        this._parent.addChild(this);
+    
+        if (parent) {
+            parent.addChild(this);
+        }
     }
+    
 
     get children() {
-        throw new Error("Transform.children is not implemented.");
+        return this._children;
     }
     //#endregion
 

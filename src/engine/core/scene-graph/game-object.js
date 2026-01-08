@@ -6,13 +6,11 @@ export class GameObject {
     * @param {import("../world").World} world 
     * @param {{layer: number, tag: string}} options 
     */
-   constructor(world, options = {layer: 0, tag: ""}) {
+   constructor(world) {
       this.components = [];
 
       this.world = world;
       this.activeSelf = true;
-      this.layer = options.layer || 0;
-      this.tag = options.tag || "";
 
       /**
        * @type {import("../component/transform").Transform}
@@ -20,9 +18,9 @@ export class GameObject {
       this.transform;
 
       /**
-       * @type {import("../component/layer").Layer}
+       * @type {import("../component/render-order").RenderOrder}
        */
-      this.layer;
+      this.renderOrder;
 
    }
 

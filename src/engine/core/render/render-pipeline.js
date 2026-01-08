@@ -54,27 +54,6 @@ export class RenderPipeline {
         this.addNode3D(node, newLayerId);
     }
 
-    /**
-     * Move a node between layers - automatically detects node type (2D or 3D)
-     * @param {any} node - Render node (Pixi Container or Three Object3D)
-     * @param {number} oldLayerId 
-     * @param {number} newLayerId 
-     */
-    moveNode(node, oldLayerId, newLayerId) {
-        if (!node) return;
-
-        // Detect node type by checking for characteristic methods
-        // Pixi Container has addChild/removeChild methods
-        // Three Object3D has add/remove methods
-        if (typeof node.addChild === 'function' && typeof node.removeChild === 'function') {
-            // Pixi Container (2D)
-            this.moveNode2D(node, oldLayerId, newLayerId);
-        } else if (typeof node.add === 'function' && typeof node.remove === 'function') {
-            // Three Object3D (3D)
-            this.moveNode3D(node, oldLayerId, newLayerId);
-        }
-    }
-
     render() {
         this._layers.forEach(layerId => {
             this.three?.render(layerId);
@@ -87,15 +66,19 @@ export class RenderPipeline {
      * @param {number} layerId 
      * @returns 
      */
-    createLayer(layerId) {
-        if (this._layerSet.has(layerId)) return;
-    
+    createLayer(layerId) {    
         const index = this._findInsertIndex(layerId);
         this._layers.splice(index, 0, layerId);
         this._layerSet.add(layerId);
 
         this.three?.createLayer(layerId);
         this.pixi?.createLayer(layerId);
+    }
+
+    ensureLayer(layerId) {
+        if (!this._layerSet.has(layerId)) {
+            this.createLayer(layerId);
+        }
     }
     
 

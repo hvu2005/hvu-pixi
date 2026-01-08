@@ -1,15 +1,15 @@
 import { GameObject } from "engine/core/scene-graph/game-object";
 import { Transform2D } from "../component/transform-2d";
-import { Layer2D } from "../component/layer-2d";
+import { RenderOrder2D } from "../component/render-order-2d";
 
 
 
 
 export class GameObject2D extends GameObject {
-    constructor(world, options = {layer: 0, tag: ""}) {
-        super(world, options);
+    constructor(world, options = {renderOrder: 0, tag: ""}) {
+        super(world);
 
         this.transform = this.addComponent(new Transform2D());
-        this.layer = this.addComponent(new Layer2D(options.layer || 0));
+        this.renderOrder = this.addComponent(new RenderOrder2D(options.renderOrder || 0));
     }
 }

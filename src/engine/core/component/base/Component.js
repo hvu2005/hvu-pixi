@@ -5,6 +5,8 @@ import { EventBus } from "engine/core/event/event-bus";
  * @abstract
  */
 export class Component {
+    static requiredComponents = [];
+
     constructor() {
         /**
          * @type {GameObject}
@@ -40,6 +42,24 @@ export class Component {
         this._eventBus.emit(event, ...args);
     }
 
+    /**
+     * 
+     * @template T
+     * @param {new (...args: any[]) => T} component
+     * @returns {T | undefined}
+     */
+    getComponent(component) {
+        return this.gameObject.getComponent(component);
+    }
+
+    /**
+     * 
+     * @param {Component} component 
+     */
+    addComponent(component) {
+        this.gameObject.addComponent(component);
+    }
+
 
     get enabled() {
         return this._enabled;
@@ -63,17 +83,17 @@ export class Component {
         this.gameObject = null;
         this._onDestroy();
     }
-    
+
     getNode() {
         console.warn(`Component ${this.constructor.name} does not implement getNode method.`);
         return null;
     }
-    
+
     /**
      * @protected
      */
     _onAttach() {
-   
+
     }
     /**
      * @protected

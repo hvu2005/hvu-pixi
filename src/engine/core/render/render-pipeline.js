@@ -11,15 +11,12 @@ export class RenderPipeline {
         this.pixi = options.pixi;
         this.three = options.three;
 
-        /**
-         * @private
-         */
-        this._layers = [];
-
-        /**
-         * @private
-         */
+        this._layers = [];              // sorted layer ids
         this._layerSet = new Set();
+        
+        this._layer2D = new Set();      // layer có pixi content
+        this._layer3D = new Set();      // layer có three content
+        
     }
 
     async init() {
@@ -29,12 +26,15 @@ export class RenderPipeline {
     }
 
     addNode2D(node, layerId) {
+        this.ensureLayer2D(layerId);
         this.pixi?.addNode(node, layerId);
     }
-
+    
     addNode3D(node, layerId) {
+        this.ensureLayer3D(layerId);
         this.three?.addNode(node, layerId);
     }
+    
 
     removeNode2D(node, layerId) {
         this.pixi?.removeNode(node, layerId);
@@ -61,24 +61,33 @@ export class RenderPipeline {
         });
     }
 
-    /**
-     * 
-     * @param {number} layerId 
-     * @returns 
-     */
-    createLayer(layerId) {    
+    ensureLayer2D(layerId) {
+        this.ensureLayer(layerId);
+        this._layer2D.add(layerId);
+        this.pixi?.createLayer(layerId);
+    }
+    
+    ensureLayer3D(layerId) {
+        this.ensureLayer(layerId);
+        this._layer3D.add(layerId);
+        this.three?.createLayer(layerId);
+    }
+    
+
+    createLayer2D(layerId) {
+        const index = this._findInsertIndex(layerId);
+        this._layers.splice(index, 0, layerId);
+        this._layerSet.add(layerId);
+
+        this.pixi?.createLayer(layerId);
+    }
+
+    createLayer3D(layerId) {
         const index = this._findInsertIndex(layerId);
         this._layers.splice(index, 0, layerId);
         this._layerSet.add(layerId);
 
         this.three?.createLayer(layerId);
-        this.pixi?.createLayer(layerId);
-    }
-
-    ensureLayer(layerId) {
-        if (!this._layerSet.has(layerId)) {
-            this.createLayer(layerId);
-        }
     }
     
 

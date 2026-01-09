@@ -7,7 +7,7 @@ import { RenderOrder2D } from "../component/render-order-2d";
 
 export class GameObject2D extends GameObject {
     constructor(world, options = {renderOrder: 0, tag: ""}) {
-        super(world);
+        super(world, options);
 
         this.transform = this.addComponent(new Transform2D());
         this.renderOrder = this.addComponent(new RenderOrder2D(options.renderOrder || 0));

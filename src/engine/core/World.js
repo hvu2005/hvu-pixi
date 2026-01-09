@@ -139,7 +139,7 @@ export class World {
      * @param {new (...args:any[]) => T} gameObjectClass 
      * @returns {T}
      */
-    createGameObject(gameObjectClass, options = {renderOrder: 0, tag: ""}) {
+    createGameObject(gameObjectClass, options) {
         const gameObject = new gameObjectClass(this, options);
         this.entities.push(gameObject);
 

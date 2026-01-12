@@ -1,7 +1,10 @@
+import { GameObject } from "engine/core/scene-graph/game-object";
 import { worldContext } from "./world-context";
 
+
+
 /**
- * @template T
+ * @template {GameObject} T
  * @param {new (...args:any[]) => T} gameObjectClass 
  * @param {{layer: number, tag: string}} options 
  * @returns {T}

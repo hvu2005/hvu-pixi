@@ -1,0 +1,8 @@
+{
+    "modules": {
+        "pixi": true,
+        "physic-2d": true,
+        "physic-3d": false,
+        "three": true
+    }
+}

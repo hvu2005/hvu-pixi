@@ -4,7 +4,6 @@ import inlineCss from "esbuild-plugin-inline-css";
 import open from "open";
 import fs from "fs";
 import path from "path";
-import { stripImports } from "./strip.import.config.js";
 
 
 (async () => {
@@ -41,9 +40,9 @@ import { stripImports } from "./strip.import.config.js";
                         compact: false,
                         plugins: [
                             ["@babel/plugin-proposal-decorators", { legacy: true }],
-                            ["transform-remove-imports", {
-                                test: stripImports
-                            }]
+                            ["transform-remove-imports", { test: [
+                                // 'matter'
+                            ] }]
                         ],
                     },
                 }),

@@ -3,7 +3,7 @@
   "scripts": {
     "gen-pixi-alias": "node src/engine/generator/pixi/generate-pixi-alias.js",
     "gen-three-alias": "node src/engine/generator/three/generate-three-alias.js",
-    "dev": "cross-env NODE_ENV=development node esbuild.config.js && npx open http://localhost:8080/index.html",
+    "dev": "cross-env NODE_ENV=development node src/engine/service/build/build-game.js",
     "build": "node src/engine/generator/pixi/strip-pixi.js && node src/engine/generator/pixi/minify-pixi.js &&  node src/engine/generator/three/strip-three.js && node src/engine/generator/three/minify-three.js && cross-env NODE_ENV=production node esbuild.config.js && npx open http://localhost:8080/index.html",
     "clean-build": "rimraf dist && npm run build"
   },

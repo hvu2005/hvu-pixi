@@ -1,14 +1,15 @@
 import { System } from "engine/core/system/base/system";
 import { MonoBehaviour } from "./mono-behaviour";
+import { interestedComponent } from "engine/core/decorator/interested-component";
 
 
 
 
 
-
+@interestedComponent(MonoBehaviour)
 export class MonoBehaviourSystem extends System {
     constructor(world) {
-        super(world, [MonoBehaviour]);
+        super(world);
 
         /**
          * @type {MonoBehaviour[]}

@@ -1,23 +1,24 @@
 import { Asset } from "engine/asset/AssetLoader";
 import { MonoBehaviour } from "engine/runtime/behaviour/mono-behaviour";
-import { instantiate } from "engine/runtime/instantiate";
-import { Collider2D } from "engine/runtime/pixi/component/collider-2d";
+import { instantiate } from "engine/service/instantiate";
+import { Collider2D } from "engine/runtime/physic-2d/collider-2d";
 import { RenderOrder2D } from "engine/runtime/pixi/component/render-order-2d";
 import { SpriteRenderer } from "engine/runtime/pixi/component/sprite-renderer";
-import { GameObject2D } from "engine/runtime/pixi/entity/game-object-2d";
+import { GameObject2D } from "engine/service/game-object-2d";
+import { AssetTest } from "./GameScene";
 
 
 export function GameObjectTest() {
     const gameObject = instantiate(GameObject2D, {renderOrder: 1, tag: "GameObjectTest"});
     gameObject.addComponent(new BehaviourTest());   
-    gameObject.addComponent(new SpriteRenderer(Asset.ITEM_TEST));
+    gameObject.addComponent(new SpriteRenderer(AssetTest.ITEM));
     gameObject.addComponent(new Collider2D({isStatic: true, isSensor: true}));    
     gameObject.transform.position.set(450, 1150, 0);
     gameObject.transform.scale.set(1);
 
 
     const child1 = instantiate(GameObject2D);
-    child1.addComponent(new SpriteRenderer(Asset.ITEM));
+    child1.addComponent(new SpriteRenderer(AssetTest.ITEM));
     child1.transform.position.set(0, 0, 0);
     child1.transform.scale.set(0.5);
     gameObject.transform.addChild(child1.transform);
@@ -36,7 +37,7 @@ export class BehaviourTest extends MonoBehaviour {
         this.collider.on(Collider2D.COLLISION_ENTER, this.onCollisionEnter.bind(this));
 
         this.renderOrder = this.gameObject.getComponent(RenderOrder2D);
-        this.renderOrder.order = 15;
+        this.renderOrder.order = 0;
     }
 
     update(dt) {

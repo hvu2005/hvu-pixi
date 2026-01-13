@@ -1,9 +1,4 @@
-import { Asset } from "engine/asset/AssetLoader";
-import { MonoBehaviour } from "engine/runtime/behaviour/mono-behaviour";
-import { instantiate } from "engine/service/instantiate";
-import { Collider2D } from "engine/runtime/physic-2d/collider-2d";
-import { SpriteRenderer } from "engine/runtime/pixi/component/sprite-renderer";
-import { GameObject2D } from "engine/service/game-object-2d";
+import { Collider2D, SpriteRenderer, instantiate, GameObject2D  } from "engine";
 import { AssetTest } from "./GameScene";
 
 

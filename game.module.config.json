@@ -1,8 +1,10 @@
 {
     "modules": {
-        "pixi": true,
+        "render-2d": true,
         "physic-2d": true,
-        "physic-3d": false,
-        "three": true
+
+        "render-3d": true,
+
+        "behaviour": true
     }
 }

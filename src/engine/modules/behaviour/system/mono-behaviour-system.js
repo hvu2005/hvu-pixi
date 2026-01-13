@@ -1,5 +1,5 @@
 import { System } from "engine/core/system/base/system";
-import { MonoBehaviour } from "./mono-behaviour";
+import { MonoBehaviour } from "../component/mono-behaviour";
 import { interestedComponent } from "engine/core/decorator/interested-component";
 
 

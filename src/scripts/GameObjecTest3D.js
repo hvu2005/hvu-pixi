@@ -1,5 +1,4 @@
-import { instantiate } from "engine/service/instantiate";
-import { GameObject3D } from "engine/service/game-object-3d";
+import { instantiate, GameObject3D } from "engine";
 import * as THREE from "three";
 
 

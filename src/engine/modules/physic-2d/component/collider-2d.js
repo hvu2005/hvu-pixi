@@ -1,6 +1,5 @@
 import { Transform } from "engine/core/component/transform";
 import { Component } from "engine/core/component/base/component";
-import { EventBus } from "engine/core/event/event-bus";
 import { Bodies, Body } from "matter-js";
 
 export class Collider2D extends Component {

@@ -4,6 +4,7 @@ import inlineCss from "esbuild-plugin-inline-css";
 import open from "open";
 import fs from "fs";
 import path from "path";
+import { pathToFileURL } from "url";
 
 
 (async () => {
@@ -40,9 +41,9 @@ import path from "path";
                         compact: false,
                         plugins: [
                             ["@babel/plugin-proposal-decorators", { legacy: true }],
-                            ["transform-remove-imports", { test: [
-                                // 'matter'
-                            ] }]
+                            // ["transform-remove-imports", { test: [
+                            //     // 'matter'
+                            // ] }]
                         ],
                     },
                 }),
@@ -134,4 +135,5 @@ function _bundleSizePlugin() {
         }
     };
 }
+
 

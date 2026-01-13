@@ -1,8 +1,8 @@
-import { instantiate } from "engine/service/instantiate";
-import { GameObject3D } from "engine/service/game-object-3d";
+import { instantiate, GameObject3D } from "engine";
 import * as THREE from "three";
 
-
+import { Behaviour } from "@hvu/engine";
+console.log(Behaviour);
 
 export function GameObjecTest3D2() {
     const gameObject = instantiate(GameObject3D, { renderOrder: 4, tag: "GameObjectTest3D" });

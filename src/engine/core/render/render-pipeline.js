@@ -26,13 +26,21 @@ export class RenderPipeline {
     }
 
     addNode2D(node, layerId) {
+        if(!this.pixi) {
+            console.error("[ENGINE ERROR] Pixi Renderer chưa được khởi tạo! Có module cần sử dụng Pixi Renderer!");
+            return;
+        }
         this.ensureLayer2D(layerId);
-        this.pixi?.addNode(node, layerId);
+        this.pixi.addNode(node, layerId);
     }
 
     addNode3D(node, layerId) {
+        if(!this.three) {
+            console.error("[ENGINE ERROR] Three Renderer chưa được khởi tạo! Có module cần sử dụng Three Renderer!");
+            return;
+        }
         this.ensureLayer3D(layerId);
-        this.three?.addNode(node, layerId);
+        this.three.addNode(node, layerId);
     }
 
 

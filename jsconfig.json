@@ -4,7 +4,8 @@
     "paths": {
       "@pixi.alias": ["engine/alias/pixi-alias.js"],
       "@three.alias": ["engine/alias/three-alias.js"],
-      // "@engine": ["engine/engine.js"]
+      "@auto.asset": ["engine/alias/auto-asset.js"],
+      "engine": ["engine/engine.js"]
     },
   },
   "include": ["src"]

@@ -1,6 +1,6 @@
 import { GameObject } from "engine/core/scene-graph/game-object";
-import { Transform3D } from "engine/runtime/three/component/transform-3d";
-import { RenderOrder3D } from "engine/runtime/three/component/render-order-3d";
+import { Transform3D } from "engine/modules/render-3d/component/transform-3d";
+import { RenderOrder3D } from "engine/modules/render-3d/component/render-order-3d";
 
 
 

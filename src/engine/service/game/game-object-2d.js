@@ -1,6 +1,6 @@
 import { GameObject } from "engine/core/scene-graph/game-object";
-import { RenderOrder2D } from "engine/runtime/pixi/component/render-order-2d";
-import { Transform2D } from "engine/runtime/pixi/component/transform-2d";
+import { RenderOrder2D } from "engine/modules/render-2d/component/render-order-2d";
+import { Transform2D } from "engine/modules/render-2d/component/transform-2d";
 
 
 

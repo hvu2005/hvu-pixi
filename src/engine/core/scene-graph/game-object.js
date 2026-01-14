@@ -1,3 +1,4 @@
+import { Component } from "../component/base/component";
 
 
 export class GameObject {
@@ -31,7 +32,7 @@ export class GameObject {
    init() { }
 
    /**
-    * @template T
+    * @template {Component} T
     * @param {T} component
     * @returns {T}
     */
@@ -50,7 +51,7 @@ export class GameObject {
    }
 
    /**
-    * @template T
+    * @template {Component} T
     * @param {new (...args: any[]) => T} component
     * @returns {T | undefined}
     */

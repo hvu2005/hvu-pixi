@@ -17,6 +17,14 @@ export class Transform3D extends Transform {
             return this.group;
         }
 
+        addRenderNode(node) {
+            this.group.add(node);
+        }
+    
+        removeRenderNode(node) {
+            this.group.remove(node);
+        }
+
         _onDestroy() {
             this.group.destroy();
             this.gameObject = null;

@@ -12,5 +12,8 @@
     "files": [
         "dist"
     ],
-    "sideEffects": false
+    "sideEffects": false,
+    "scripts": {
+        "build": "node build-engine.js"
+    }
 }

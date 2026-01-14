@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@esotericsoftware/spine-pixi-v8": "~4.2.0",
-    "@hvu/engine": "file:src/engine",
     "@pixi/devtools": "^2.0.1",
     "cannon-es": "^0.20.0",
     "eslint": "^9.38.0",

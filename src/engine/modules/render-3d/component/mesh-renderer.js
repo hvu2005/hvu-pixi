@@ -1,11 +1,11 @@
 import { Renderer } from "engine/core/component/renderer";
-import { Mesh } from "engine/alias/three-alias";
+import { Group, Material } from "engine/alias/three-alias";
 
 
 export class MeshRenderer extends Renderer {
     /**
      * 
-     * @param {Mesh} mesh 
+     * @param {Group} mesh 
      * @param {*} options 
      */
     constructor(mesh, options = {}) {
@@ -24,6 +24,50 @@ export class MeshRenderer extends Renderer {
             });
         }
     }
+
+    /**
+     * 
+     * @param {Material} material 
+     */
+    setMaterial(material) {
+        this.mesh.traverse((child) => {
+            if (child.isMesh) {
+                child.material = material;
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param {number} index 
+     * @returns {Mesh}
+     */
+    getMeshAt(index) {
+        let i = 0;
+        let found = null;
+    
+        this.mesh.traverse(node => {
+            if (found) return;
+            if (node.isMesh) {
+                if (i === index) found = node;
+                i++;
+            }
+        });
+    
+        return found;
+    }
+
+
+    /**
+     * 
+     * @param {number} index 
+     * @param {Material} mat 
+     */
+    setMaterialAt(index, mat) {
+        const mesh = this.getMeshAt(index);
+        mesh.material = mat;
+    }
+    
 
     getNode() {
         return this.mesh;

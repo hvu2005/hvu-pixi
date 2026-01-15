@@ -1,5 +1,5 @@
 
-import { GameScene } from "scripts/GameScene";
+import { GameScene } from "scripts/_scene/GameScene";
 
 
 // Asynchronous IIFE

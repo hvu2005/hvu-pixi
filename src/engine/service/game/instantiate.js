@@ -6,7 +6,7 @@ import { worldContext } from "./world-context";
 /**
  * @template {GameObject} T
  * @param {new (...args:any[]) => T} gameObjectClass 
- * @param {{layer: number, tag: string}} options 
+ * @param {{renderOrder: number, tag: string}} options 
  * @returns {T}
  */
 export function instantiate(gameObjectClass, options) {

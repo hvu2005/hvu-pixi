@@ -25,6 +25,14 @@ export class RenderPipeline {
         this.pixi?.onResize(981, 1230);
     }
 
+    setCamera(camera) {
+        this.three?.setCamera(camera);
+    }
+    
+    resetCamera() {
+        this.three?.resetCamera();
+    }
+
     addNode2D(node, layerId) {
         if(!this.pixi) {
             console.error("[ENGINE ERROR] Pixi Renderer chưa được khởi tạo! Có module cần sử dụng Pixi Renderer!");

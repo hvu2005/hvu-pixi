@@ -1,17 +1,15 @@
 import { instantiate, GameObject3D, MeshRenderer } from "engine";
-import * as THREE from "three";
-import { Asset } from "./AssetLoader";
+import { Asset } from "./_load-assets.js/AssetLoader";
+import { MeshStandardMaterial } from "@three.alias";
+import { Material } from "./_load-assets.js/MaterialFactory";
 
 
 
 export function GameObjecTest3D() {
     const gameObject = instantiate(GameObject3D, { renderOrder: 2, tag: "GameObjectTest3D" });
 
-    const material = new THREE.MeshBasicMaterial({ 
-        map: Asset.TEXTURE_TRAIN,
-    });
     gameObject.addComponent(new MeshRenderer(Asset.MODEL_TRAIN, {
-        material: material, 
+        material: Material.TRAIN, 
         position: [0, 0, 0], 
         scale: [1, 1, 1],
         rotation: [0, 0, 0]

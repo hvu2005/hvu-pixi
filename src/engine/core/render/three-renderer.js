@@ -12,7 +12,10 @@ export class ThreeRenderer extends RenderService {
         this.camera.position.set(0, 0, 10);
         this.camera.lookAt(0, 0, 0);
 
+        this.defaultCamera = this.camera;
+
         this.scenes = new Map();
+        this.cameras = new Map();
 
         let WIDTH = window.innerWidth;
         let HEIGHT = window.innerHeight;
@@ -21,6 +24,14 @@ export class ThreeRenderer extends RenderService {
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.autoClear = false;
         document.body.appendChild(this.renderer.domElement);
+    }
+
+    setCamera(camera) {
+        this.camera = camera;
+    }
+
+    resetCamera() {
+        this.camera = this.defaultCamera;
     }
 
     createLayer(layerId) {
@@ -51,6 +62,12 @@ export class ThreeRenderer extends RenderService {
     render(layerId) {
         // this.renderer.resetState();
         // this.renderer.render(this.scene, this.camera);
+
+        // const camera = this.cameras.get(layerId);
+        // if(!camera) {
+        //     console.error("[ENGINE ERROR] No Camera for layer was found: ", layerId);
+        //     return;
+        // }
 
         const scene = this.getLayer(layerId);
         this.renderer.resetState();

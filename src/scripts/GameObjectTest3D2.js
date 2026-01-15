@@ -1,21 +1,20 @@
-import { instantiate, GameObject3D } from "engine";
-import * as THREE from "three";
+import { instantiate, GameObject3D, InstancedMeshRenderer } from "engine";
+import { Asset } from "./_load-assets.js/AssetLoader";
+import { Material } from "./_load-assets.js/MaterialFactory";
 
 
 export function GameObjecTest3D2() {
     const gameObject = instantiate(GameObject3D, { renderOrder: 4, tag: "GameObjectTest3D" });
 
+    const instancedMeshRenderer = gameObject.addComponent(new InstancedMeshRenderer(Asset.MODEL_TRAIN, {
+        material: Material.TRAIN, 
+        count: 1
+    }));
+
+    instancedMeshRenderer.setInstancePosition(0, 0, 0, 0);
+    instancedMeshRenderer.setInstanceRotation(0, Math.PI / 2, 0, 0);
+
     const transform = gameObject.transform;
-
-    const group = transform.getNode();
-
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x547877 });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    group.add(mesh);
-
-
     transform.position.set(-1, -1.5, 0);
     transform.rotation.set(0, 0, 0);
     transform.scale.set(1, 1, 1);

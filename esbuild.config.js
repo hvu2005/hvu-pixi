@@ -4,7 +4,6 @@ import inlineCss from "esbuild-plugin-inline-css";
 import open from "open";
 import fs from "fs";
 import path from "path";
-import { pathToFileURL } from "url";
 
 
 (async () => {
@@ -17,14 +16,14 @@ import { pathToFileURL } from "url";
         fs.copyFileSync("index.html", path.join("dist", "index.html"));
 
         const ctx = await esbuild.context({
-            entryPoints: ["src/index.js"],
+            entryPoints: ["src/game.js"],
             bundle: true,
             sourcemap: false,
             outfile: "dist/bundle.js",
             format: "iife",
             target: ["esnext"],
             minify: true,
-            keepNames: true,
+            // keepNames: true,
             // drop: ['console', 'debugger'],
             treeShaking: true,
             legalComments: 'none',
@@ -36,14 +35,11 @@ import { pathToFileURL } from "url";
             plugins: [
                 inlineCss(),
                 babel({
-                    filter: /\.js$/,
+                    filter: /[\\/]src[\\/].*\.js$/,
                     config: {
                         compact: false,
                         plugins: [
                             ["@babel/plugin-proposal-decorators", { legacy: true }],
-                            // ["transform-remove-imports", { test: [
-                            //     // 'matter'
-                            // ] }]
                         ],
                     },
                 }),
@@ -67,7 +63,7 @@ import { pathToFileURL } from "url";
                 '.stl': 'dataurl',
             },
             logLevel: "info",
-            // metafile: true, // bật phân tích
+            metafile: true, // bật phân tích
             // alias: {
             //     "@pixi.alias": `./src/engine/pixi.alias${isProd ? ".min" : ""}.js`,
             //     "@three.alias": `./src/engine/three.alias${isProd ? ".min" : ""}.js`,
@@ -76,8 +72,8 @@ import { pathToFileURL } from "url";
 
         // Lưu metafile JSON
 
-        // const result = await ctx.rebuild();
-        // fs.writeFileSync('meta.json', JSON.stringify(result.metafile, null, 2));
+        const result = await ctx.rebuild();
+        fs.writeFileSync('meta.json', JSON.stringify(result.metafile, null, 2));
 
         // console.log('✅ Build thành công! Metafile lưu ở meta.json');
 

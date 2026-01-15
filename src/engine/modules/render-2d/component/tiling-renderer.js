@@ -1,5 +1,5 @@
 import { Renderer } from "engine/core/component/renderer";
-import { TilingSprite } from "engine/alias/pixi-alias";
+import { TilingSprite } from "engine/alias/pixi-alias.full";
 
 
 

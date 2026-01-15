@@ -1,6 +1,6 @@
 
 import { MonoBehaviour, instantiate, Collider2D, RenderOrder2D, SpriteRenderer, GameObject2D } from "engine";
-import { Asset } from "./_load-assets.js/AssetLoader";
+import { Asset } from "./_load-assets/AssetLoader";
 
 
 export function GameObjectTest() {

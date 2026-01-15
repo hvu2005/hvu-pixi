@@ -1,158 +1,142 @@
 import { Renderer } from "engine/core/component/renderer";
-import { Group, InstancedMesh, Material, Object3D } from "engine/alias/three-alias";
+import { 
+    InstancedMesh, 
+    Matrix4, 
+    Quaternion, 
+    Vector3, 
+    Object3D, 
+    Group 
+} from "engine/alias/three-alias";
 
-
+// Biến tạm để tính toán, tránh tạo mới Object mỗi frame (Optimization)
+const _tempMatrix = new Matrix4();
+const _instanceMatrix = new Matrix4();
+const _position = new Vector3();
+const _quaternion = new Quaternion();
+const _scale = new Vector3();
 
 /**
  * @typedef {Object} InstancedMeshRendererOptions
  * @property {number} count
- * @property {Material} [material]
+ * @property {Material} [material] - Nếu có, tất cả các mesh sẽ dùng chung material này
  */
 
 export class InstancedMeshRenderer extends Renderer {
     /**
-     * 
      * @param {Group} sourceMesh 
      * @param {InstancedMeshRendererOptions} options 
      */
     constructor(sourceMesh, options) {
         super();
 
-        this.groupMesh = sourceMesh.clone();
         this.count = options.count;
+        /** @type {Array<{mesh: InstancedMesh, offset: Matrix4}>} */
+        this.instanceData = [];
 
-        let mesh = null;
-        sourceMesh.traverse(obj => { 
-            if (obj.isMesh && !mesh) mesh = obj;
+        // Đảm bảo ma trận của sourceMesh và các con đã được cập nhật
+        sourceMesh.updateMatrixWorld(true);
+
+        // Lấy ma trận nghịch đảo của root để tính toán offset chính xác
+        const inverseRootMatrix = new Matrix4().copy(sourceMesh.matrixWorld).invert();
+
+        sourceMesh.traverse(obj => {
+            if (obj.isMesh) {
+                // 1. Tính toán offset matrix của mesh con so với root
+                // Offset = Inverse(RootWorldMatrix) * MeshWorldMatrix
+                const offset = obj.matrixWorld.clone().premultiply(inverseRootMatrix);
+
+                // 2. Tạo InstancedMesh cho mesh con này
+                const iMesh = new InstancedMesh(
+                    obj.geometry,
+                    options.material || obj.material,
+                    this.count
+                );
+                iMesh.frustumCulled = false;
+
+                // 3. Khởi tạo vị trí ban đầu (tại gốc tọa độ nhưng giữ offset)
+                for (let i = 0; i < this.count; i++) {
+                    iMesh.setMatrixAt(i, offset);
+                }
+                iMesh.instanceMatrix.needsUpdate = true;
+
+                this.instanceData.push({
+                    mesh: iMesh,
+                    offset: offset
+                });
+            }
         });
-        this.instancedMesh = new InstancedMesh(mesh.geometry, options.material, this.count);
-        this.instancedMesh.frustumCulled = false;
-
-        this._dummy = new Object3D();
-
-        // init identity matrix
-        for (let i = 0; i < this.count; i++) {
-            this._dummy.position.set(0, 0, 0);
-            this._dummy.rotation.set(0, 0, 0);
-            this._dummy.scale.set(1, 1, 1);
-            this._dummy.updateMatrix();
-            this.instancedMesh.setMatrixAt(i, this._dummy.matrix);
-        }
-        this.instancedMesh.instanceMatrix.needsUpdate = true;
-        // this.instancedMesh.material.needsUpdate = true;
     }
 
     /**
-     * Sets the position of an instance.
-     * @param {number} index - The index of the instance.
-     * @param {number} x - X position.
-     * @param {number} y - Y position.
-     * @param {number} z - Z position.
+     * Cập nhật đầy đủ Transform cho một instance.
+     * Đây là cách hiệu quả nhất để update.
+     */
+    setInstanceTransform(index, position, rotation, scale) {
+        this._assertIndex(index);
+
+        // Tạo ma trận transform chung cho instance từ pos, rot, scale
+        _instanceMatrix.compose(
+            position, 
+            rotation instanceof Quaternion ? rotation : _quaternion.setFromEuler(rotation), 
+            scale || _scale.set(1, 1, 1)
+        );
+
+        // Áp dụng cho từng sub-mesh kèm theo offset của nó
+        for (let i = 0; i < this.instanceData.length; i++) {
+            const data = this.instanceData[i];
+            _tempMatrix.multiplyMatrices(_instanceMatrix, data.offset);
+            data.mesh.setMatrixAt(index, _tempMatrix);
+            data.mesh.instanceMatrix.needsUpdate = true;
+        }
+    }
+
+    /**
+     * Cập nhật vị trí nhưng vẫn giữ nguyên Rotation và Scale hiện tại của Instance
      */
     setInstancePosition(index, x, y, z) {
         this._assertIndex(index);
 
-        this.instancedMesh.getMatrixAt(index, this._dummy.matrix);
-        this._dummy.matrix.decompose(
-            this._dummy.position,
-            this._dummy.quaternion,
-            this._dummy.scale
-        );
+        // Lấy matrix hiện tại của mesh đầu tiên để decompose lấy rot/scale
+        this.instanceData[0].mesh.getMatrixAt(index, _tempMatrix);
+        
+        // Loại bỏ offset của mesh đầu tiên để lấy transform gốc của instance
+        const invOffset = new Matrix4().copy(this.instanceData[0].offset).invert();
+        _instanceMatrix.multiplyMatrices(_tempMatrix, invOffset);
+        
+        _instanceMatrix.decompose(_position, _quaternion, _scale);
 
-        this._dummy.position.set(x, y, z);
-        this._dummy.updateMatrix();
-
-        this.instancedMesh.setMatrixAt(index, this._dummy.matrix);
-        this.instancedMesh.instanceMatrix.needsUpdate = true;
-    }
-
-    /**
-     * Sets the rotation (Euler angles) of an instance.
-     * @param {number} index - The index of the instance.
-     * @param {number} x - Rotation around X axis (radians).
-     * @param {number} y - Rotation around Y axis (radians).
-     * @param {number} z - Rotation around Z axis (radians).
-     */
-    setInstanceRotation(index, x, y, z) {
-        this._assertIndex(index);
-
-        // lấy matrix hiện tại
-        this.instancedMesh.getMatrixAt(index, this._dummy.matrix);
-
-        // tách transform cũ
-        this._dummy.matrix.decompose(
-            this._dummy.position,
-            this._dummy.quaternion,
-            this._dummy.scale
-        );
-
-        // set rotation mới (Euler)
-        this._dummy.rotation.set(x, y, z);
-        this._dummy.updateMatrix();
-
-        // ghi lại
-        this.instancedMesh.setMatrixAt(index, this._dummy.matrix);
-        this.instancedMesh.instanceMatrix.needsUpdate = true;
-    }
-
-    /**
-     * Sets the scale of an instance.
-     * @param {number} index - The index of the instance.
-     * @param {number} sx - Scale on X axis.
-     * @param {number} [sy=sx] - Scale on Y axis.
-     * @param {number} [sz=sx] - Scale on Z axis.
-     */
-    setInstanceScale(index, sx, sy = sx, sz = sx) {
-        this._assertIndex(index);
-
-        this.instancedMesh.getMatrixAt(index, this._dummy.matrix);
-        this._dummy.matrix.decompose(
-            this._dummy.position,
-            this._dummy.quaternion,
-            this._dummy.scale
-        );
-
-        this._dummy.scale.set(sx, sy, sz);
-        this._dummy.updateMatrix();
-
-        this.instancedMesh.setMatrixAt(index, this._dummy.matrix);
-        this.instancedMesh.instanceMatrix.needsUpdate = true;
+        // Set vị trí mới và giữ các thông số cũ
+        _position.set(x, y, z);
+        this.setInstanceTransform(index, _position, _quaternion, _scale);
     }
 
     /**
      * @param {Material} material
      */
     setMaterial(material) {
-        this.instancedMesh.material = material;
-    }
-
-    /**
-     * 
-     * @returns {InstancedMesh}
-     */
-    getNode() {
-        return this.instancedMesh;
+        for (let i = 0; i < this.instanceData.length; i++) {
+            this.instanceData[i].mesh.material = material;
+        }
     }
 
     _onAttach() {
-        this.gameObject.transform.addRenderNode(this.instancedMesh);
+        for (let i = 0; i < this.instanceData.length; i++) {
+            this.gameObject.transform.addRenderNode(this.instanceData[i].mesh);
+        }
     }
 
     _onDestroy() {
-        this.gameObject.transform.removeRenderNode(this.instancedMesh);
-        this.instancedMesh.dispose();
+        for (let i = 0; i < this.instanceData.length; i++) {
+            const iMesh = this.instanceData[i].mesh;
+            this.gameObject.transform.removeRenderNode(iMesh);
+            iMesh.dispose();
+        }
+        this.instanceData = [];
     }
 
-
-    /**
-     * @private
-     * @param {number} index 
-     */
     _assertIndex(index) {
         if (index < 0 || index >= this.count) {
-            throw new Error(
-                `[InstancedMeshRenderer] instance index out of range: ${index}`
-            );
+            throw new Error(`[InstancedMeshRenderer] index out of range: ${index}`);
         }
     }
 }

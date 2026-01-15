@@ -1,4 +1,4 @@
-import { Container, Rectangle, WebGLRenderer } from "@pixi.alias";
+import { Container, Rectangle, WebGLRenderer } from "engine/alias/pixi-alias.full";
 import { RenderService } from "./render-service";
 
 

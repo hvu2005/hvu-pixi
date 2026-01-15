@@ -1,5 +1,5 @@
 import { Renderer } from "engine/core/component/renderer";
-import { Sprite } from "engine/alias/pixi-alias";
+import { Sprite } from "engine/alias/pixi-alias.full";
 
 
 

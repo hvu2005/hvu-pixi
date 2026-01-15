@@ -1,4 +1,4 @@
-import { Assets, Texture, Rectangle } from "engine/alias/pixi-alias";
+import { Assets, Texture, Rectangle } from "engine/alias/pixi-alias.full";
 
 
 export async function loadSpritesheet(src, row, col, w, h) {

@@ -12,8 +12,8 @@ import shutil
 from pathlib import Path
 
 date = '200825'
-titles = ['GoodSort']
-version = ['9a25']
+titles = ['test']
+version = ['11a25']
 dev = 'Thepn'
 language = 'EN'
 

@@ -1,5 +1,5 @@
 import { Collider2D, SpriteRenderer, instantiate, GameObject2D  } from "engine";
-import { Asset } from "./_load-assets.js/AssetLoader";
+import { Asset } from "./_load-assets/AssetLoader";
 
 
 export function GameObjectTest2() {

@@ -1,7 +1,7 @@
 import { instantiate, GameObject3D, MeshRenderer } from "engine";
-import { Asset } from "./_load-assets.js/AssetLoader";
+import { Asset } from "./_load-assets/AssetLoader";
 import { MeshStandardMaterial } from "@three.alias";
-import { Material } from "./_load-assets.js/MaterialFactory";
+import { Material } from "./_load-assets/MaterialFactory";
 
 
 

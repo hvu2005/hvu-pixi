@@ -1,5 +1,5 @@
 // AUTO-GENERATED — DO NOT EDIT
-// Generated at 2026-01-15T18:02:40.761Z
+// Generated at 2026-01-15T18:09:00.868Z
 
 import * as render3d from "engine/modules/render-3d";
 import * as behaviour from "engine/modules/behaviour";

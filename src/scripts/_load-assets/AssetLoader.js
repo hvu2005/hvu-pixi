@@ -1,4 +1,8 @@
-import { loadModel, loadPixiTexture, loadThreeTexture } from "engine";
+import { 
+    loadModel, 
+    // loadPixiTexture, 
+    loadThreeTexture 
+} from "engine";
 
 
 //==================== USER INTERFACE ====================
@@ -10,7 +14,7 @@ import new_train from "assets/new train.png";
 
 
 export const Asset = {
-    ITEM: loadPixiTexture(item),
+    // ITEM: loadPixiTexture(item),
     MODEL_DUCK: loadModel(duck_model),
     MODEL_TRAIN: loadModel(train_model),
     TEXTURE_TRAIN: loadThreeTexture(new_train),

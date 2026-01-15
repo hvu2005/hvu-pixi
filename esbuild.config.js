@@ -112,21 +112,18 @@ async function _startServer(ctx, startPort = 8080, maxTries = 10) {
 }
 
 function _bundleSizePlugin() {
-    let first = true;
     return {
         name: "bundle-size",
         setup(build) {
             build.onEnd(result => {
-                if (first) {
-                    first = false;
-                    try {
-                        const stats = fs.statSync("dist/bundle.js");
-                        const sizeKB = (stats.size / 1024).toFixed(2);
-                        console.log(`📦 Bundle size: ${sizeKB} KB`);
-                    } catch {
-                        console.warn("⚠️ Không đọc được bundle size.");
-                    }
+                try {
+                    const stats = fs.statSync("dist/bundle.js");
+                    const sizeKB = (stats.size / 1024).toFixed(2);
+                    console.log(`📦 Bundle size: ${sizeKB} KB`);
+                } catch {
+                    console.warn("⚠️ Không đọc được bundle size.");
                 }
+
             });
         }
     };

@@ -17,13 +17,18 @@ export class World {
         this.components = new Map();
         this.componentToSystems = new Map();
         this.renderContext = new RenderPipeline({ pixi: pixi, three: three });
+
+        this._showStats = true;
     }
 
     async init() {
 
         this.stats = new Stats();
-        this.stats.showPanel(0); // 0: FPS, 1: ms, 2: memory
-        document.body.appendChild(this.stats.dom);
+
+        if (this._showStats) {
+            this.stats.showPanel(0); // 0: FPS, 1: ms, 2: memory
+            document.body.appendChild(this.stats.dom);
+        }
 
         await this.renderContext.init();
 

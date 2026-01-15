@@ -1,7 +1,7 @@
 {
     "modules": {
-        "render-2d": true,
-        "physic-2d": true,
+        "render-2d": false,
+        "physic-2d": false,
         "render-3d": true,
         "behaviour": true,
         "camera": true    

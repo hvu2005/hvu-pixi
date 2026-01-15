@@ -1,7 +1,10 @@
 // AUTO-GENERATED — DO NOT EDIT
-// Generated at 2026-01-15T17:54:21.508Z
+// Generated at 2026-01-15T18:02:40.762Z
 
+import * as render2d from "engine/modules/render-2d";
+import * as physic2d from "engine/modules/physic-2d";
 
 export const disabledModules = {
-
+    "render2d": render2d,
+    "physic2d": physic2d
 };

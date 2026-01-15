@@ -49,6 +49,8 @@ def fixAds(mainStr, ad, title , v):
     newMainStr = newMainStr.replace('this.version=this.defautlVersion', 'this.version="' + v + '"', 1)
     newMainStr = newMainStr.replace("javascript:0", '', -1)
     newMainStr = newMainStr.replace("window.release=!1", 'window.release=1', -1)
+    newMainStr = newMainStr.replace("this._showStats=!0", 'this._showStats=0', 1)
+
     
     return newMainStr
 

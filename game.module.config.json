@@ -3,7 +3,8 @@
         "render-2d": false,
         "physic-2d": false,
         "render-3d": true,
+        "animation-3d": true,
         "behaviour": true,
-        "camera": true    
+        "camera": true
     }
 }

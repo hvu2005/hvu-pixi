@@ -17,6 +17,10 @@ export class Transform3D extends Transform {
             return this.group;
         }
 
+        getRenderNode() {
+            return this.group;
+        }
+
         addRenderNode(node) {
             this.group.add(node);
         }

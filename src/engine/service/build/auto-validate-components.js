@@ -86,7 +86,6 @@ for (const { module, indexPath } of disabledModuleIndexes) {
     const components = parseComponentsFromIndex(indexPath);
     const moduleName = module.split("/").pop();
     for (const comp of components) {
-        console.log(comp, moduleName);
         disabledComponents.set(comp, moduleName);
     }
 }
@@ -99,6 +98,8 @@ const GAME_ROOT = path.join(ROOT, "src");
 
 const IGNORE_DIRS = [
     path.join(GAME_ROOT, "engine/modules"),
+    path.join(GAME_ROOT, "engine/service"),
+
 ];
 
 function shouldIgnore(dir) {

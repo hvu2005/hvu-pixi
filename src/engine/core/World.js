@@ -70,6 +70,13 @@ export class World {
         const system = new systemClass(this);
 
         this.systems.push(system);
+
+        this.systems.sort((a, b) => {
+            const ao = a.constructor.executeOrder ?? 0;
+            const bo = b.constructor.executeOrder ?? 0;
+            return ao - bo;
+        });
+
         const interests = systemClass.interestedComponents || [];
         for (const componentType of interests) {
             if (!this.componentToSystems.has(componentType)) {

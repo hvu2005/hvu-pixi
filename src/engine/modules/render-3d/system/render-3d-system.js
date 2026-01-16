@@ -1,7 +1,9 @@
 import { System } from "engine/core/system/base/system";
 import { RenderOrder3D } from "../component/render-order-3d";
 import { interestedComponent } from "engine/core/decorator/interested-component";
+import { executeOrder } from "engine/core/decorator/execute-order";
 
+@executeOrder(8)
 @interestedComponent(RenderOrder3D)
 export class Render3DSystem extends System {
     /**

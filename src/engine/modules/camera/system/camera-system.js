@@ -2,8 +2,9 @@ import { System } from "engine/core/system/base/system";
 import { interestedComponent } from "engine/core/decorator/interested-component";
 import { World } from "engine/core/world";
 import { CameraView } from "../component/camera-view";
+import { executeOrder } from "engine/core/decorator/execute-order";
 
-
+@executeOrder(7)
 @interestedComponent(CameraView)
 export class CameraSystem extends System {
     /**

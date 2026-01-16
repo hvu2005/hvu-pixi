@@ -132,6 +132,10 @@ export class Transform extends Component {
         this._emit(Transform.CHILD_REMOVED, child);
     }
 
+    getRenderNode() {
+        throw new Error("Transform.getRenderNode is not implemented.");
+    }
+
     addRenderNode(node) {
         throw new Error("Transform.addRenderNode is not implemented.");
     }

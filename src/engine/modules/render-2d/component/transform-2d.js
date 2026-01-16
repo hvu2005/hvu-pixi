@@ -49,6 +49,10 @@ export class Transform2D extends Transform {
         this.group.scale.set(x, y);
     }
 
+    getRenderNode() {
+        return this.group;
+    }
+
     addRenderNode(node) {
         this.group.addChild(node);
     }

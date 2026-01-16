@@ -4,8 +4,7 @@ import {
     Matrix4, 
     Quaternion, 
     Vector3, 
-    Object3D, 
-    Group 
+    GLTF
 } from "engine/alias/three-alias";
 
 // Biến tạm để tính toán, tránh tạo mới Object mỗi frame (Optimization)
@@ -21,18 +20,25 @@ const _scale = new Vector3();
  * @property {Material} [material] - Nếu có, tất cả các mesh sẽ dùng chung material này
  */
 
+/**
+ * @typedef {Object} InstanceData
+ * @property {Mesh} mesh
+ * @property {Matrix4} offset
+ */
+
 export class InstancedMeshRenderer extends Renderer {
     /**
-     * @param {Group} sourceMesh 
+     * @param {GLTF} gltf 
      * @param {InstancedMeshRendererOptions} options 
      */
-    constructor(sourceMesh, options) {
+    constructor(gltf, options) {
         super();
 
         this.count = options.count;
         /** @type {Array<{mesh: InstancedMesh, offset: Matrix4}>} */
         this.instanceData = [];
 
+        const sourceMesh = gltf.scene;
         // Đảm bảo ma trận của sourceMesh và các con đã được cập nhật
         sourceMesh.updateMatrixWorld(true);
 
@@ -65,6 +71,14 @@ export class InstancedMeshRenderer extends Renderer {
                 });
             }
         });
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    getNode() {
+        return this.instanceData;
     }
 
     /**

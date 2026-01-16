@@ -13,7 +13,7 @@ export class Behaviour extends Component {
     * @returns {T | undefined}
     */
     getComponent(component) {
-        return this.gameObject.getComponent(component.constructor);
+        return this.gameObject.getComponent(component);
     }
 
     /**

@@ -1,4 +1,4 @@
-# 1945-good-sort-pixijs
+# x-squid-escape-color-flow-pixi
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.falcongames.com/falcon/marketing/pa/cocos/1945-good-sort-pixijs.git
+git remote add origin https://gitlab.falcongames.com/falcon/marketing/pa/cocos/x-squid-escape-color-flow-pixi.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.falcongames.com/falcon/marketing/pa/cocos/1945-good-sort-pixijs/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.falcongames.com/falcon/marketing/pa/cocos/x-squid-escape-color-flow-pixi/-/settings/integrations)
 
 ## Collaborate with your team
 

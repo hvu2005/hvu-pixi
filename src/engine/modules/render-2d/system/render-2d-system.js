@@ -1,8 +1,9 @@
 import { System } from "engine/core/system/base/system";
 import { RenderOrder2D } from "../component/render-order-2d";
 import { interestedComponent } from "engine/core/decorator/interested-component";
+import { executeOrder } from "engine/core/decorator/execute-order";
 
-
+@executeOrder(8)
 @interestedComponent(RenderOrder2D)
 export class Render2DSystem extends System {
     /**

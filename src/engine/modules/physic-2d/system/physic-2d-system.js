@@ -3,7 +3,9 @@ import { Collider2D } from "../component/collider-2d";
 import { Engine, World, Events } from "matter-js";
 import { Graphics } from "engine/alias/pixi-alias.full";
 import { interestedComponent } from "engine/core/decorator/interested-component";
+import { executeOrder } from "engine/core/decorator/execute-order";
 
+@executeOrder(10)
 @interestedComponent(Collider2D)
 export class Physic2DSystem extends System {
     /**

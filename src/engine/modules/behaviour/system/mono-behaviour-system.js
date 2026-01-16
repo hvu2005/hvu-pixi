@@ -1,11 +1,10 @@
 import { System } from "engine/core/system/base/system";
 import { MonoBehaviour } from "../component/mono-behaviour";
 import { interestedComponent } from "engine/core/decorator/interested-component";
+import { executeOrder } from "engine/core/decorator/execute-order";
 
 
-
-
-
+@executeOrder(10)
 @interestedComponent(MonoBehaviour)
 export class MonoBehaviourSystem extends System {
     constructor(world) {

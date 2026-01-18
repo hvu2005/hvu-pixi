@@ -1,5 +1,5 @@
 // AUTO-GENERATED — DO NOT EDIT
-// Generated at 2026-01-16T10:41:24.902Z
+// Generated at 2026-01-17T12:22:48.298Z
 
 import * as render2d from "engine/modules/render-2d";
 import * as physic2d from "engine/modules/physic-2d";

@@ -1,5 +1,5 @@
 // AUTO-GENERATED — DO NOT EDIT
-// Generated at 2026-01-16T10:41:24.901Z
+// Generated at 2026-01-17T12:22:48.296Z
 
 import * as render3d from "engine/modules/render-3d";
 import * as animation3d from "engine/modules/animation-3d";

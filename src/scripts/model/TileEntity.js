@@ -13,12 +13,14 @@ export function createTileEntity() {
     go.addComponent(new MeshRenderer(Asset.MODEL_SQUID, { material: Material.SQUID }));
     go.addComponent(new MeshAnimator(Asset.MODEL_SQUID, { default: 'group3|idle' }));
     const text = go.addComponent(new DynamicText3D(Asset.FONT_TEST.texture, Asset.FONT_TEST.font, {
-        scale: [1, 1, 1],
-        rotation: [-Math.PI / 3, Math.PI, Math.PI],
-        position: [-0.5, 3, 0],
-        maxChars: 94
+        scale: [0.01, 0.01, 0.01],
+        rotation: [-Math.PI / 3, 0, 0],
+        position: [0, 5, 2],
+        align: "center",
+        color: 0x000000,
+        opacity: 0.5,
     }))
-    text.setText("50");
+    text.setText("5/5");
 
     go.transform.position.set(0, 0, 0);
 

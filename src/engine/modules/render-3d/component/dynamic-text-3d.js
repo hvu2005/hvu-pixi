@@ -5,8 +5,19 @@ import {
     BufferAttribute,
     MeshBasicMaterial,
     DoubleSide,
-    PlaneGeometry
 } from "engine/alias/three-alias";
+
+/**
+ * @typedef {Object} DynamicText3DOptions
+ * @property {number} [maxChars=999]
+ * @property {number} [size=1]
+ * @property {string} [align="left"]
+ * @property {number[]} [position=[0,0,0]]
+ * @property {number[]} [rotation=[0,0,0]]
+ * @property {number[]} [scale=[1,1,1]]
+ * @property {number} [color=0xffffff]
+ * @property {number} [opacity=1]
+ */
 
 export class DynamicText3D extends Renderer {
 
@@ -21,9 +32,12 @@ export class DynamicText3D extends Renderer {
         this.font = fontJson;
         this.texture = atlasTex;
 
-        this.maxChars = options.maxChars || 32;
+        this.maxChars = options.maxChars || 999;
         this.size = options.size || 1;
         this.align = options.align || "left"; // left | center | right
+
+        this.color = options.color || 0xffffff;
+        this.opacity = options.opacity || 1;
 
         this._charCount = 0;
 
@@ -37,6 +51,10 @@ export class DynamicText3D extends Renderer {
         this.mesh.scale.set(...options.scale || [1, 1, 1]);
     }
 
+    /**
+     * PRIVATE: Khởi tạo geometry cho text mesh
+     * @private
+     */
     _buildGeometry() {
         const quadCount = this.maxChars;
         const vertCount = quadCount * 4;
@@ -66,22 +84,38 @@ export class DynamicText3D extends Renderer {
         this.geometry.setIndex(new BufferAttribute(indices, 1));
 
         this.geometry.setDrawRange(0, 0);
-
-        // console.log(this.geometry);
-        // this.geometry = new PlaneGeometry(1, 1);
-
     }
 
+    /**
+     * PRIVATE: Khởi tạo material cho text mesh
+     * @private
+     */
     _buildMaterial() {
         this.material = new MeshBasicMaterial({
             map: this.texture,
             transparent: true,
             side: DoubleSide,
             depthWrite: false,
-            color: 0xffffff
+            color: this.color,
+            opacity: this.opacity,
         });
         this.texture.needsUpdate = true;
+    }
 
+    setColor(color) {
+        this.material.color.set(color);
+    }
+    
+    getColor() {
+        return this.material.color.get();
+    }
+
+    setOpacity(opacity) {
+        this.material.opacity = opacity;
+    }
+    
+    getOpacity() {
+        return this.material.opacity;
     }
 
     /**
@@ -96,96 +130,96 @@ export class DynamicText3D extends Renderer {
 
         const scaleW = this.font.common.scaleW;
         const scaleH = this.font.common.scaleH;
+        const lineHeight = this.font.common.lineHeight;
 
         let cursorX = 0;
 
-        // đo width để align
+        // 1. Tính toán tổng width để thực hiện Alignment và Kerning
         let totalWidth = 0;
         for (let i = 0; i < max; i++) {
-            const ch = this.font.chars[chars[i]];
+            const charStr = chars[i];
+            const ch = this.font.chars[charStr];
             if (!ch) continue;
-            totalWidth += ch.xadvance;
+
+            let kerning = 0;
+            if (i > 0) {
+                const pair = chars[i - 1] + charStr;
+                kerning = this.font.kernings[pair] || 0;
+            }
+
+            // Ở ký tự cuối cùng, ta lấy chiều ngang thực tế (w + offset) 
+            // Thay vì xadvance để tránh khoảng trắng thừa phía sau
+            if (i === max - 1) {
+                totalWidth += kerning + ch.xoffset + ch.w;
+            } else {
+                totalWidth += kerning + ch.xadvance;
+            }
         }
 
+        // 2. Thiết lập điểm bắt đầu dựa trên Align
         if (this.align === "center") cursorX = -totalWidth / 2;
-        if (this.align === "right") cursorX = -totalWidth;
+        else if (this.align === "right") cursorX = -totalWidth;
+        else cursorX = 0;
 
-        let vi = 0;
+        let vi = 0; // vertex index counter
+        let currentX = cursorX;
 
-        let count = 0;
-        
         for (let i = 0; i < max; i++) {
-            const c = chars[i];
-            const ch = this.font.chars[c];
+            const charStr = chars[i];
+            const ch = this.font.chars[charStr];
             if (!ch) continue;
 
-            const x0 = cursorX + ch.xoffset;
-            const y0 = -ch.yoffset;
+            // Áp dụng Kerning
+            if (i > 0) {
+                currentX += this.font.kernings[chars[i - 1] + charStr] || 0;
+            }
+
+            // Tính toán tọa độ Quad (Hệ tọa độ: Y hướng lên)
+            // Trong BMFont: yoffset tính từ trên đỉnh (lineHeight) xuống.
+            const x0 = currentX + ch.xoffset;
+            const y0 = lineHeight - ch.yoffset; // Đưa về hệ tọa độ 2D chuẩn
             const x1 = x0 + ch.w;
             const y1 = y0 - ch.h;
 
-            const y = ch.w / ch.h;
-            const x = ch.h / ch.w;
-
-            console.log(x, y);
-
-            const b = count;
-            count += x;
-            // position
+            // Gán Position (4 vertices cho 1 quad)
+            // Thứ tự: Bottom-Left, Bottom-Right, Top-Right, Top-Left
             pos.set([
-                b, 0, 0,
-                y, 0, 0,
-                y, 1, 0,
-                b, 1, 0
+                x0, y1, 0,
+                x1, y1, 0,
+                x1, y0, 0,
+                x0, y0, 0
             ], vi * 3);
-            
-            console.log([x0, y0, 0, x1, y0, 0, x1, y1, 0, x0, y1, 0]);
-            // uv
+
+            // Gán UV (Hệ tọa độ V trong Three.js thường là 0 ở dưới, 1 ở trên)
             const u0 = ch.x / scaleW;
             const v0 = 1 - ch.y / scaleH;
             const u1 = (ch.x + ch.w) / scaleW;
             const v1 = 1 - (ch.y + ch.h) / scaleH;
 
-            uv.set([u0, v0, u1, v0, u1, v1, u0, v1], vi * 2);
+            // Thứ tự tương ứng với position: BL, BR, TR, TL
+            uv.set([
+                u0, v1,
+                u1, v1,
+                u1, v0,
+                u0, v0
+            ], vi * 2);
 
             vi += 4;
-            cursorX += ch.xadvance;
+            currentX += ch.xadvance;
+        }
+
+        // 3. Reset các phần còn lại của Buffer về 0 (để không hiện chữ cũ)
+        for (let i = vi; i < this.maxChars * 4; i++) {
+            pos.set([0, 0, 0], i * 3);
         }
 
         this._charCount = vi / 4;
-
         this.geometry.attributes.position.needsUpdate = true;
         this.geometry.attributes.uv.needsUpdate = true;
-        this.geometry.setDrawRange(0, max * 6);
+
+        // Mỗi ký tự là 2 tam giác = 6 indices
+        this.geometry.setDrawRange(0, this._charCount * 6);
         this.geometry.computeBoundingSphere();
-
-        // const poss = this.geometry.attributes.position.array;
-
-        // // quad 1
-        // poss.set([
-        //     0, 0, 0,
-        //     1, 0, 0,
-        //     1, 1, 0,
-        //     0, 1, 0,
-        // ], 0);
-
-        // // quad 2 (dịch sang phải)
-        // poss.set([
-        //     1.2, 0, 0,
-        //     1.9, 0, 0,
-        //     1.9, 1, 0,
-        //     1.2, 1, 0,
-        // ], 12); // ⚠️ 4 vertex * 3 = offset 12
-
-        // this.geometry.attributes.position.needsUpdate = true;
-
-        // // ⚠️ 2 quad = 12 indices
-        // this.geometry.setDrawRange(0, 12);
-
-        // this.geometry.computeBoundingSphere();
-        // console.log("chars keys:", Object.keys(this.font.chars).slice(0, 999));
-        // console.log("glyph A:", this.font.chars["B"]);
-        // console.log("text:", text);
     }
 
     /**
@@ -195,10 +229,16 @@ export class DynamicText3D extends Renderer {
         return this.mesh;
     }
 
+    /**
+     * @protected
+     */
     _onAttach() {
         this.gameObject.transform.addRenderNode(this.mesh);
     }
 
+    /**
+     * @protected
+     */
     _onDestroy() {
         this.gameObject.transform.removeRenderNode(this.mesh);
         this.geometry.dispose();

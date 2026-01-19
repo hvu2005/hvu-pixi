@@ -6,6 +6,7 @@ export { Light3D } from "./component/abstract/light-3d";
 export { AmbientLight } from "./component/ambient-light";
 export { DirectionalLight } from "./component/directional-light";
 export { InstancedMeshRenderer } from "./component/instanced-mesh-renderer";
+export { DynamicText3D } from "./component/dynamic-text-3d";
 
 // Systems
 export { Render3DSystem } from "./system/render-3d-system";

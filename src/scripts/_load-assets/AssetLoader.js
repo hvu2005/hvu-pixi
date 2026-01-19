@@ -1,7 +1,7 @@
-import { pixel_block_model, squid_model } from "@auto.asset";
+import { mikado_black, mikado_black_texture, pixel_block_model, squid_model } from "@auto.asset";
 import { 
+    loadBitmapFont,
     loadModel, 
-    loadThreeTexture 
 } from "engine";
 
 
@@ -11,6 +11,7 @@ import {
 export const Asset = {
     MODEL_PIXEL_BLOCK: loadModel(pixel_block_model),
     MODEL_SQUID: loadModel(squid_model),
+    FONT_TEST: loadBitmapFont(mikado_black, mikado_black_texture),
 }
 //========================================================
 

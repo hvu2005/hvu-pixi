@@ -1,9 +1,9 @@
-import { 
-    MeshBasicMaterial, 
-    MeshPhongMaterial, 
-    MeshPhysicalMaterial, 
-    MeshStandardMaterial, 
-    Material as ThreeMaterial 
+import {
+    MeshBasicMaterial,
+    MeshPhongMaterial,
+    MeshPhysicalMaterial,
+    MeshStandardMaterial,
+    Material as ThreeMaterial
 } from "@three.alias";
 import { Asset } from "./AssetLoader";
 import { ToonShadowMaterial } from "../shader/ToonShadowMaterial";
@@ -46,8 +46,8 @@ export async function loadMaterials() {
 * }}
 */
 function registMaterial(materialClass, ...materialData) {
-   return {
-       type: materialClass,
-       data: materialData
-   };
+    return {
+        type: materialClass,
+        data: materialData
+    };
 }

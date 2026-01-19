@@ -4,6 +4,8 @@ import path from "path";
 const watchDir = path.resolve("src/assets");
 const output = path.resolve("src/engine/alias/auto-asset.js");
 
+const regex = /\.(png|jpg|jpeg|gif|webp|svg|glb|json|txt)$/i;
+
 // Hàm đệ quy để lấy toàn bộ file trong thư mục con
 function getAllFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -34,7 +36,7 @@ function toRelativePath(fullPath) {
 
 function generate() {
   const allFiles = getAllFiles(watchDir).filter(f =>
-    /\.(png|jpg|jpeg|gif|webp|svg|glb|json)$/i.test(f)
+    regex.test(f)
   );
 
   const exports = allFiles.map(file => {
@@ -56,7 +58,7 @@ generate();
 
 // Watcher theo dõi thay đổi file
 fs.watch(watchDir, { recursive: true }, (_, filename) => {
-  if (filename && /\.(png|jpg|jpeg|gif|webp|svg|glb|json)$/i.test(filename)) {
+  if (filename && regex.test(filename)) {
     console.log(`🌀 Change detected: ${filename}`);
     generate();
   }

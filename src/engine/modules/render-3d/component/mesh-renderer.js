@@ -77,7 +77,7 @@ export class MeshRenderer extends Renderer {
      * @param {string} param
      * @param {*} value
      */
-    setMatParam(param, value) {
+    setMatAttribute(param, value) {
         this.mesh.traverse(child => {
             if (!child.isMesh || child.material?.__isLocal) return;
 
@@ -106,7 +106,7 @@ export class MeshRenderer extends Renderer {
      * @param {string} param
      * @param {*} value
      */
-    setMatParamAt(index, param, value) {
+    setMatAttributeAt(index, param, value) {
         const mesh = this.getMeshAt(index);
         if (!(param in mesh.material)) {
             console.warn(`Material param ${param} not found`);
@@ -131,7 +131,7 @@ export class MeshRenderer extends Renderer {
      * @param {string} param
      * @returns {*|null}
      */
-    getMatParam(param) {
+    getMatAttribute(param) {
         let result = null;
 
         this.mesh.traverse(child => {
@@ -159,7 +159,7 @@ export class MeshRenderer extends Renderer {
      * @param {string} param
      * @returns {*|null}
      */
-    getMatParamAt(index, param) {
+    getMatAttributeAt(index, param) {
         const mesh = this.getMeshAt(index);
         if (!mesh || !mesh.isMesh || !mesh.material) return null;
         if (!(param in mesh.material)) return null;

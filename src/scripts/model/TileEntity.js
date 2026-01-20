@@ -12,15 +12,15 @@ export function createTileEntity() {
     go.addComponent(new TileEntity());
     go.addComponent(new MeshRenderer(Asset.MODEL_SQUID, { material: Material.SQUID }));
     go.addComponent(new MeshAnimator(Asset.MODEL_SQUID, { default: 'group3|idle' }));
-    const text = go.addComponent(new DynamicText3D(Asset.FONT_TEST.texture, Asset.FONT_TEST.font, {
+    go.addComponent(new DynamicText3D(Asset.FONT_TEST.texture, Asset.FONT_TEST.font, {
         scale: [0.01, 0.01, 0.01],
         rotation: [-Math.PI / 3, 0, 0],
         position: [0, 5, 2],
         align: "center",
         color: 0x000000,
-        opacity: 0.5,
+        opacity: 1,
+        text: ""
     }))
-    text.setText("5/5");
 
     go.transform.position.set(0, 0, 0);
 
@@ -31,18 +31,10 @@ export class TileEntity extends MonoBehaviour {
     start() {
         this.animator = this.getComponent(MeshAnimator);
         this.animator.play('group3|attack_1');
-
         this.renderer = this.getComponent(MeshRenderer);
+        this.text = this.getComponent(DynamicText3D);
 
         this.setColor(0x60db9e);
-
-
-        this.text = this.getComponent(DynamicText3D);
-    }
-
-    update(dt) {
-        // this.text.setText((dt * 1000).toString());
-
     }
 
     setColor(color) {
@@ -59,5 +51,7 @@ export class TileEntity extends MonoBehaviour {
     setEyeMaterial() {
         this.renderer.setMaterialAt(2, Material.SQUID_EYE);
     }
+
+
 }
 

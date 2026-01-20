@@ -17,6 +17,7 @@ import {
  * @property {number[]} [scale=[1,1,1]]
  * @property {number} [color=0xffffff]
  * @property {number} [opacity=1]
+ * @property {string} [text=""]
  */
 
 export class DynamicText3D extends Renderer {
@@ -36,19 +37,19 @@ export class DynamicText3D extends Renderer {
         this.size = options.size || 1;
         this.align = options.align || "left"; // left | center | right
 
-        this.color = options.color || 0xffffff;
-        this.opacity = options.opacity || 1;
 
         this._charCount = 0;
 
         this._buildGeometry();
-        this._buildMaterial();
+        this._buildMaterial(this.texture, options.color, options.opacity);
 
         this.mesh = new Mesh(this.geometry, this.material);
 
         this.mesh.position.set(...options.position || [0, 0, 0]);
         this.mesh.rotation.set(...options.rotation || [0, 0, 0]);
         this.mesh.scale.set(...options.scale || [1, 1, 1]);
+
+        this.setText(options.text || "");
     }
 
     /**
@@ -87,17 +88,16 @@ export class DynamicText3D extends Renderer {
     }
 
     /**
-     * PRIVATE: Khởi tạo material cho text mesh
      * @private
      */
-    _buildMaterial() {
+    _buildMaterial(texture, color, opacity) {
         this.material = new MeshBasicMaterial({
-            map: this.texture,
+            map: texture,
             transparent: true,
             side: DoubleSide,
             depthWrite: false,
-            color: this.color,
-            opacity: this.opacity,
+            color: color || 0xffffff,
+            opacity: opacity || 1
         });
         this.texture.needsUpdate = true;
     }

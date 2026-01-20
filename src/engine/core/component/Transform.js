@@ -34,11 +34,11 @@ export class Transform extends Component {
             /**
              * @private
              */
-            _x: 0, 
+            _x: 0,
             /**
              * @private
              */
-            _y: 0, 
+            _y: 0,
             /**
              * @private
              */
@@ -49,6 +49,12 @@ export class Transform extends Component {
             set x(x) { this.set(x, this._y, this._z); },
             set y(y) { this.set(this._x, y, this._z); },
             set z(z) { this.set(this._x, this._y, z); },
+            /**
+             * 
+             * @param {number} x 
+             * @param {number} y 
+             * @param {number} z 
+             */
             set(x, y, z) {
                 self._setPositionInternal(x, y, z);
             },
@@ -61,11 +67,11 @@ export class Transform extends Component {
             /**
              * @private
              */
-            _x: 0, 
+            _x: 0,
             /**
              * @private
              */
-            _y: 0, 
+            _y: 0,
             /**
              * @private
              */
@@ -76,6 +82,12 @@ export class Transform extends Component {
             set x(x) { this.set(x, this._y, this._z); },
             set y(y) { this.set(this._x, y, this._z); },
             set z(z) { this.set(this._x, this._y, z); },
+            /**
+             * 
+             * @param {number} x 
+             * @param {number} y 
+             * @param {number} z 
+             */
             set(x, y, z) {
                 self._setRotationInternal(x, y, z);
             },
@@ -88,11 +100,11 @@ export class Transform extends Component {
             /**
              * @private
              */
-            _x: 1, 
+            _x: 1,
             /**
              * @private
              */
-            _y: 1, 
+            _y: 1,
             /**
              * @private
              */
@@ -103,6 +115,12 @@ export class Transform extends Component {
             set x(x) { this.set(x, this._y, this._z); },
             set y(y) { this.set(this._x, y, this._z); },
             set z(z) { this.set(this._x, this._y, z); },
+            /**
+             * 
+             * @param {number} x 
+             * @param {number} y 
+             * @param {number} z 
+             */
             set(x, y, z) {
                 self._setScaleInternal(x, y, z);
             },
@@ -175,16 +193,16 @@ export class Transform extends Component {
 
     set parent(parent) {
         if (this._parent === parent) return;
-    
+
         if (this._parent) {
             this._parent.removeChild(this);
         }
-    
+
         if (parent) {
             parent.addChild(this);
         }
     }
-    
+
 
     get children() {
         return this._children;

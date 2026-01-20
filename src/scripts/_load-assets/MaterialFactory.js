@@ -19,6 +19,300 @@ export const Material = {
     SQUID_EYE: registMaterial(MeshBasicMaterial, {
         color: 0x000000,
     }),
+
+    PIXEL_BLOCK: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x6bffa6,
+        shadowColor: 0x007830,
+
+        clearcoatSharpness: 0.4,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    BLACK: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x23262b,
+        // shadowColor: 0x1b1f1b,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    BLUE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x418DFC,
+        shadowColor: 0x1f4eab,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    BROWN: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x734c39,
+        shadowColor: 0x462C1F,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    DARK_BLUE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x4245C6,
+        shadowColor: 0x082866,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    DARK_GREEN: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x6F8B2D,
+        shadowColor: 0x1b4712,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    DARK_YELLOW: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xe3aa27,
+        shadowColor: 0x6e4a18,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    GRAY: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x829CA7,
+        shadowColor: 0x363E4D,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    GREEN: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x36B588,
+        shadowColor: 0x196C4C,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    LIGHT_BLUE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x53DBEE,
+        shadowColor: 0x297ea3,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    LIGHT_BROWN: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xA48256,
+        shadowColor: 0x543d1f,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    LIGHT_GREEN: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x5ede45,
+        shadowColor: 0x206912,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    LIGHT_PINK: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xFF9BB0,
+        shadowColor: 0x913a44,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    NUDE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xf7dab2,
+        shadowColor: 0x8a5a30,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    ORANGE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xfa8b25,
+        shadowColor: 0x8c3f0d,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    PINK: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xFF52B0,
+        shadowColor: 0x69235f,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    PURPLE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x9974FD,
+        shadowColor: 0x442d73,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    RED: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xF8454A,
+        shadowColor: 0x6e151a,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    VIOLET: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0x540d8f,
+        shadowColor: 0x270747,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    WHITE: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xFFFBEF,
+        shadowColor: 0xa19795,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
+
+    YELLOW: registMaterial(ToonShadowMaterial, {
+        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+
+        get matcap() { return Asset.TEXTURE_MATCAP },
+        matcapIntensity: 5,
+        
+        color: 0xF8E020,
+        shadowColor: 0xab6a20,
+
+        clearcoatSharpness: 0.6,
+        shadowContrast: 1.3,
+        saturationBoost: 1.3,
+    }),
 }
 
 //========================================================

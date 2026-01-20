@@ -11,7 +11,6 @@ import { worldContext } from "./world-context";
  */
 export function instantiate(gameObjectClass, options) {
     const go = worldContext.current.createGameObject(gameObjectClass, options);
-    go.init();
 
     return go;
 }

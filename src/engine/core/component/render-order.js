@@ -13,7 +13,6 @@ export class RenderOrder extends Component {
 
     _onAttach() {
         const transform = this.gameObject.transform;
-
         /** @param {Transform} parent */
         const onParentChanged = (parent) => {
             const renderOrder = parent.getComponent(RenderOrder);

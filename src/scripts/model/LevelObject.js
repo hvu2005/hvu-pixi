@@ -3,9 +3,9 @@
  * @typedef {Object} LevelObject
  * @property {number} width
  * @property {number} height
- * @property {MapItemObject[]} mapItems
+ * @property {MapItemObject[][]} mapItems
  * @property {number} tileWaits
- * @property {TileObject[]} tiles
+ * @property {TileObject[][]} tiles
  */
 
 /**

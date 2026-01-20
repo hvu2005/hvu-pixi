@@ -2,11 +2,17 @@ import { GameObject3D, MonoBehaviour, instantiate } from "engine";
 import { ItemColorType } from "scripts/_config/ItemColorType";
 import { LEVEL_DATA } from "scripts/model/LevelData";
 import { createMapItem, MapItem } from "scripts/model/MapItem";
+import { TileEntity, createTileEntity } from "scripts/model/TileEntity";
 
 
 export function createLevelGenerator() {
-    const go = instantiate(GameObject3D);
-    go.addComponent(new LevelGenerator());
+    const go = instantiate(GameObject3D, {
+        tag: "LevelGenerator",
+        components: [
+            new LevelGenerator()
+        ]
+    });
+
     return go;
 }
 
@@ -22,8 +28,6 @@ class LevelGenerator extends MonoBehaviour {
     }
 
     start() {
-        console.log("1");
-
         /**
          * @type {LevelObject}
          */
@@ -34,6 +38,7 @@ class LevelGenerator extends MonoBehaviour {
         console.log(this.colorTypes);
 
         this.generateMap();
+        this.generateTiles();
     }
 
     readLevel(lvlData) {
@@ -72,14 +77,26 @@ class LevelGenerator extends MonoBehaviour {
                 const colorTypeKey = this.colorTypes[mapItems[i][j].itemColorType];
                 const colorTypeValue = ItemColorType[colorTypeKey];
                 mapItem.getComponent(MapItem).setColor(colorTypeValue);
-                
+
                 this.mapContainer.transform.addChild(mapItem.transform);
             }
         }
     }
 
     generateTiles() {
+        const tiles = this.levelObject.tiles;
 
+        for (let i = 0; i < tiles.length; i++) {
+            for (let j = 0; j < tiles[i].length; j++) {
+                const tile = createTileEntity();
+                tile.transform.position.set(-5 + j * 2.2, 0, 10 + i*2.2);
+
+                const colorTypeKey = this.colorTypes[tiles[i][j].itemColorType];
+                const colorTypeValue = ItemColorType[colorTypeKey];
+
+                tile.getComponent(TileEntity).setColor(colorTypeValue);
+            }
+        }
     }
 
 }

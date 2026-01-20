@@ -20,6 +20,11 @@ export const Material = {
         color: 0x000000,
     }),
 
+    SQUID_MOUTH: registMaterial(ToonShadowMaterial, {
+        color: 0xe68398,
+        shadowColor: 0x660015
+    }),
+
     PIXEL_BLOCK: registMaterial(ToonShadowMaterial, {
         get map() { return Asset.TEXTURE_PIXEL_BLOCK },
 

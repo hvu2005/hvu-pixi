@@ -41,6 +41,11 @@ export class ThreeRenderer extends RenderService {
         this.scenes.set(layerId, scene);
     }
 
+    /**
+     * 
+     * @param {Scene} layerId 
+     * @returns 
+     */
     getLayer(layerId) {
         if (!this.scenes.has(layerId)) this.createLayer(layerId);
         return this.scenes.get(layerId);

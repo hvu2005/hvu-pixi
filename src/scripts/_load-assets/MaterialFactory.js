@@ -3,7 +3,9 @@ import {
     MeshPhongMaterial,
     MeshPhysicalMaterial,
     MeshStandardMaterial,
-    Material as ThreeMaterial
+    RepeatWrapping,
+    Material as ThreeMaterial,
+    Vector2
 } from "@three.alias";
 import { Asset } from "./AssetLoader";
 import { ToonShadowMaterial } from "../shader/ToonShadowMaterial";
@@ -25,18 +27,47 @@ export const Material = {
         shadowColor: 0x660015
     }),
 
-    PIXEL_BLOCK: registMaterial(ToonShadowMaterial, {
-        get map() { return Asset.TEXTURE_PIXEL_BLOCK },
+    RAIL: registMaterial(MeshPhongMaterial, {
+        color: 0x414d7d,
+        shininess: 150,
+        specular: 0x9fb4ff
+    }),
 
-        get matcap() { return Asset.TEXTURE_MATCAP },
-        matcapIntensity: 5,
-        
-        color: 0x6bffa6,
-        shadowColor: 0x007830,
+    CONVEYOR: registMaterial(MeshPhongMaterial, {
+        color: 0x37374d,
+        // shadowColor: 0x21212e,
+    }),
 
-        clearcoatSharpness: 0.4,
-        shadowContrast: 1.3,
-        saturationBoost: 1.3,
+    WARNING: registMaterial(ToonShadowMaterial, {
+        get map() {
+            const texture = Asset.TEXTURE_WARNING;
+            texture.wrapS = texture.wrapT = RepeatWrapping;
+
+            // ===== OFFSET =====
+            texture.repeat.set(4, 3);
+            texture.needsUpdate = true;
+
+            return texture;
+        }
+
+    }),
+
+    TILE_WAIT: registMaterial(MeshBasicMaterial, {
+        get map() { return Asset.TEXTURE_TILE_WAIT },
+        transparent: true,
+    }),
+
+    BACKGROUND: registMaterial(MeshBasicMaterial, {
+        get map() { 
+            const texture = Asset.TEXTURE_BACKGROUND;
+            // texture.wrapS = texture.wrapT = RepeatWrapping;
+
+            // // ===== OFFSET =====
+            // texture.repeat.set(20, 20);
+            // texture.needsUpdate = true;
+
+            return texture;
+        },
     }),
 
     BLACK: registMaterial(ToonShadowMaterial, {
@@ -44,7 +75,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x23262b,
         // shadowColor: 0x1b1f1b,
 
@@ -58,7 +89,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x418DFC,
         shadowColor: 0x1f4eab,
 
@@ -72,7 +103,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x734c39,
         shadowColor: 0x462C1F,
 
@@ -86,7 +117,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x4245C6,
         shadowColor: 0x082866,
 
@@ -100,7 +131,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x6F8B2D,
         shadowColor: 0x1b4712,
 
@@ -114,7 +145,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xe3aa27,
         shadowColor: 0x6e4a18,
 
@@ -128,7 +159,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x829CA7,
         shadowColor: 0x363E4D,
 
@@ -142,7 +173,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x36B588,
         shadowColor: 0x196C4C,
 
@@ -156,7 +187,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x53DBEE,
         shadowColor: 0x297ea3,
 
@@ -170,7 +201,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xA48256,
         shadowColor: 0x543d1f,
 
@@ -184,7 +215,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x5ede45,
         shadowColor: 0x206912,
 
@@ -198,7 +229,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xFF9BB0,
         shadowColor: 0x913a44,
 
@@ -212,7 +243,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xf7dab2,
         shadowColor: 0x8a5a30,
 
@@ -226,7 +257,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xfa8b25,
         shadowColor: 0x8c3f0d,
 
@@ -240,7 +271,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xFF52B0,
         shadowColor: 0x69235f,
 
@@ -254,7 +285,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x9974FD,
         shadowColor: 0x442d73,
 
@@ -268,7 +299,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xF8454A,
         shadowColor: 0x6e151a,
 
@@ -282,7 +313,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0x540d8f,
         shadowColor: 0x270747,
 
@@ -296,7 +327,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xFFFBEF,
         shadowColor: 0xa19795,
 
@@ -310,7 +341,7 @@ export const Material = {
 
         get matcap() { return Asset.TEXTURE_MATCAP },
         matcapIntensity: 5,
-        
+
         color: 0xF8E020,
         shadowColor: 0xab6a20,
 

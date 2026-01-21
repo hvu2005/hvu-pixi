@@ -23,7 +23,9 @@ export class RenderPipeline {
         await this.three?.init();
         await this.pixi?.init(this.three?.renderer.getContext());
         this.pixi?.onResize(981, 1230);
+        this.three?.onResize();
     }
+
 
     setCamera(camera) {
         this.three?.setCamera(camera);

@@ -5,25 +5,45 @@ import { Material, GLTF, SkeletonUtils, Mesh } from "engine/alias/three-alias";
 export class MeshRenderer extends Renderer {
     /**
      * 
-     * @param {GLTF} gltf 
+     * @param {GLTF | BufferGeometry} source 
      * @param {*} options 
      */
-    constructor(gltf, options = {}) {
+    constructor(source, options = {}) {
         super();
 
-        this.mesh = SkeletonUtils.clone(gltf.scene);
+        this.mesh = this._createMesh(source, options.material);
 
-        this.mesh.position.set(...options.position || [0, 0, 0]);
-        this.mesh.rotation.set(...options.rotation || [0, 0, 0]);
-        this.mesh.scale.set(...options.scale || [1, 1, 1]);
+        options.position && this.mesh.position.set(...options.position);
+        options.rotation && this.mesh.rotation.set(...options.rotation);
+        options.scale && this.mesh.scale.set(...options.scale);
+    }
 
-        if (options.material) {
-            this.mesh.traverse((child) => {
-                if (child.isMesh) {
-                    child.material = options.material;
-                }
-            });
+    /**
+     * @private
+     * @param {GLTF | BufferGeometry} source 
+     * @param {Material} material 
+     * @returns {Mesh | Object3D}
+     */
+    _createMesh(source, material) {
+        // GLTF
+        if (source?.scene) {
+            const node = SkeletonUtils.clone(source.scene);
+
+            if(material) {
+                node.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = material;
+                    }
+                });
+            }
+            return node;
         }
+        // Geometry
+        else if (source?.isBufferGeometry) {
+            return new Mesh(source, material);
+        }
+
+        throw new Error("MeshRenderer: unsupported source type");
     }
 
     /**
@@ -59,34 +79,17 @@ export class MeshRenderer extends Renderer {
     }
 
     /**
-     * @private
-     * @param {Mesh} mesh 
-     * @returns 
-     */
-    _ensureLocalMaterial(mesh) {
-        if (!mesh.material) return;
-
-        if (!mesh.material.__isLocal) {
-            const local = mesh.material.clone();
-            local.__isLocal = true;
-            mesh.material = local;
-        }
-    }
-
-    /**
      * @param {string} param
      * @param {*} value
      */
     setMatAttribute(param, value) {
         this.mesh.traverse(child => {
-            if (!child.isMesh || child.material?.__isLocal) return;
+            if (!child.isMesh) return;
 
             if (!(param in child.material)) {
                 console.warn(`Material param ${param} not found`);
                 return;
             }
-
-            this._ensureLocalMaterial(child);
 
             const target = child.material[param];
 
@@ -112,8 +115,6 @@ export class MeshRenderer extends Renderer {
             console.warn(`Material param ${param} not found`);
             return;
         }
-
-        this._ensureLocalMaterial(mesh);
 
         const target = mesh.material[param];
 
@@ -184,6 +185,10 @@ export class MeshRenderer extends Renderer {
     setMaterialAt(index, mat) {
         const mesh = this.getMeshAt(index);
         mesh.material = mat;
+    }
+
+    getMaterial(index = 0) {
+        return this.getMeshAt(index).material;
     }
 
     /**

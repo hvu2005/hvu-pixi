@@ -16,7 +16,7 @@ export class GameObject {
       this.tag = options.tag || "";
 
       /**
-       * @type {import("../component/transform").Transform}
+       * @type {Transform}
        */
       this.transform = this.getComponent(Transform);
       if(!this.transform) {
@@ -24,7 +24,7 @@ export class GameObject {
       }
       
       /**
-       * @type {import("../component/render-order").RenderOrder}
+       * @type {RenderOrder}
        */
       this.renderOrder = this.getComponent(RenderOrder);
       if(!this.renderOrder) {

@@ -1,5 +1,6 @@
 // ⚙️ Auto-generated file — DO NOT EDIT MANUALLY
 export { default as AS_1 } from "assets/AS_1.png";
+export { default as bg } from "assets/bg.jpg";
 export { default as Block_Color } from "assets/Block_Color.png";
 export { default as duck_model } from "assets/duck_model.glb";
 export { default as mikado_black } from "assets/font/mikado_black.txt";
@@ -10,5 +11,9 @@ export { default as icon } from "assets/icon.png";
 export { default as matcap } from "assets/matcap.png";
 export { default as new_train } from "assets/new train.png";
 export { default as pixel_block_model } from "assets/pixel_block_model.glb";
+export { default as queue } from "assets/queue.png";
+export { default as rail_model } from "assets/rail_model.glb";
 export { default as squid_model } from "assets/squid_model.glb";
 export { default as train } from "assets/train.glb";
+export { default as warning_texture } from "assets/warning_texture.png";
+export { default as water_texture } from "assets/water_texture.png";

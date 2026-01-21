@@ -139,6 +139,9 @@ export class MeshAnimator extends Component {
         }
     }
 
+    /**
+     * @protected
+     */
     _onDestroy() {
         if (this.mixer) {
             this.mixer.stopAllAction();

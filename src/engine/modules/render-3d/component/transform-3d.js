@@ -22,10 +22,18 @@ export class Transform3D extends Transform {
         }
 
         addRenderNode(node) {
+            node.gameObject = this.gameObject;
+            node.traverse(child => {
+                child.gameObject = this.gameObject;
+            });
             this.group.add(node);
         }
     
         removeRenderNode(node) {
+            node.gameObject = null;
+            node.traverse(child => {
+                child.gameObject = null;
+            });
             this.group.remove(node);
         }
 

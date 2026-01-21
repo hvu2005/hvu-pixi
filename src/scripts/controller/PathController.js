@@ -1,8 +1,10 @@
 import { GameObject3D, MeshRenderer, MonoBehaviour, instantiate } from "engine";
 import { Material } from "scripts/_load-assets/MaterialFactory";
-import { BoxGeometry, CircleGeometry } from "@three.alias";
+import { CircleGeometry } from "@three.alias";
 import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+import { eventEmitter } from "scripts/_core/EventEmitter";
+import { GameEventType } from "scripts/_core/GameEventType";
 gsap.registerPlugin(MotionPathPlugin);
 /**
  * Tạo path controller, quản lý các đường đi và điều khiển vật thể di chuyển trên path.
@@ -38,24 +40,58 @@ export class PathController extends MonoBehaviour {
                 type: 'straight',
                 points: [
                     { x: -7, y: 2, z: -1.9 },
-                    { x: 4, y: 2, z: -1.9 },
+                    { x: 5, y: 2, z: -1.9 },
                 ]
             },
             {
                 type: 'curve',
                 points: [
-                    { x: 4.55, y: 2, z: -1.98 },
-                    { x: 5, y: 2, z: -2.1 },
-                    { x: 5.6, y: 2, z: -2.5 },
-                    { x: 6, y: 2, z: -3 },
-                    { x: 6.1, y: 2, z: -3.5 },
+                    { x: 5, y: 2, z: -1.9 },
+                    { x: 6.2, y: 2, z: -2.1 },
+                    { x: 6.6, y: 2, z: -3 },
+                    { x: 6.2, y: 2, z: -4 },
                 ]
             },
             {
                 type: 'straight',
                 points: [
                     { x: 6.2, y: 2, z: -4 },
-                    { x: 6.2, y: 2, z: -16 },
+                    { x: 6.2, y: 2, z: -16.4 },
+                ]
+            },
+            {
+                type: 'curve',
+                points: [
+                    { x: 6.2, y: 2, z: -16.4 },
+                    { x: 6, y: 2, z: -17.6 },
+                    { x: 5.1, y: 2, z: -18 },
+                    { x: 4.1, y: 2, z: -17.6 },
+
+                ]
+            },
+            {
+                type: 'straight',
+                points: [
+                    { x: 4.1, y: 2, z: -17.6 },
+                    { x: -5.0, y: 2, z: -17.6 },
+
+                ]
+            },
+            {
+                type: 'curve',
+                points: [
+                    { x: -5.0, y: 2, z: -17.6 },
+                    { x: -6.1, y: 2, z: -17.4 },
+                    { x: -6.5, y: 2, z: -16.5 },
+                    { x: -6.1, y: 2, z: -15.5 },
+                ]
+            },
+            {
+                type: 'straight',
+                points: [
+                    { x: -6.1, y: 2, z: -15.5 },
+                    { x: -6.1, y: 2, z: -5 },
+
                 ]
             },
         ];
@@ -83,28 +119,28 @@ export class PathController extends MonoBehaviour {
     }
 
     /**
-     * Di chuyển tileEntity tuần tự qua các path với speed cao hơn mặc định.
+     * Di chuyển go tuần tự qua các path với speed cao hơn mặc định.
      * Nếu path.type === 'curve', vừa xoay Y += Math.PI/2 vừa di chuyển (xoay _đồng thời_ với di chuyển, dùng gsap).
      * Không dùng requestAnimationFrame. Tự động chuyển path tiếp theo cho đến hết.
-     * Chỉ 1 tileEntity, không cần truyền index.
-     * @param {GameObject3D} tileEntity
+     * Chỉ 1 go, không cần truyền index.
+     * @param {GameObject3D} go
      * @param {Object} option 
      */
-    async moveAlongAllPaths(tileEntity, option = { speed: 5 }) {
-        if (!tileEntity._movePathState) tileEntity._movePathState = {};
-        const moveState = tileEntity._movePathState;
+    async moveAlongAllPaths(go, option = { speed: 8 }) {
+        if (!go._movePathState) go._movePathState = {};
+        const moveState = go._movePathState;
         moveState.canceled = false;
-    
-        const speed = option.speed ?? 5;
-    
+
+        const speed = option.speed ?? 8;
+
         for (let pathIdx = 0; pathIdx < this.paths.length; pathIdx++) {
             if (moveState.canceled) return;
-    
+
             const pathObj = this.paths[pathIdx];
             const { type: pathType, points } = pathObj;
-    
+
             if (!points || points.length < 2) continue;
-    
+
             // ===== tính tổng chiều dài path =====
             let totalDist = 0;
             for (let i = 0; i < points.length - 1; i++) {
@@ -115,17 +151,17 @@ export class PathController extends MonoBehaviour {
                 const dz = b.z - a.z;
                 totalDist += Math.sqrt(dx * dx + dy * dy + dz * dz);
             }
-    
-            const duration = totalDist / (speed > 0 ? speed : 1);
-    
+
+            const duration = totalDist / (speed > 0 ? speed : 1) * 1.4;
+
             // ===== xác định rotation target =====
             let rotationPromise = Promise.resolve();
-    
+
             if (pathType === "curve") {
-                const rot = tileEntity.transform.rotation;
+                const rot = go.transform.rotation;
                 const startY = rot.y || 0;
                 const endY = startY + Math.PI / 2;
-    
+
                 rotationPromise = new Promise(res => {
                     gsap.to(rot, {
                         y: endY,
@@ -135,36 +171,39 @@ export class PathController extends MonoBehaviour {
                     });
                 });
             }
-    
+
             // ===== motion path =====
             const movePromise = new Promise(res => {
-                gsap.to(tileEntity.transform.position, {
+                gsap.to(go.transform.position, {
                     duration,
-                    ease: "none",
+                    ease: "linear",
                     motionPath: {
                         path: points,
-                        
+                        curviness: 0,
+                        type: pathType === "curve" ? "cubic" : "catmullRom",
                     },
                     onComplete: res,
                 });
             });
-    
+
             // ===== CHẠY ĐỒNG THỜI =====
             await Promise.all([movePromise, rotationPromise]);
         }
+
+        eventEmitter.emit(GameEventType.PATH_COMPLETED, go);
     }
-    
+
 
     /**
-     * Đưa tileEntity tới điểm bắt đầu nếu chưa ở đó, sau đó gọi moveAlongAllPaths.
-     * @param {GameObject3D} tileEntity
+     * Đưa go tới điểm bắt đầu nếu chưa ở đó, sau đó gọi moveAlongAllPaths.
+     * @param {GameObject3D} go
      * @param {Object} option 
      */
-    async moveToConveyor(tileEntity, option = { speed: 5 }) {
+    async moveToConveyor(go, option) {
         const firstPath = this.paths[0];
         if (!firstPath || !firstPath.points) return;
         const firstPoint = firstPath.points[0];
-        const from = tileEntity.transform.position;
+        const from = go.transform.position;
 
         if (
             Math.abs(from.x - firstPoint.x) > 1e-4 ||
@@ -180,8 +219,14 @@ export class PathController extends MonoBehaviour {
                     ease: "power1.inOut",
                     onComplete: resolve,
                 });
+
+                gsap.to(go.transform.rotation, {
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                });
             });
         }
-        return this.moveAlongAllPaths(tileEntity, option);
+        return this.moveAlongAllPaths(go, option);
     }
 }

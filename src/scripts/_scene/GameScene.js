@@ -13,6 +13,8 @@ import { createRail } from "scripts/model/Rail";
 import { createBackground } from "scripts/model/Background";
 import { createTouchController } from "scripts/controller/TouchController";
 import { createPathController } from "scripts/controller/PathController";
+import { createTileEntityController } from "scripts/controller/TileEntityController";
+import { createGameFlowController } from "scripts/controller/GameFlowController";
 
 
 
@@ -61,6 +63,8 @@ export class GameScene extends Scene {
         createLevelGenerator();
         createTouchController();
         createPathController();
+        createTileEntityController();
+        createGameFlowController();
 
         createRail();
         createBackground();

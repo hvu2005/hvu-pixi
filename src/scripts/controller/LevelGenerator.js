@@ -17,7 +17,7 @@ export function createLevelGenerator() {
     return go;
 }
 
-class LevelGenerator extends MonoBehaviour {
+export class LevelGenerator extends MonoBehaviour {
 
     /**
      * @type {LevelGenerator}
@@ -27,21 +27,26 @@ class LevelGenerator extends MonoBehaviour {
     awake() {
         LevelGenerator.instance = this;
         this.colorTypes = Object.keys(ItemColorType);
-    }
 
-    start() {
+        this.cache = {
+            mapItemMapData: [],
+            tileMapData: [],
+            waitTileMapData: [],
+        };
+
         /**
          * @type {LevelObject}
          */
         this.levelObject;
-
-        this.tileMapData = [];
-        this.mapItemMapData = [];
-
         this.readLevel(LEVEL_DATA);
+
         this.generateMap();
         this.generateTiles();
         this.generateWaitTiles();
+    }
+
+    start() {
+
     }
 
     readLevel(lvlData) {
@@ -93,12 +98,12 @@ class LevelGenerator extends MonoBehaviour {
 
                 this.mapContainer.transform.addChild(mapItem.transform);
 
-                !this.mapItemMapData[i] && (this.mapItemMapData[i] = []);
-                this.mapItemMapData[i][j] = mapItemComp;
+                !this.cache.mapItemMapData[i] && (this.cache.mapItemMapData[i] = []);
+                this.cache.mapItemMapData[i][j] = mapItemComp;
             }
         }
     }
-    
+
 
     generateTiles() {
         const tiles = this.levelObject.tiles;
@@ -122,8 +127,8 @@ class LevelGenerator extends MonoBehaviour {
                 isTop = false;
 
 
-                !this.tileMapData[j] && (this.tileMapData[j] = []);
-                this.tileMapData[j][i] = tileComp;
+                !this.cache.tileMapData[i] && (this.cache.tileMapData[i] = []);
+                this.cache.tileMapData[i][j] = tileComp;
             }
 
         }
@@ -149,6 +154,8 @@ class LevelGenerator extends MonoBehaviour {
             const waitTile = createTileWait();
             waitTile.transform.position.set(startX + i * spacing, posY, posZ);
             this.waitTileContainer.transform.addChild(waitTile.transform);
+
+            this.cache.waitTileMapData[i] = waitTile;
         }
     }
 }

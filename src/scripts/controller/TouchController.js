@@ -1,7 +1,8 @@
 import { GameObject3D, MonoBehaviour, instantiate, three } from "engine";
 import { Raycaster, Vector2 } from "@three.alias";
 import { Tag } from "scripts/_config/Tag";
-import { TileEntity } from "scripts/model/TileEntity";
+import { eventEmitter } from "scripts/_core/EventEmitter";
+import { GameEventType } from "scripts/_core/GameEventType";
 
 export function createTouchController() {
     const go = instantiate(GameObject3D, {
@@ -50,9 +51,7 @@ export class TouchController extends MonoBehaviour {
         );
         
         if (hit) {
-            const go = hit.object.gameObject;
-            const tileEntityComp = go.getComponent(TileEntity);
-            tileEntityComp.onSelected();
+            eventEmitter.emit(GameEventType.TILE_ENTITY_SELECTED, hit.object.gameObject);
         }
     }
 

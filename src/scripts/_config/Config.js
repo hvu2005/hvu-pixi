@@ -34,28 +34,45 @@ class Config {
         this.TangleLine = 10;
         this.GoodSort = 11;
         this.BloomTile = 12;
+        this.xSquid = 14;
         this.test = 13;
-        this.defautlVersion = "11a25";
+        this.defautlVersion = "01a26";
         this.version = this.defautlVersion;
         this.PlayableAdsGame = this.defaultGame;
         this.PlayableAdsType = this.defaultAds;
 
 
-        this.linkAndroid = 'https://play.google.com/store/apps/details?id=com.no1ornothing.bloom.tile.match.puzzle';
-        this.linkiOS = 'https://apps.apple.com/us/app/bloom-tile-match-puzzle-game/id6740838784';
-        this.linkWebAds = 'https://play.google.com/store/apps/details?id=com.no1ornothing.bloom.tile.match.puzzle';
+        this.linkAndroid = 'https://play.google.com/store/apps/details?id=com.fc.squid.pixel.flow.color.puzzle';
+        this.linkiOS = '';
+        this.linkWebAds = 'https://play.google.com/store/apps/details?id=com.fc.squid.pixel.flow.color.puzzle';
 
 
         if (this.PlayableAdsType === this.Adwords || this.PlayableAdsType === this.Facebook || this.PlayableAdsType === this.IronSource) {
             this.isPlaySound = false;
         }
+
+    }
+
+    onImpression() {
+        if (typeof window.ALPlayableAnalytics != 'undefined') {
+            window.ALPlayableAnalytics.trackEvent('CHALLENGE_STARTED');
+        }
     }
 
     onGameReady() {
         if (this.PlayableAdsType === this.Mintegral) window.gameReady && window.gameReady();
+
+        
+        if (typeof window.ALPlayableAnalytics != 'undefined') {
+            window.ALPlayableAnalytics.trackEvent('DISPLAYED');
+        }
     }
 
     openLinkApp() {
+        if (typeof window.ALPlayableAnalytics != 'undefined') {
+            window.ALPlayableAnalytics.trackEvent('CTA_CLICKED');
+        }
+
         var os = this.getOS();
         if (this.PlayableAdsType === this.Unity || this.PlayableAdsType === this.Applovin) {
             if (os === 'Android') {
@@ -144,6 +161,10 @@ class Config {
     onEndGame() {
         if (this.PlayableAdsType === this.Mintegral)
             window.gameEnd && window.gameEnd();
+
+        if (typeof window.ALPlayableAnalytics != 'undefined') {
+            window.ALPlayableAnalytics.trackEvent('COMPLETED');
+        }
     }
 
     sendInfo() {

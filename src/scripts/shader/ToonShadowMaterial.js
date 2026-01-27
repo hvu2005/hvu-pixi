@@ -1,46 +1,9 @@
-import { MeshToonMaterial, Color } from "@three.alias";
-
-/**
- * @typedef {Object} ToonShadowMaterialParams
- * @property {import("@three.alias").Color | number | string} [color]
- * @property {import("@three.alias").Texture} [gradientMap]
- * @property {import("@three.alias").Texture} [map]
- * @property {import("@three.alias").Texture} [lightMap]
- * @property {number} [lightMapIntensity]
- * @property {import("@three.alias").Texture} [aoMap]
- * @property {number} [aoMapIntensity]
- * @property {import("@three.alias").Color | number | string} [emissive]
- * @property {number} [emissiveIntensity]
- * @property {import("@three.alias").Texture} [emissiveMap]
- * @property {import("@three.alias").Texture} [bumpMap]
- * @property {number} [bumpScale]
- * @property {import("@three.alias").Texture} [normalMap]
- * @property {number} [normalMapType]
- * @property {import("@three.alias").Vector2} [normalScale]
- * @property {import("@three.alias").Texture} [displacementMap]
- * @property {number} [displacementScale]
- * @property {number} [displacementBias]
- * @property {import("@three.alias").Texture} [alphaMap]
- * @property {boolean} [wireframe]
- * @property {number} [wireframeLinewidth]
- * @property {boolean} [fog]
- * // ToonShadowMaterial custom parameters:
- * @property {import("@three.alias").Color | number | string} [shadowColor]
- * @property {import("@three.alias").Color | number | string} [highlightColor]
- * @property {import("@three.alias").Texture} [matcap]
- * @property {number} [matcapIntensity]
- * @property {number} [clearcoatSharpness]
- * @property {number} [shadowContrast]
- * @property {number} [saturationBoost]
- */
+import { MeshToonMaterial } from "@three.alias";
 
 export class ToonShadowMaterial extends MeshToonMaterial {
-    /**
-     * @param {ToonShadowMaterialParams} params
-     */
     constructor(params = {}) {
-        // Lọc params chỉ chứa các thuộc tính hợp lệ của MeshToonMaterial
         const {
+            // ===== MeshToonMaterial params =====
             color,
             gradientMap,
             map,
@@ -63,18 +26,13 @@ export class ToonShadowMaterial extends MeshToonMaterial {
             wireframe,
             wireframeLinewidth,
             fog,
-            // Custom toon-shadow attributes
-            shadowColor,
-            highlightColor,
+
+            // ===== Custom =====
             matcap,
             matcapIntensity,
-            clearcoatSharpness,
-            shadowContrast,
             saturationBoost,
-            ...rest // ignore any other unknown keys (future-proof)
         } = params;
 
-        // Các thuộc tính chuẩn cho MeshToonMaterial
         const toonParams = {
             color,
             gradientMap,
@@ -100,59 +58,43 @@ export class ToonShadowMaterial extends MeshToonMaterial {
             fog,
         };
 
-        // Remove undefined attributes (để không truyền undefined vào constructor gốc)
-        Object.keys(toonParams).forEach(key => {
-            if (toonParams[key] === undefined) delete toonParams[key];
+        Object.keys(toonParams).forEach(k => {
+            if (toonParams[k] === undefined) delete toonParams[k];
         });
 
-        // super chỉ truyền vào các thuộc tính của MeshToonMaterial
         super(toonParams);
+        this.instancing = true;
 
-        // Shadow & Highlight
-        this.shadowColor = new Color(shadowColor ?? 0x222222);
-        this.highlightColor = new Color(highlightColor ?? 0xffffff);
-
-        // MatCap (dùng làm clearcoat)
+        // ===== Custom properties =====
         this.matcap = matcap ?? null;
         this.matcapIntensity = matcapIntensity ?? 1.5;
-        this.clearcoatSharpness = clearcoatSharpness ?? 0.35; // giống clearcoatRoughness thấp
+        this.saturationBoost = saturationBoost ?? 1.0;
 
-        // Color boosters
-        this.shadowContrast = shadowContrast ?? 1;
-        this.saturationBoost = saturationBoost ?? 1;
-
+        // ===== Shader injection =====
         this.onBeforeCompile = shader => {
-
-            shader.uniforms.uShadowColor = { value: this.shadowColor };
-            shader.uniforms.uHighlightColor = { value: this.highlightColor };
-
+            // ---- uniforms ----
             shader.uniforms.uMatCap = { value: this.matcap };
             shader.uniforms.uMatCapIntensity = { value: this.matcapIntensity };
-            shader.uniforms.uClearcoatSharpness = { value: this.clearcoatSharpness };
-
-            shader.uniforms.uShadowContrast = { value: this.shadowContrast };
             shader.uniforms.uSaturationBoost = { value: this.saturationBoost };
 
+            // ---- fragment header ----
             shader.fragmentShader =
-            `
-            uniform vec3 uShadowColor;
-            uniform vec3 uHighlightColor;
+                `
+                uniform sampler2D uMatCap;
+                uniform float uMatCapIntensity;
+                uniform float uSaturationBoost;
 
-            uniform sampler2D uMatCap;
-            uniform float uMatCapIntensity;
-            uniform float uClearcoatSharpness;
+                #ifdef USE_INSTANCING_COLOR
+                    varying vec3 vInstanceColor;
+                #endif
+                ` + shader.fragmentShader;
 
-            uniform float uShadowContrast;
-            uniform float uSaturationBoost;
-            ` + shader.fragmentShader;
-
-            // MatCap calculation
+            // ---- matcap normal (view space) ----
             shader.fragmentShader = shader.fragmentShader.replace(
-                `#include <normal_fragment_maps>`,
+                '#include <normal_fragment_maps>',
                 `
                 #include <normal_fragment_maps>
 
-                // View space normal (giống Unity matcap)
                 mat3 viewNormalMatrix = mat3(viewMatrix);
                 vec3 nView = normalize(viewNormalMatrix * normal);
 
@@ -161,27 +103,23 @@ export class ToonShadowMaterial extends MeshToonMaterial {
                 `
             );
 
+            // ---- CORE LIGHTING (bỏ shadow, chỉ giữ matcap highlight) ----
             shader.fragmentShader = shader.fragmentShader.replace(
                 /vec3 outgoingLight\s*=\s*reflectedLight\.directDiffuse[\s\S]*?totalEmissiveRadiance\s*;/,
-                `               
-                float NL = clamp(dot(normal, directionalLights[0].direction), 0.0, 1.0);
-                float ramp = pow(NL, uShadowContrast);
+                `
+                vec3 baseLit;
 
-                // Shadow ramp
-                vec3 baseLit = mix(uShadowColor, reflectedLight.directDiffuse, ramp);
+                #ifdef USE_INSTANCING_COLOR
+                    baseLit = reflectedLight.directDiffuse * vInstanceColor;
+                #else
+                    baseLit = reflectedLight.directDiffuse;
+                #endif
 
-                // == Clearcoat-like highlight (PhysicalMaterial style) ==
-                // === MatCap highlight (independent from light) ===
-                float coat = pow(
-                    saturate(dot(nView, vec3(0.0, 0.0, 1.0))),
-                    uClearcoatSharpness * 10.0
-                );
+                // ---- MatCap highlight only ----
+                float coat = saturate(dot(nView, vec3(0.0, 0.0, 1.0)));
+                baseLit += matcapColor * coat * uMatCapIntensity;
 
-                vec3 coatHighlight = matcapColor * coat * uMatCapIntensity;
-
-                baseLit += coatHighlight;
-
-                // Saturation enhancement (cho màu đậm đẹp dạng lego)
+                // ---- Saturation boost ----
                 float gray = dot(baseLit, vec3(0.299, 0.587, 0.114));
                 baseLit = mix(vec3(gray), baseLit, uSaturationBoost);
 

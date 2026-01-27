@@ -8,7 +8,8 @@ export class ThreeRenderer extends RenderService {
         this.renderer = new WebGLRenderer({ antialias: true, stencil: true, alpha: true });
         this.scene = new Scene();
 
-        this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.fov = 75;
+        this.camera = new PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.position.set(0, 0, 10);
         this.camera.lookAt(0, 0, 0);
 
@@ -26,12 +27,53 @@ export class ThreeRenderer extends RenderService {
         document.body.appendChild(this.renderer.domElement);
     }
 
-    setCamera(camera) {
+    setCamera(camera, fov) {
+        if (this.camera) {
+            this.camera.visible = false;
+        }
         this.camera = camera;
+        this.fov = fov;
+
+        // Update camera projection matrix when FOV changes
+        if (camera) {
+            if (camera.isOrthographicCamera) {
+                const windowW = window.innerWidth;
+                const windowH = window.innerHeight;
+                let aspect = windowW / windowH;
+                let viewSize = fov;
+
+                camera.left = -viewSize * aspect;
+                camera.right = viewSize * aspect;
+                camera.top = viewSize;
+                camera.bottom = -viewSize;
+
+                camera.updateProjectionMatrix();
+            } else if (camera.isPerspectiveCamera) {
+                camera.fov = fov;
+                camera.updateProjectionMatrix();
+            }
+        }
     }
 
     resetCamera() {
+        this.fov = 75;
         this.camera = this.defaultCamera;
+
+        const windowW = window.innerWidth;
+        const windowH = window.innerHeight;
+        const cam = this.camera;
+
+        if (cam) {
+            let aspect = windowW / windowH;
+            let viewSize = this.fov; // giống như trong init()
+
+            cam.left = -viewSize * aspect;
+            cam.right = viewSize * aspect;
+            cam.top = viewSize;
+            cam.bottom = -viewSize;
+
+            cam.updateProjectionMatrix();
+        }
     }
 
     createLayer(layerId) {
@@ -85,6 +127,20 @@ export class ThreeRenderer extends RenderService {
 
         this.renderer.setSize(windowW, windowH);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
+
+        const cam = this.camera;
+
+        if (cam) {
+            let aspect = windowW / windowH;
+            let viewSize = this.fov; // giống như trong init()
+
+            cam.left = -viewSize * aspect;
+            cam.right = viewSize * aspect;
+            cam.top = viewSize;
+            cam.bottom = -viewSize;
+
+            cam.updateProjectionMatrix();
+        }
     }
 }
 export const three = new ThreeRenderer();

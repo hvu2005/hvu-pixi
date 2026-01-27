@@ -61,6 +61,7 @@ import path from "path";
                 '.fbx': 'dataurl',
                 '.obj': 'dataurl',
                 '.stl': 'dataurl',
+                ".txt": "dataurl",
             },
             logLevel: "info",
             metafile: true, // bật phân tích

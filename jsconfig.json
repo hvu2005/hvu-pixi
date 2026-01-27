@@ -1,12 +1,26 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
+    "allowJs": true,
     "paths": {
-      "@pixi.alias": ["engine/alias/pixi-alias.js"],
-      "@three.alias": ["engine/alias/three-alias.js"],
-      "@auto.asset": ["engine/alias/auto-asset.js"],
-      "engine": ["engine/engine.js"]
+      "@pixi.alias": [
+        "engine/alias/pixi-alias.js"
+      ],
+      "@three.alias": [
+        "engine/alias/three-alias.js"
+      ],
+      "@auto.asset": [
+        "engine/alias/auto-asset.js"
+      ],
+      "engine": [
+        "engine/engine"
+      ]
     },
+    "moduleResolution": "node"
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "**/*.js",
+    "**/*.d.ts"
+  ]
 }

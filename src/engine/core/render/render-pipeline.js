@@ -24,11 +24,17 @@ export class RenderPipeline {
         await this.pixi?.init(this.three?.renderer.getContext());
         this.pixi?.onResize(981, 1230);
         this.three?.onResize();
+
+        window.addEventListener('resize', this.onResize.bind(this));
     }
 
+    onResize() {
+        this.pixi?.onResize(981, 1230);
+        this.three?.onResize();
+    }
 
-    setCamera(camera) {
-        this.three?.setCamera(camera);
+    setCamera(camera, fov) {
+        this.three?.setCamera(camera, fov);
     }
     
     resetCamera() {

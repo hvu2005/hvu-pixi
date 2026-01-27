@@ -15,6 +15,9 @@ import { Camera, OrthographicCamera, PerspectiveCamera } from "engine/alias/thre
  */
 
 export class CameraView extends Component {
+
+    static FOV_CHANGED = "fovChanged";
+
     /**
      * 
      * @param {CameraOptions} options 
@@ -28,16 +31,17 @@ export class CameraView extends Component {
          */
         this._camera;
 
+        this._fov = options.fov || 75;
 
         if (options.isOrthor) {
             const aspect = options.aspect || window.innerWidth / window.innerHeight;
-            const fov = options.fov || 75;
 
+            
             const defaultOptions = [
-                options.left || -fov * aspect,
-                options.right || fov * aspect,
-                options.top || fov,
-                options.bottom || -fov,
+                options.left || -this._fov * aspect,
+                options.right || this._fov * aspect,
+                options.top || this._fov,
+                options.bottom || -this._fov,
                 options.near || 0.1,
                 options.far || 1000,
             ];
@@ -45,7 +49,7 @@ export class CameraView extends Component {
         }
         else {
             const defaultOptions = [
-                options.fov || 75,
+                this._fov,
                 options.aspect || window.innerWidth / window.innerHeight,
                 options.near || 0.1,
                 options.far || 1000,
@@ -66,5 +70,14 @@ export class CameraView extends Component {
      */
     getNode() {
         return this._camera;
+    }
+
+    get fov() {
+        return this._fov;
+    }
+
+    set fov(fov) {
+        this._fov = fov;
+        this._emit(CameraView.FOV_CHANGED, this, fov);
     }
 }

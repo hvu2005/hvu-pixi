@@ -11,10 +11,10 @@ import zipfile
 import shutil
 from pathlib import Path
 
-date = '200825'
-titles = ['test']
-version = ['11a25']
-dev = 'Thepn'
+date = '260126'
+titles = ['xSquid']
+version = ['01n26_5', '01n26_10', '01n26_15', '01n26_20', '01n26_25']
+dev = 'hvu'
 language = 'EN'
 
 ads = ['IronSource', 'Unity', 'Adwords_48x32','Adwords_32x48', 'Applovin', 'Facebook', 'Adcolony', 'Mintegral','Pangle', 'Vungle', 'Moloco']

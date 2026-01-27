@@ -9,9 +9,10 @@ export class Component {
 
     constructor() {
         /**
-         * @type {GameObject}
+         * @template {GameObject} T
+         * @type {T}
          */
-        this.gameObject = null;
+        this.gameObject = undefined;
 
         /**
          * @private
@@ -43,6 +44,34 @@ export class Component {
     }
 
     /**
+    * @protected
+    */
+    _initProperties(properties = {}) {
+        const metaProps = this.constructor.__properties__;
+        if (!metaProps) return;
+
+        for (const key in metaProps) {
+            // Skip if property is not provided in properties object
+            if (!(key in properties)) continue;
+
+            const meta = metaProps[key];
+            const value = properties[key];
+
+            // Type validation
+            if (typeof meta.type === 'string' && typeof value !== meta.type) {
+                console.warn(`[${this.constructor.name}] Invalid property "${key}", expected ${meta.type}, got`, typeof value);
+                continue;
+            }
+            else if (typeof meta.type === 'function' && !(value instanceof meta.type)) {
+                console.warn(`[${this.constructor.name}] Invalid property "${key}", expected ${meta.type.name}, got`, value?.constructor?.name || typeof value);
+                continue;
+            }
+
+            this[key] = value;
+        }
+    }
+
+    /**
      * 
      * @template T
      * @param {new (...args: any[]) => T} component
@@ -71,9 +100,6 @@ export class Component {
         value ? this._onEnable() : this._onDisable();
     }
 
-    /**
-     * @param {GameObject} gameObject
-     */
     attach(gameObject) {
         this.gameObject = gameObject;
         this._onAttach();

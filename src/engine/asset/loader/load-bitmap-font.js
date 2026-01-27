@@ -8,7 +8,8 @@ import { Texture, LinearFilter } from "engine/alias/three-alias";
  * @param {string} textureBase64
  * @returns {Promise<{ texture, font }>}
  */
-export async function loadBitmapFont(text, textureBase64) {
+export async function loadBitmapFont(textBase64, textureBase64) {
+    const text = decodeFntFromDataUrl(textBase64);
     const font = parseBMFontText(text);
     const image = new Image();
     image.src = textureBase64
@@ -24,7 +25,14 @@ export async function loadBitmapFont(text, textureBase64) {
     return { texture, font };
 }
 
+function decodeFntFromDataUrl(dataUrl) {
+    const idx = dataUrl.indexOf(",");
+    const encoded = dataUrl.slice(idx + 1);
+    return decodeURIComponent(encoded);
+}
+
 function parseBMFontText(text) {
+
     const lines = text.split("\n");
 
     const font = {

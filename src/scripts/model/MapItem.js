@@ -16,6 +16,15 @@ export function createMapItem() {
 export class MapItem extends MonoBehaviour {
     awake() {
         this.renderer = this.getComponent(MeshRenderer);
+
+        /**
+         * @type {MapItemObject}
+         */
+        this.data = {}
+    }
+
+    setData(data) {
+        this.data = data;
     }
 
     setColor(itemColorType) {

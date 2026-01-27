@@ -12,6 +12,8 @@ export class MonoBehaviour extends Behaviour {
     update(dt) {}
 
     _onAttach() {
+        this._finalizeProperties();
+
         this.awake();
     }
     

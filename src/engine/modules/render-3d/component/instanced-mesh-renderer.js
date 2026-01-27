@@ -4,7 +4,9 @@ import {
     Matrix4, 
     Quaternion, 
     Vector3, 
-    GLTF
+    GLTF,
+    Color,
+    Euler
 } from "engine/alias/three-alias";
 
 // Biến tạm để tính toán, tránh tạo mới Object mỗi frame (Optimization)
@@ -13,6 +15,7 @@ const _instanceMatrix = new Matrix4();
 const _position = new Vector3();
 const _quaternion = new Quaternion();
 const _scale = new Vector3();
+const _color = new Color();
 
 /**
  * @typedef {Object} InstancedMeshRendererOptions
@@ -65,6 +68,14 @@ export class InstancedMeshRenderer extends Renderer {
                 }
                 iMesh.instanceMatrix.needsUpdate = true;
 
+                // 4. Nếu mesh hỗ trợ, tạo mảng màu (Color) cho instancing
+                if (iMesh.instanceColor) {
+                    for (let j = 0; j < this.count; j++) {
+                        iMesh.setColorAt(j, obj.material && obj.material.color ? obj.material.color : new Color(1, 1, 1));
+                    }
+                    iMesh.instanceColor.needsUpdate = true;
+                }
+
                 this.instanceData.push({
                     mesh: iMesh,
                     offset: offset
@@ -90,9 +101,9 @@ export class InstancedMeshRenderer extends Renderer {
 
         // Tạo ma trận transform chung cho instance từ pos, rot, scale
         _instanceMatrix.compose(
-            position, 
-            rotation instanceof Quaternion ? rotation : _quaternion.setFromEuler(rotation), 
-            scale || _scale.set(1, 1, 1)
+            new Vector3(position.x, position.y, position.z), 
+            rotation instanceof Quaternion ? rotation : _quaternion.setFromEuler(new Euler(rotation.x, rotation.y, rotation.z)), 
+            new Vector3(scale.x, scale.y, scale.z)
         );
 
         // Áp dụng cho từng sub-mesh kèm theo offset của nó
@@ -103,6 +114,39 @@ export class InstancedMeshRenderer extends Renderer {
             data.mesh.instanceMatrix.needsUpdate = true;
         }
     }
+
+    getTransformAt(index) {
+        this._assertIndex(index);
+    
+        const mesh = this.instanceData[0].mesh;
+    
+        mesh.updateMatrixWorld(true);
+    
+        mesh.getMatrixAt(index, _tempMatrix);
+        _tempMatrix.premultiply(mesh.matrixWorld);
+    
+        _tempMatrix.decompose(_position, _quaternion, _scale);
+    
+        return {
+            position: {
+                x: _position.x,
+                y: _position.y,
+                z: _position.z
+            },
+            rotation: {
+                x: _quaternion.x,
+                y: _quaternion.y,
+                z: _quaternion.z,
+                w: _quaternion.w
+            },
+            scale: {
+                x: _scale.x,
+                y: _scale.y,
+                z: _scale.z
+            }
+        };
+    }
+    
 
     /**
      * Cập nhật vị trí nhưng vẫn giữ nguyên Rotation và Scale hiện tại của Instance
@@ -125,12 +169,93 @@ export class InstancedMeshRenderer extends Renderer {
     }
 
     /**
+     * Cập nhật rotation (Euler angle, radian đơn vị) nhưng giữ nguyên position và scale hiện tại của Instance.
+     * @param {number} index
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     */
+    setInstanceRotation(index, x, y, z) {
+        this._assertIndex(index);
+
+        this.instanceData[0].mesh.getMatrixAt(index, _tempMatrix);
+
+        // Loại bỏ offset
+        const invOffset = new Matrix4().copy(this.instanceData[0].offset).invert();
+        _instanceMatrix.multiplyMatrices(_tempMatrix, invOffset);
+
+        _instanceMatrix.decompose(_position, _quaternion, _scale);
+
+        // Set rotation mới (Euler; xyz in radians)
+        const newQuat = _quaternion.setFromEuler(new Euler(x, y, z));
+
+        this.setInstanceTransform(index, _position, newQuat, _scale);
+    }
+
+    /**
+     * Cập nhật scale nhưng giữ nguyên position và rotation hiện tại của Instance.
+     * @param {number} index
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     */
+    setInstanceScale(index, x, y, z) {
+        this._assertIndex(index);
+
+        this.instanceData[0].mesh.getMatrixAt(index, _tempMatrix);
+
+        // Loại bỏ offset
+        const invOffset = new Matrix4().copy(this.instanceData[0].offset).invert();
+        _instanceMatrix.multiplyMatrices(_tempMatrix, invOffset);
+
+        _instanceMatrix.decompose(_position, _quaternion, _scale);
+
+        // Set scale mới
+        _scale.set(x, y, z);
+
+        this.setInstanceTransform(index, _position, _quaternion, _scale);
+    }
+
+    /**
      * @param {Material} material
      */
     setMaterial(material) {
         for (let i = 0; i < this.instanceData.length; i++) {
             this.instanceData[i].mesh.material = material;
         }
+    }
+
+    /**
+     * Đặt màu cho instance thứ index trên tất cả submesh.
+     * @param {number} index
+     * @param {Color|number|string|Array} color - Có thể truyền Color, hex, RGB array, hoặc chuỗi màu.
+     */
+    setColorAt(index, color) {
+        this._assertIndex(index);
+        // Đảm bảo color là một instance của Color
+        if (color instanceof Color) {
+            _color.copy(color);
+        } else if (typeof color === "number") {
+            _color.setHex(color);
+        } else if (Array.isArray(color)) {
+            _color.setRGB(...color);
+        } else if (typeof color === "string") {
+            _color.set(color);
+        } else if (color && typeof color === "object" && "r" in color && "g" in color && "b" in color) {
+            _color.setRGB(color.r, color.g, color.b);
+        } else {
+            _color.set(0xffffff);
+        }
+        let didSet = false;
+        for (let i = 0; i < this.instanceData.length; i++) {
+            const mesh = this.instanceData[i].mesh;
+            if (mesh.setColorAt) {
+                mesh.setColorAt(index, _color);
+                if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+                didSet = true;
+            }
+        }
+        return didSet;
     }
 
     _onAttach() {

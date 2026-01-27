@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { eventEmitter } from "scripts/_core/EventEmitter";
 import { GameEventType } from "scripts/_core/GameEventType";
+import { Coroutine } from "scripts/_core/Coroutine";
 gsap.registerPlugin(MotionPathPlugin);
 /**
  * Tạo path controller, quản lý các đường đi và điều khiển vật thể di chuyển trên path.
@@ -95,11 +96,13 @@ export class PathController extends MonoBehaviour {
                 ]
             },
         ];
+
+        this.current = null;
     }
 
     start() {
         // Hiện debug path
-        this._doDebug();
+        // this._doDebug();
     }
 
     _doDebug() {
@@ -134,8 +137,14 @@ export class PathController extends MonoBehaviour {
         const speed = option.speed ?? 8;
 
         for (let pathIdx = 0; pathIdx < this.paths.length; pathIdx++) {
-            if (moveState.canceled) return;
+            if (moveState.canceled) {
+                eventEmitter.emit(GameEventType.PATH_COMPLETED, go);
+                go.__pathState = 0;
 
+                return;
+            }
+
+            go.__pathState = pathIdx;
             const pathObj = this.paths[pathIdx];
             const { type: pathType, points } = pathObj;
 
@@ -191,8 +200,27 @@ export class PathController extends MonoBehaviour {
         }
 
         eventEmitter.emit(GameEventType.PATH_COMPLETED, go);
+        go.__pathState = 0;
+
     }
 
+    /**
+     * Dừng di chuyển trên đường path. Khi dừng cũng phải emit PATH_COMPLETED.
+     * @param {GameObject3D} go
+     */
+    stopPath(go) {
+        if (go && go._movePathState) {
+            go._movePathState.canceled = true;
+        }
+        // Dừng tween của vị trí và rotation (nếu có)
+        if (go) {
+            gsap.killTweensOf(go.transform.position);
+            gsap.killTweensOf(go.transform.rotation);
+        }
+
+        go.__pathState = 0;
+        eventEmitter.emit(GameEventType.PATH_COMPLETED, go);
+    }
 
     /**
      * Đưa go tới điểm bắt đầu nếu chưa ở đó, sau đó gọi moveAlongAllPaths.
@@ -200,6 +228,12 @@ export class PathController extends MonoBehaviour {
      * @param {Object} option 
      */
     async moveToConveyor(go, option) {
+
+        let mustDelay = false;
+        if(this.__delayCall) {
+            this.__delayCall.kill();
+            this.__delayCall = null;
+        }
         const firstPath = this.paths[0];
         if (!firstPath || !firstPath.points) return;
         const firstPoint = firstPath.points[0];
@@ -217,7 +251,16 @@ export class PathController extends MonoBehaviour {
                     z: firstPoint.z,
                     duration: 0.3,
                     ease: "power1.inOut",
-                    onComplete: resolve,
+                    onComplete:() => {
+                        if (this.current) {
+                            mustDelay = true;
+                        }
+                        this.current = go;
+                        this.__delayCall = gsap.delayedCall(0.3, () => {
+                            this.current = null;
+                        });
+                        resolve();
+                    }
                 });
 
                 gsap.to(go.transform.rotation, {
@@ -227,6 +270,12 @@ export class PathController extends MonoBehaviour {
                 });
             });
         }
+
+        if(mustDelay) {
+            await Coroutine.waitForSeconds(0.15);
+        }
+
+
         return this.moveAlongAllPaths(go, option);
     }
 }

@@ -1,5 +1,5 @@
 import { Renderer } from "engine/core/component/renderer";
-import { Material, GLTF, SkeletonUtils, Mesh } from "engine/alias/three-alias";
+import { Material, GLTF, SkeletonUtils, Mesh, BufferGeometry } from "engine/alias/three-alias";
 
 
 export class MeshRenderer extends Renderer {
@@ -201,6 +201,14 @@ export class MeshRenderer extends Renderer {
 
     _onAttach() {
         this.gameObject.transform.addRenderNode(this.mesh);
+    }
+
+    _onDisable() {
+        this.mesh.visible = false;
+    }
+
+    _onEnable() {
+        this.mesh.visible = true;
     }
 
     _onDestroy() {

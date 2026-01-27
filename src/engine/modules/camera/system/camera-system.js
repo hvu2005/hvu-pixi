@@ -22,7 +22,13 @@ export class CameraSystem extends System {
      * @param {CameraView} component 
      */
     onComponentAdded(component) {
-        this.renderContext.setCamera(component.getNode());
+        this.renderContext.setCamera(component.getNode(), component.fov);
+
+        component.on(CameraView.FOV_CHANGED, this.onFovChanged.bind(this));
+    }
+
+    onFovChanged(component, fov) {
+        this.renderContext.setCamera(component.getNode(), fov);
     }
 
     /**

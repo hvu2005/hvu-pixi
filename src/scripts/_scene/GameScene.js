@@ -15,6 +15,10 @@ import { createTouchController } from "scripts/controller/TouchController";
 import { createPathController } from "scripts/controller/PathController";
 import { createTileEntityController } from "scripts/controller/TileEntityController";
 import { createGameFlowController } from "scripts/controller/GameFlowController";
+import { createPoolController } from "scripts/controller/PoolController";
+import { createCameraController } from "scripts/controller/CameraController";
+import { createTutorialController } from "scripts/controller/TutorialController";
+import { createGameController } from "scripts/controller/GameController";
 
 
 
@@ -36,20 +40,9 @@ export class GameScene extends Scene {
     }
 
     create() {
-        this.camera = instantiate(GameObject3D, {
-            components: [
-                new CameraView({
-                    isOrthor: true,
-                    fov: 17,
-                })
-            ],
-            rotation: [-Math.PI / 2.5, 0, 0],
-            position: [0, 20, 3.5]
-        });
-
         this.globalLight = instantiate(GameObject3D, {
             components: [
-                new DirectionalLight(0xffffff, 3),
+                new DirectionalLight(0xffffff, 2.5),
                 new AmbientLight(0xffffff, 0.5)
             ],
             position: [0, 5, 2.5],
@@ -60,13 +53,18 @@ export class GameScene extends Scene {
     }
 
     _game() {
-        createLevelGenerator();
-        createTouchController();
-        createPathController();
-        createTileEntityController();
-        createGameFlowController();
+        // createGameController();
+        // createTutorialController();
+        // createCameraController();
+        // createPoolController();
+        // createLevelGenerator();
+        // createTouchController();
+        // createPathController();
+        // createTileEntityController();
+        // createGameFlowController();
 
-        createRail();
-        createBackground();
+        // createRail();
+        // createBackground();
+        createTileEntity();
     }
 }

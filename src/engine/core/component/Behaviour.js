@@ -3,9 +3,10 @@ import { Component } from "./base/component";
 
 
 export class Behaviour extends Component {
-    constructor() {
+    constructor(properties = {}) {
         super();
     }
+
 
     /**
     * @template T

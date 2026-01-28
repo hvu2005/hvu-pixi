@@ -2,7 +2,7 @@ import { GameObject3D, MeshRenderer, MonoBehaviour, instantiate } from "engine";
 import { Asset } from "scripts/_load-assets/AssetLoader";
 import { Material } from "scripts/_load-assets/MaterialFactory";
 import { BoxGeometry, RepeatWrapping } from "@three.alias";
-import { TileEntity } from "./TileEntity";
+import { TileEntity } from "scripts/model/TileEntity";
 
 
 export function createRail() {
@@ -18,7 +18,7 @@ export function createRail() {
         rotation: [0, Math.PI, 0],
     });
 
-    const g = new TileEntity();
+    const g = new TileEntity().testGO;
 
 
     return go;

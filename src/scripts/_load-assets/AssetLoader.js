@@ -26,6 +26,7 @@ import {
     loadModel,
     loadThreeTexture, 
 } from "engine";
+import { loadModelAsGameObject } from "engine-ts/core/loader/load-model";
 
 
 //==================== USER INTERFACE ====================
@@ -52,6 +53,8 @@ export const Asset = {
     TEXTURE_GROUND_LINE: loadThreeTexture(ground_line),
     TEXTURE_TUT_HAND: loadThreeTexture(tut_hand),
     TEXTURE_TOON_RAMP: loadThreeTexture(toon_ramp),
+
+    MODEL_SQUID_AS_GO: loadModelAsGameObject(squid_model),
 }
 //========================================================
 

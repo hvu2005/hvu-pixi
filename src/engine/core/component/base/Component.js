@@ -102,7 +102,7 @@ export class Component {
 
     attach(gameObject) {
         this.gameObject = gameObject;
-        this._onAttach();
+        this._onAttach(); 
     }
 
     destroy() {

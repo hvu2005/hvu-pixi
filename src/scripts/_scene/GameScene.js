@@ -2,10 +2,10 @@
 import { Scene } from "engine/service/game/scene";
 import { three } from "engine/core/render/three-renderer";
 
-import { loadAssets } from "../_load-assets/AssetLoader";
+import { Asset, loadAssets } from "../_load-assets/AssetLoader";
 
 import { AmbientLight, CameraView, DirectionalLight, GameObject3D, MeshRenderer, instantiate } from "engine";
-import { loadMaterials } from "../_load-assets/MaterialFactory";
+import { Material, loadMaterials } from "../_load-assets/MaterialFactory";
 import CONFIG from "scripts/_config/Config";
 import { createTileEntity } from "scripts/model/TileEntity";
 import { createLevelGenerator, levelGenerator } from "scripts/controller/LevelGenerator";
@@ -19,6 +19,8 @@ import { createPoolController } from "scripts/controller/PoolController";
 import { createCameraController } from "scripts/controller/CameraController";
 import { createTutorialController } from "scripts/controller/TutorialController";
 import { createGameController } from "scripts/controller/GameController";
+import { GameObject3DNew } from "engine-ts/core/scene-graph/game-object-3d-new";
+import { BoxGeometry, Mesh } from "three";
 
 
 
@@ -55,16 +57,51 @@ export class GameScene extends Scene {
     _game() {
         // createGameController();
         // createTutorialController();
-        // createCameraController();
+        createCameraController();
         // createPoolController();
         // createLevelGenerator();
-        // createTouchController();
+        createTouchController();
         // createPathController();
         // createTileEntityController();
         // createGameFlowController();
 
         // createRail();
         // createBackground();
-        createTileEntity();
+        // const tileEntity = createTileEntity();
+
+
+        const node = instantiate(GameObject3D).transform.getNode();
+
+        const test = new GameObject3DNew();
+
+        // test.add.group();
+
+        // test.add.text3D(Asset.FONT_TEST, {
+        //     text: "2/3",
+        //     align: "center",
+        // });
+        test.add.mesh(new BoxGeometry(4, 4, 4), Material.SQUID);
+
+        test.object3D.scale.set(1, 1, 1);
+
+        test.object3D.position.set(0, 5, 0);
+
+        test.object3D.rotation.set(-Math.PI/2.5, 0, 0);
+
+
+        const meshRenderer = new MeshRenderer(Asset.MODEL_SQUID, {
+            material: Material.SQUID,
+        });
+
+        const mesh = meshRenderer.getMeshAt(1);
+        console.log(mesh instanceof Mesh);
+        // test.add.mesh(new BoxGeometry(4, 4, 4), Material.SQUID);
+
+        // test.object3D.rotation.set(-Math.PI / 2.5, 0, 0);
+        // console.log(test.object3D);
+        // console.log(node);
+        node.add(test.object3D);
+
+        test.addChild(Asset.MODEL_SQUID_AS_GO);
     }
 }

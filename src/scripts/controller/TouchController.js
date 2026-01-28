@@ -1,8 +1,9 @@
 import { GameObject3D, MonoBehaviour, instantiate, three } from "engine";
-import { Raycaster, Vector2 } from "@three.alias";
+import { Object3D, Raycaster, Vector2 } from "@three.alias";
 import { Tag } from "scripts/_config/Tag";
 import { eventEmitter } from "scripts/_core/EventEmitter";
 import { GameEventType } from "scripts/_core/GameEventType";
+import { GameObject3DNew } from "engine-ts/core/scene-graph/game-object-3d-new";
 
 export function createTouchController() {
     const go = instantiate(GameObject3D, {
@@ -45,16 +46,22 @@ export class TouchController extends MonoBehaviour {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         const result = this.intersect(three.getLayer(0).children);
-        
+
         const hit = result.find(r =>
-            r.object?.gameObject?.tag === Tag.TILE_ENTITY
+            r.object?.gameObject?.tag !== Tag.TILE_ENTITY
         );
-        
+
         if (hit) {
+            console.log(hit.object.gameObject);
             eventEmitter.emit(GameEventType.TILE_ENTITY_SELECTED, hit.object.gameObject);
         }
     }
 
+    /**
+    * @template {T extends ObjectBase3D}
+    * @param {ObjectBase3D[]} targets
+    * @returns {Array<import("three").Intersection & { object: ObjectBase3D }>}
+    */
     intersect(targets) {
         const result = this.raycaster.intersectObjects(targets, true);
         this.result = result;

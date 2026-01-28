@@ -55,8 +55,11 @@ export function createTileEntity() {
 
 export class TileEntityTest extends GameObject3D {
     components() {
-        this.add.mesh(Asset.MODEL_SQUID);
+        this.add.mesh(Asset.MODEL_SQUID, {
+            material: Material.SQUID,
+        });
         this.add.text3D(Asset.FONT_TEST);
+        
         this.add.animator(Asset.MODEL_SQUID);
         this.add.behaviour(new TileEntity());
     }

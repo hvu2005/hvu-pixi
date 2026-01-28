@@ -59,7 +59,7 @@
       "format": "esm"
     },
     "src/engine/core/scene-graph/game-object.js": {
-      "bytes": 2204,
+      "bytes": 2264,
       "imports": [
         {
           "path": "src/engine/core/component/base/component.js",
@@ -23479,7 +23479,7 @@
       "format": "esm"
     },
     "src/scripts/model/TileEntity.js": {
-      "bytes": 6931,
+      "bytes": 6926,
       "imports": [
         {
           "path": "src/engine/engine.js",
@@ -23660,7 +23660,7 @@
       "format": "esm"
     },
     "src/scripts/model/Rail.js": {
-      "bytes": 1931,
+      "bytes": 1950,
       "imports": [
         {
           "path": "src/engine/engine.js",
@@ -23685,7 +23685,7 @@
         {
           "path": "src/scripts/model/TileEntity.js",
           "kind": "import-statement",
-          "original": "./TileEntity"
+          "original": "scripts/model/TileEntity"
         }
       ],
       "format": "esm"
@@ -24082,8 +24082,35 @@
       ],
       "format": "esm"
     },
+    "src/engine-ts/core/component/Text3D.js": {
+      "bytes": 4248,
+      "imports": [
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine-ts/core/scene-graph/game-object-3d-new.js": {
+      "bytes": 1395,
+      "imports": [
+        {
+          "path": "node_modules/three/build/three.module.js",
+          "kind": "import-statement",
+          "original": "three"
+        },
+        {
+          "path": "src/engine-ts/core/component/Text3D.js",
+          "kind": "import-statement",
+          "original": "../component/Text3D"
+        }
+      ],
+      "format": "esm"
+    },
     "src/scripts/_scene/GameScene.js": {
-      "bytes": 2355,
+      "bytes": 2686,
       "imports": [
         {
           "path": "src/engine/service/game/scene.js",
@@ -24174,6 +24201,11 @@
           "path": "src/scripts/controller/GameController.js",
           "kind": "import-statement",
           "original": "scripts/controller/GameController"
+        },
+        {
+          "path": "src/engine-ts/core/scene-graph/game-object-3d-new.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/scene-graph/game-object-3d-new"
         }
       ],
       "format": "esm"
@@ -24218,7 +24250,7 @@
           "bytesInOutput": 540
         },
         "src/engine/core/scene-graph/game-object.js": {
-          "bytesInOutput": 856
+          "bytesInOutput": 855
         },
         "src/engine/core/system/base/system.js": {
           "bytesInOutput": 128
@@ -24430,23 +24462,20 @@
         "src/scripts/_config/Config.js": {
           "bytesInOutput": 3302
         },
-        "src/scripts/_config/Tag.js": {
-          "bytesInOutput": 34
+        "src/engine-ts/core/component/Text3D.js": {
+          "bytesInOutput": 1889
         },
-        "src/engine/core/decorator/property.js": {
-          "bytesInOutput": 133
-        },
-        "src/scripts/model/TileEntity.js": {
-          "bytesInOutput": 3311
+        "src/engine-ts/core/scene-graph/game-object-3d-new.js": {
+          "bytesInOutput": 541
         },
         "src/scripts/_scene/GameScene.js": {
-          "bytesInOutput": 429
+          "bytesInOutput": 539
         },
         "src/game.js": {
           "bytesInOutput": 51
         }
       },
-      "bytes": 1606230
+      "bytes": 1605291
     }
   }
 }

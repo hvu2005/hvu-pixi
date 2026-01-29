@@ -1,4 +1,4 @@
-import { PerspectiveCamera, Scene, WebGLRenderer } from "@three.alias";
+import { OrthographicCamera, PerspectiveCamera, Scene, WebGLRenderer } from "@three.alias";
 import { RenderService } from "./render-service";
 
 
@@ -8,8 +8,17 @@ export class ThreeRenderer extends RenderService {
         this.renderer = new WebGLRenderer({ antialias: true, stencil: true, alpha: true });
         this.scene = new Scene();
 
-        this.fov = 75;
-        this.camera = new PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.fov = 5;
+        const aspect = window.innerWidth / window.innerHeight;
+        const viewSize = this.fov;
+        this.camera = new OrthographicCamera(
+            -viewSize * aspect,
+            viewSize * aspect,
+            viewSize,
+            -viewSize,
+            0.1,
+            1000
+        );
         this.camera.position.set(0, 0, 10);
         this.camera.lookAt(0, 0, 0);
 
@@ -25,8 +34,6 @@ export class ThreeRenderer extends RenderService {
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.autoClear = false;
         document.body.appendChild(this.renderer.domElement);
-
-        this.createLayer(0);
     }
 
     setCamera(camera, fov) {
@@ -66,15 +73,20 @@ export class ThreeRenderer extends RenderService {
         const cam = this.camera;
 
         if (cam) {
-            let aspect = windowW / windowH;
-            let viewSize = this.fov; // giống như trong init()
+            if (cam.isOrthographicCamera) {
+                let aspect = windowW / windowH;
+                let viewSize = this.fov;
 
-            cam.left = -viewSize * aspect;
-            cam.right = viewSize * aspect;
-            cam.top = viewSize;
-            cam.bottom = -viewSize;
-
-            cam.updateProjectionMatrix();
+                cam.left = -viewSize * aspect;
+                cam.right = viewSize * aspect;
+                cam.top = viewSize;
+                cam.bottom = -viewSize;
+                cam.updateProjectionMatrix();
+            } else if (cam.isPerspectiveCamera) {
+                cam.aspect = windowW / windowH;
+                cam.fov = this.fov;
+                cam.updateProjectionMatrix();
+            }
         }
     }
 
@@ -110,9 +122,9 @@ export class ThreeRenderer extends RenderService {
 
     render(layerId) {
 
-
         this.renderer.resetState();
         this.renderer.render(this.scene, this.camera);
+
 
         // const camera = this.cameras.get(layerId);
         // if(!camera) {
@@ -135,15 +147,20 @@ export class ThreeRenderer extends RenderService {
         const cam = this.camera;
 
         if (cam) {
-            let aspect = windowW / windowH;
-            let viewSize = this.fov; // giống như trong init()
+            if (cam.isOrthographicCamera) {
+                let aspect = windowW / windowH;
+                let viewSize = this.fov;
 
-            cam.left = -viewSize * aspect;
-            cam.right = viewSize * aspect;
-            cam.top = viewSize;
-            cam.bottom = -viewSize;
-
-            cam.updateProjectionMatrix();
+                cam.left = -viewSize * aspect;
+                cam.right = viewSize * aspect;
+                cam.top = viewSize;
+                cam.bottom = -viewSize;
+                cam.updateProjectionMatrix();
+            } else if (cam.isPerspectiveCamera) {
+                cam.aspect = windowW / windowH;
+                cam.fov = this.fov;
+                cam.updateProjectionMatrix();
+            }
         }
     }
 }

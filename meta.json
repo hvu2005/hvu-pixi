@@ -1,131 +1,5 @@
 {
   "inputs": {
-    "node_modules/stats.js/build/stats.min.js": {
-      "bytes": 1965,
-      "imports": [],
-      "format": "cjs"
-    },
-    "src/engine/core/render/render-pipeline.js": {
-      "bytes": 3478,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/engine/core/event/event-bus.js": {
-      "bytes": 3026,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/engine/core/component/base/component.js": {
-      "bytes": 2693,
-      "imports": [
-        {
-          "path": "src/engine/core/scene-graph/game-object.js",
-          "kind": "import-statement",
-          "original": "engine/core/scene-graph/game-object"
-        },
-        {
-          "path": "src/engine/core/event/event-bus.js",
-          "kind": "import-statement",
-          "original": "engine/core/event/event-bus"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/core/component/transform.js": {
-      "bytes": 6592,
-      "imports": [
-        {
-          "path": "src/engine/core/component/base/component.js",
-          "kind": "import-statement",
-          "original": "./base/component"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/core/component/render-order.js": {
-      "bytes": 1203,
-      "imports": [
-        {
-          "path": "src/engine/core/component/base/component.js",
-          "kind": "import-statement",
-          "original": "./base/component"
-        },
-        {
-          "path": "src/engine/core/component/transform.js",
-          "kind": "import-statement",
-          "original": "./transform"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/core/scene-graph/game-object.js": {
-      "bytes": 2264,
-      "imports": [
-        {
-          "path": "src/engine/core/component/base/component.js",
-          "kind": "import-statement",
-          "original": "../component/base/component"
-        },
-        {
-          "path": "src/engine/core/component/render-order.js",
-          "kind": "import-statement",
-          "original": "../component/render-order"
-        },
-        {
-          "path": "src/engine/core/component/transform.js",
-          "kind": "import-statement",
-          "original": "../component/transform"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/core/system/base/system.js": {
-      "bytes": 234,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/engine/core/world.js": {
-      "bytes": 3574,
-      "imports": [
-        {
-          "path": "node_modules/stats.js/build/stats.min.js",
-          "kind": "import-statement",
-          "original": "stats.js"
-        },
-        {
-          "path": "src/engine/core/render/render-pipeline.js",
-          "kind": "import-statement",
-          "original": "./render/render-pipeline"
-        },
-        {
-          "path": "src/engine/core/scene-graph/game-object.js",
-          "kind": "import-statement",
-          "original": "./scene-graph/game-object"
-        },
-        {
-          "path": "src/engine/core/component/base/component.js",
-          "kind": "import-statement",
-          "original": "./component/base/component"
-        },
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "./system/base/system"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/service/game/world-context.js": {
-      "bytes": 586,
-      "imports": [
-        {
-          "path": "src/engine/core/world.js",
-          "kind": "import-statement",
-          "original": "engine/core/world"
-        }
-      ],
-      "format": "esm"
-    },
     "node_modules/three/build/three.core.js": {
       "bytes": 1403455,
       "imports": [],
@@ -5059,24 +4933,413 @@
       ],
       "format": "esm"
     },
-    "src/engine/modules/render-3d/component/transform-3d.js": {
-      "bytes": 1364,
+    "src/engine-ts/core/extension-objects/text-3d.js": {
+      "bytes": 4168,
       "imports": [
-        {
-          "path": "src/engine/core/component/transform.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/transform"
-        },
         {
           "path": "src/engine/alias/three-alias.js",
           "kind": "import-statement",
-          "original": "@three.alias"
+          "original": "engine/alias/three-alias"
         }
       ],
       "format": "esm"
     },
-    "src/engine/core/component/renderer.js": {
-      "bytes": 124,
+    "src/engine-ts/core/render/render-service.js": {
+      "bytes": 696,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine-ts/core/render/three-renderer.js": {
+      "bytes": 4161,
+      "imports": [
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "@three.alias"
+        },
+        {
+          "path": "src/engine-ts/core/render/render-service.js",
+          "kind": "import-statement",
+          "original": "./render-service"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine-ts/core/event/event-emitter.js": {
+      "bytes": 642,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine-ts/core/scene-graph/game-object.js": {
+      "bytes": 1755,
+      "imports": [
+        {
+          "path": "src/engine-ts/core/event/event-emitter.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/event/event-emitter"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/stats.js/build/stats.min.js": {
+      "bytes": 1965,
+      "imports": [],
+      "format": "cjs"
+    },
+    "src/engine-ts/core/modules/behaviour/behaviour-system.js": {
+      "bytes": 272,
+      "imports": [
+        {
+          "path": "src/engine-ts/core/event/event-emitter.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/event/event-emitter"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine-ts/core/modules/physic-3d/physic-3d-system.js": {
+      "bytes": 134,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine-ts/core/render/render-pipeline.js": {
+      "bytes": 3479,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine-ts/core/world.js": {
+      "bytes": 1082,
+      "imports": [
+        {
+          "path": "node_modules/stats.js/build/stats.min.js",
+          "kind": "import-statement",
+          "original": "stats.js"
+        },
+        {
+          "path": "src/engine-ts/core/modules/behaviour/behaviour-system.js",
+          "kind": "import-statement",
+          "original": "./modules/behaviour/behaviour-system"
+        },
+        {
+          "path": "src/engine-ts/core/modules/physic-3d/physic-3d-system.js",
+          "kind": "import-statement",
+          "original": "./modules/physic-3d/physic-3d-system"
+        },
+        {
+          "path": "src/engine-ts/core/render/render-pipeline.js",
+          "kind": "import-statement",
+          "original": "./render/render-pipeline"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine-ts/core/scene-graph/game-object-3d.js": {
+      "bytes": 968,
+      "imports": [
+        {
+          "path": "node_modules/three/build/three.module.js",
+          "kind": "import-statement",
+          "original": "three"
+        },
+        {
+          "path": "src/engine-ts/core/extension-objects/text-3d.js",
+          "kind": "import-statement",
+          "original": "../extension-objects/text-3d"
+        },
+        {
+          "path": "src/engine-ts/core/scene-graph/game-object.js",
+          "kind": "import-statement",
+          "original": "./game-object"
+        },
+        {
+          "path": "src/engine-ts/core/world.js",
+          "kind": "import-statement",
+          "original": "../world"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/assets/AS_1.png": {
+      "bytes": 20855,
+      "imports": []
+    },
+    "src/assets/bg.png": {
+      "bytes": 92145,
+      "imports": []
+    },
+    "src/assets/Block_Color.png": {
+      "bytes": 7012,
+      "imports": []
+    },
+    "src/assets/duck_model.glb": {
+      "bytes": 101760,
+      "imports": []
+    },
+    "src/assets/font/mikado_black.txt": {
+      "bytes": 46974,
+      "imports": []
+    },
+    "src/assets/font/mikado_black_number.txt": {
+      "bytes": 2050,
+      "imports": []
+    },
+    "src/assets/font/mikado_black_number_0.png": {
+      "bytes": 20888,
+      "imports": []
+    },
+    "src/assets/font/mikado_black_texture.png": {
+      "bytes": 82764,
+      "imports": []
+    },
+    "src/assets/ground_line.png": {
+      "bytes": 11901,
+      "imports": []
+    },
+    "src/assets/icon.png": {
+      "bytes": 23300,
+      "imports": []
+    },
+    "src/assets/matcap.png": {
+      "bytes": 7001,
+      "imports": []
+    },
+    "src/assets/new train.png": {
+      "bytes": 16567,
+      "imports": []
+    },
+    "src/assets/pixel_block_model.glb": {
+      "bytes": 4024,
+      "imports": []
+    },
+    "src/assets/queue.png": {
+      "bytes": 10912,
+      "imports": []
+    },
+    "src/assets/rail_model.glb": {
+      "bytes": 38524,
+      "imports": []
+    },
+    "src/assets/rail_shadow.png": {
+      "bytes": 12424,
+      "imports": []
+    },
+    "src/assets/shadow_circle.png": {
+      "bytes": 1872,
+      "imports": []
+    },
+    "src/assets/sphere.glb": {
+      "bytes": 10360,
+      "imports": []
+    },
+    "src/assets/sphere_2.glb": {
+      "bytes": 10360,
+      "imports": []
+    },
+    "src/assets/squid_model.glb": {
+      "bytes": 434280,
+      "imports": []
+    },
+    "src/assets/squid_model1.glb": {
+      "bytes": 101104,
+      "imports": []
+    },
+    "src/assets/start.png": {
+      "bytes": 3047,
+      "imports": []
+    },
+    "src/assets/toon_ramp.png": {
+      "bytes": 5177,
+      "imports": []
+    },
+    "src/assets/train.glb": {
+      "bytes": 536356,
+      "imports": []
+    },
+    "src/assets/tut_hand.png": {
+      "bytes": 20754,
+      "imports": []
+    },
+    "src/assets/warning_texture.png": {
+      "bytes": 20950,
+      "imports": []
+    },
+    "src/assets/water.png": {
+      "bytes": 3714,
+      "imports": []
+    },
+    "src/assets/water_texture.png": {
+      "bytes": 20264,
+      "imports": []
+    },
+    "src/engine/alias/auto-asset.js": {
+      "bytes": 1842,
+      "imports": [
+        {
+          "path": "src/assets/AS_1.png",
+          "kind": "import-statement",
+          "original": "assets/AS_1.png"
+        },
+        {
+          "path": "src/assets/bg.png",
+          "kind": "import-statement",
+          "original": "assets/bg.png"
+        },
+        {
+          "path": "src/assets/Block_Color.png",
+          "kind": "import-statement",
+          "original": "assets/Block_Color.png"
+        },
+        {
+          "path": "src/assets/duck_model.glb",
+          "kind": "import-statement",
+          "original": "assets/duck_model.glb"
+        },
+        {
+          "path": "src/assets/font/mikado_black.txt",
+          "kind": "import-statement",
+          "original": "assets/font/mikado_black.txt"
+        },
+        {
+          "path": "src/assets/font/mikado_black_number.txt",
+          "kind": "import-statement",
+          "original": "assets/font/mikado_black_number.txt"
+        },
+        {
+          "path": "src/assets/font/mikado_black_number_0.png",
+          "kind": "import-statement",
+          "original": "assets/font/mikado_black_number_0.png"
+        },
+        {
+          "path": "src/assets/font/mikado_black_texture.png",
+          "kind": "import-statement",
+          "original": "assets/font/mikado_black_texture.png"
+        },
+        {
+          "path": "src/assets/ground_line.png",
+          "kind": "import-statement",
+          "original": "assets/ground_line.png"
+        },
+        {
+          "path": "src/assets/icon.png",
+          "kind": "import-statement",
+          "original": "assets/icon.png"
+        },
+        {
+          "path": "src/assets/matcap.png",
+          "kind": "import-statement",
+          "original": "assets/matcap.png"
+        },
+        {
+          "path": "src/assets/new train.png",
+          "kind": "import-statement",
+          "original": "assets/new train.png"
+        },
+        {
+          "path": "src/assets/pixel_block_model.glb",
+          "kind": "import-statement",
+          "original": "assets/pixel_block_model.glb"
+        },
+        {
+          "path": "src/assets/queue.png",
+          "kind": "import-statement",
+          "original": "assets/queue.png"
+        },
+        {
+          "path": "src/assets/rail_model.glb",
+          "kind": "import-statement",
+          "original": "assets/rail_model.glb"
+        },
+        {
+          "path": "src/assets/rail_shadow.png",
+          "kind": "import-statement",
+          "original": "assets/rail_shadow.png"
+        },
+        {
+          "path": "src/assets/shadow_circle.png",
+          "kind": "import-statement",
+          "original": "assets/shadow_circle.png"
+        },
+        {
+          "path": "src/assets/sphere.glb",
+          "kind": "import-statement",
+          "original": "assets/sphere.glb"
+        },
+        {
+          "path": "src/assets/sphere_2.glb",
+          "kind": "import-statement",
+          "original": "assets/sphere_2.glb"
+        },
+        {
+          "path": "src/assets/squid_model.glb",
+          "kind": "import-statement",
+          "original": "assets/squid_model.glb"
+        },
+        {
+          "path": "src/assets/squid_model1.glb",
+          "kind": "import-statement",
+          "original": "assets/squid_model1.glb"
+        },
+        {
+          "path": "src/assets/start.png",
+          "kind": "import-statement",
+          "original": "assets/start.png"
+        },
+        {
+          "path": "src/assets/toon_ramp.png",
+          "kind": "import-statement",
+          "original": "assets/toon_ramp.png"
+        },
+        {
+          "path": "src/assets/train.glb",
+          "kind": "import-statement",
+          "original": "assets/train.glb"
+        },
+        {
+          "path": "src/assets/tut_hand.png",
+          "kind": "import-statement",
+          "original": "assets/tut_hand.png"
+        },
+        {
+          "path": "src/assets/warning_texture.png",
+          "kind": "import-statement",
+          "original": "assets/warning_texture.png"
+        },
+        {
+          "path": "src/assets/water.png",
+          "kind": "import-statement",
+          "original": "assets/water.png"
+        },
+        {
+          "path": "src/assets/water_texture.png",
+          "kind": "import-statement",
+          "original": "assets/water_texture.png"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/core/event/event-bus.js": {
+      "bytes": 3026,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine/core/component/base/component.js": {
+      "bytes": 2693,
+      "imports": [
+        {
+          "path": "src/engine/core/scene-graph/game-object.js",
+          "kind": "import-statement",
+          "original": "engine/core/scene-graph/game-object"
+        },
+        {
+          "path": "src/engine/core/event/event-bus.js",
+          "kind": "import-statement",
+          "original": "engine/core/event/event-bus"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/core/component/transform.js": {
+      "bytes": 6592,
       "imports": [
         {
           "path": "src/engine/core/component/base/component.js",
@@ -5086,228 +5349,97 @@
       ],
       "format": "esm"
     },
-    "src/engine/modules/render-3d/component/mesh-renderer.js": {
-      "bytes": 4410,
-      "imports": [
-        {
-          "path": "src/engine/core/component/renderer.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/renderer"
-        },
-        {
-          "path": "src/engine/alias/three-alias.js",
-          "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/component/render-order-3d.js": {
-      "bytes": 165,
-      "imports": [
-        {
-          "path": "src/engine/core/component/render-order.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/render-order"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/component/abstract/light-3d.js": {
-      "bytes": 521,
+    "src/engine/core/component/render-order.js": {
+      "bytes": 1203,
       "imports": [
         {
           "path": "src/engine/core/component/base/component.js",
           "kind": "import-statement",
-          "original": "engine/core/component/base/component"
+          "original": "./base/component"
         },
         {
-          "path": "src/engine/alias/three-alias.js",
+          "path": "src/engine/core/component/transform.js",
           "kind": "import-statement",
-          "original": "engine/alias/three-alias"
+          "original": "./transform"
         }
       ],
       "format": "esm"
     },
-    "src/engine/modules/render-3d/component/ambient-light.js": {
-      "bytes": 393,
+    "src/engine/core/scene-graph/game-object.js": {
+      "bytes": 2264,
       "imports": [
         {
-          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
+          "path": "src/engine/core/component/base/component.js",
           "kind": "import-statement",
-          "original": "./abstract/light-3d"
+          "original": "../component/base/component"
         },
         {
-          "path": "src/engine/alias/three-alias.js",
+          "path": "src/engine/core/component/render-order.js",
           "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/component/directional-light.js": {
-      "bytes": 413,
-      "imports": [
-        {
-          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
-          "kind": "import-statement",
-          "original": "./abstract/light-3d"
+          "original": "../component/render-order"
         },
         {
-          "path": "src/engine/alias/three-alias.js",
+          "path": "src/engine/core/component/transform.js",
           "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/component/instanced-mesh-renderer.js": {
-      "bytes": 8306,
-      "imports": [
-        {
-          "path": "src/engine/core/component/renderer.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/renderer"
-        },
-        {
-          "path": "src/engine/alias/three-alias.js",
-          "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/component/dynamic-text-3d.js": {
-      "bytes": 6279,
-      "imports": [
-        {
-          "path": "src/engine/core/component/renderer.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/renderer"
-        },
-        {
-          "path": "src/engine/alias/three-alias.js",
-          "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/core/decorator/interested-component.js": {
-      "bytes": 250,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/engine/core/decorator/execute-order.js": {
-      "bytes": 110,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/system/render-3d-system.js": {
-      "bytes": 1769,
-      "imports": [
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "engine/core/system/base/system"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/render-order-3d.js",
-          "kind": "import-statement",
-          "original": "../component/render-order-3d"
-        },
-        {
-          "path": "src/engine/core/decorator/interested-component.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/interested-component"
-        },
-        {
-          "path": "src/engine/core/decorator/execute-order.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/execute-order"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/system/light-system.js": {
-      "bytes": 564,
-      "imports": [
-        {
-          "path": "src/engine/core/decorator/interested-component.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/interested-component"
-        },
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "engine/core/system/base/system"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
-          "kind": "import-statement",
-          "original": "../component/abstract/light-3d"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/render-3d/index.js": {
-      "bytes": 632,
-      "imports": [
-        {
-          "path": "src/engine/modules/render-3d/component/transform-3d.js",
-          "kind": "import-statement",
-          "original": "./component/transform-3d"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/mesh-renderer.js",
-          "kind": "import-statement",
-          "original": "./component/mesh-renderer"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/render-order-3d.js",
-          "kind": "import-statement",
-          "original": "./component/render-order-3d"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
-          "kind": "import-statement",
-          "original": "./component/abstract/light-3d"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/ambient-light.js",
-          "kind": "import-statement",
-          "original": "./component/ambient-light"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/directional-light.js",
-          "kind": "import-statement",
-          "original": "./component/directional-light"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/instanced-mesh-renderer.js",
-          "kind": "import-statement",
-          "original": "./component/instanced-mesh-renderer"
-        },
-        {
-          "path": "src/engine/modules/render-3d/component/dynamic-text-3d.js",
-          "kind": "import-statement",
-          "original": "./component/dynamic-text-3d"
-        },
-        {
-          "path": "src/engine/modules/render-3d/system/render-3d-system.js",
-          "kind": "import-statement",
-          "original": "./system/render-3d-system"
-        },
-        {
-          "path": "src/engine/modules/render-3d/system/light-system.js",
-          "kind": "import-statement",
-          "original": "./system/light-system"
+          "original": "../component/transform"
         }
       ],
       "format": "esm"
     },
     "src/engine/core/component/behaviour.js": {
       "bytes": 492,
+      "imports": [
+        {
+          "path": "src/engine/core/component/base/component.js",
+          "kind": "import-statement",
+          "original": "./base/component"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/core/system/base/system.js": {
+      "bytes": 234,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine/core/render/render-pipeline.js": {
+      "bytes": 3478,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine/core/world.js": {
+      "bytes": 3574,
+      "imports": [
+        {
+          "path": "node_modules/stats.js/build/stats.min.js",
+          "kind": "import-statement",
+          "original": "stats.js"
+        },
+        {
+          "path": "src/engine/core/render/render-pipeline.js",
+          "kind": "import-statement",
+          "original": "./render/render-pipeline"
+        },
+        {
+          "path": "src/engine/core/scene-graph/game-object.js",
+          "kind": "import-statement",
+          "original": "./scene-graph/game-object"
+        },
+        {
+          "path": "src/engine/core/component/base/component.js",
+          "kind": "import-statement",
+          "original": "./component/base/component"
+        },
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "./system/base/system"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/core/component/renderer.js": {
+      "bytes": 124,
       "imports": [
         {
           "path": "src/engine/core/component/base/component.js",
@@ -22289,7 +22421,7 @@
       "format": "esm"
     },
     "src/engine/core/render/three-renderer.js": {
-      "bytes": 3687,
+      "bytes": 3706,
       "imports": [
         {
           "path": "src/engine/alias/three-alias.js",
@@ -22413,6 +22545,33 @@
       ],
       "format": "esm"
     },
+    "src/engine/modules/render-3d/component/transform-3d.js": {
+      "bytes": 1364,
+      "imports": [
+        {
+          "path": "src/engine/core/component/transform.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/transform"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "@three.alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/render-order-3d.js": {
+      "bytes": 165,
+      "imports": [
+        {
+          "path": "src/engine/core/component/render-order.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/render-order"
+        }
+      ],
+      "format": "esm"
+    },
     "src/engine/service/game/game-object-3d.js": {
       "bytes": 766,
       "imports": [
@@ -22434,6 +22593,17 @@
       ],
       "format": "esm"
     },
+    "src/engine/service/game/world-context.js": {
+      "bytes": 586,
+      "imports": [
+        {
+          "path": "src/engine/core/world.js",
+          "kind": "import-statement",
+          "original": "engine/core/world"
+        }
+      ],
+      "format": "esm"
+    },
     "src/engine/service/game/instantiate.js": {
       "bytes": 430,
       "imports": [
@@ -22446,6 +22616,436 @@
           "path": "src/engine/service/game/world-context.js",
           "kind": "import-statement",
           "original": "./world-context"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/mesh-renderer.js": {
+      "bytes": 4410,
+      "imports": [
+        {
+          "path": "src/engine/core/component/renderer.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/renderer"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/abstract/light-3d.js": {
+      "bytes": 521,
+      "imports": [
+        {
+          "path": "src/engine/core/component/base/component.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/base/component"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/ambient-light.js": {
+      "bytes": 393,
+      "imports": [
+        {
+          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
+          "kind": "import-statement",
+          "original": "./abstract/light-3d"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/directional-light.js": {
+      "bytes": 413,
+      "imports": [
+        {
+          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
+          "kind": "import-statement",
+          "original": "./abstract/light-3d"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/instanced-mesh-renderer.js": {
+      "bytes": 8306,
+      "imports": [
+        {
+          "path": "src/engine/core/component/renderer.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/renderer"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/component/dynamic-text-3d.js": {
+      "bytes": 6279,
+      "imports": [
+        {
+          "path": "src/engine/core/component/renderer.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/renderer"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/core/decorator/interested-component.js": {
+      "bytes": 250,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine/core/decorator/execute-order.js": {
+      "bytes": 110,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/system/render-3d-system.js": {
+      "bytes": 1769,
+      "imports": [
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "engine/core/system/base/system"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/render-order-3d.js",
+          "kind": "import-statement",
+          "original": "../component/render-order-3d"
+        },
+        {
+          "path": "src/engine/core/decorator/interested-component.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/interested-component"
+        },
+        {
+          "path": "src/engine/core/decorator/execute-order.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/execute-order"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/system/light-system.js": {
+      "bytes": 564,
+      "imports": [
+        {
+          "path": "src/engine/core/decorator/interested-component.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/interested-component"
+        },
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "engine/core/system/base/system"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
+          "kind": "import-statement",
+          "original": "../component/abstract/light-3d"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/render-3d/index.js": {
+      "bytes": 632,
+      "imports": [
+        {
+          "path": "src/engine/modules/render-3d/component/transform-3d.js",
+          "kind": "import-statement",
+          "original": "./component/transform-3d"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/mesh-renderer.js",
+          "kind": "import-statement",
+          "original": "./component/mesh-renderer"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/render-order-3d.js",
+          "kind": "import-statement",
+          "original": "./component/render-order-3d"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/abstract/light-3d.js",
+          "kind": "import-statement",
+          "original": "./component/abstract/light-3d"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/ambient-light.js",
+          "kind": "import-statement",
+          "original": "./component/ambient-light"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/directional-light.js",
+          "kind": "import-statement",
+          "original": "./component/directional-light"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/instanced-mesh-renderer.js",
+          "kind": "import-statement",
+          "original": "./component/instanced-mesh-renderer"
+        },
+        {
+          "path": "src/engine/modules/render-3d/component/dynamic-text-3d.js",
+          "kind": "import-statement",
+          "original": "./component/dynamic-text-3d"
+        },
+        {
+          "path": "src/engine/modules/render-3d/system/render-3d-system.js",
+          "kind": "import-statement",
+          "original": "./system/render-3d-system"
+        },
+        {
+          "path": "src/engine/modules/render-3d/system/light-system.js",
+          "kind": "import-statement",
+          "original": "./system/light-system"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/animation-3d/component/mesh-animator.js": {
+      "bytes": 3131,
+      "imports": [
+        {
+          "path": "src/engine/engine.js",
+          "kind": "import-statement",
+          "original": "engine"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/animation-3d/system/mesh-animator-system.js": {
+      "bytes": 1295,
+      "imports": [
+        {
+          "path": "src/engine/core/decorator/interested-component.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/interested-component"
+        },
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "engine/core/system/base/system"
+        },
+        {
+          "path": "src/engine/modules/animation-3d/component/mesh-animator.js",
+          "kind": "import-statement",
+          "original": "../component/mesh-animator"
+        },
+        {
+          "path": "src/engine/core/decorator/execute-order.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/execute-order"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/animation-3d/index.js": {
+      "bytes": 125,
+      "imports": [
+        {
+          "path": "src/engine/modules/animation-3d/component/mesh-animator.js",
+          "kind": "import-statement",
+          "original": "./component/mesh-animator"
+        },
+        {
+          "path": "src/engine/modules/animation-3d/system/mesh-animator-system.js",
+          "kind": "import-statement",
+          "original": "./system/mesh-animator-system"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/behaviour/component/mono-behaviour.js": {
+      "bytes": 225,
+      "imports": [
+        {
+          "path": "src/engine/core/component/behaviour.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/behaviour"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/behaviour/system/mono-behaviour-system.js": {
+      "bytes": 1353,
+      "imports": [
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "engine/core/system/base/system"
+        },
+        {
+          "path": "src/engine/modules/behaviour/component/mono-behaviour.js",
+          "kind": "import-statement",
+          "original": "../component/mono-behaviour"
+        },
+        {
+          "path": "src/engine/core/decorator/interested-component.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/interested-component"
+        },
+        {
+          "path": "src/engine/core/decorator/execute-order.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/execute-order"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/behaviour/index.js": {
+      "bytes": 129,
+      "imports": [
+        {
+          "path": "src/engine/modules/behaviour/component/mono-behaviour.js",
+          "kind": "import-statement",
+          "original": "./component/mono-behaviour"
+        },
+        {
+          "path": "src/engine/modules/behaviour/system/mono-behaviour-system.js",
+          "kind": "import-statement",
+          "original": "./system/mono-behaviour-system"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/camera/component/camera-view.js": {
+      "bytes": 1747,
+      "imports": [
+        {
+          "path": "src/engine/core/component/base/component.js",
+          "kind": "import-statement",
+          "original": "engine/core/component/base/component"
+        },
+        {
+          "path": "src/engine/alias/three-alias.js",
+          "kind": "import-statement",
+          "original": "engine/alias/three-alias"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/camera/system/camera-system.js": {
+      "bytes": 1118,
+      "imports": [
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "engine/core/system/base/system"
+        },
+        {
+          "path": "src/engine/core/decorator/interested-component.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/interested-component"
+        },
+        {
+          "path": "src/engine/core/world.js",
+          "kind": "import-statement",
+          "original": "engine/core/world"
+        },
+        {
+          "path": "src/engine/modules/camera/component/camera-view.js",
+          "kind": "import-statement",
+          "original": "../component/camera-view"
+        },
+        {
+          "path": "src/engine/core/decorator/execute-order.js",
+          "kind": "import-statement",
+          "original": "engine/core/decorator/execute-order"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/modules/camera/index.js": {
+      "bytes": 108,
+      "imports": [
+        {
+          "path": "src/engine/modules/camera/component/camera-view.js",
+          "kind": "import-statement",
+          "original": "./component/camera-view"
+        },
+        {
+          "path": "src/engine/modules/camera/system/camera-system.js",
+          "kind": "import-statement",
+          "original": "./system/camera-system"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/service/auto-generated/stripped-modules.generated.js": {
+      "bytes": 426,
+      "imports": [
+        {
+          "path": "src/engine/modules/render-3d/index.js",
+          "kind": "import-statement",
+          "original": "engine/modules/render-3d"
+        },
+        {
+          "path": "src/engine/modules/animation-3d/index.js",
+          "kind": "import-statement",
+          "original": "engine/modules/animation-3d"
+        },
+        {
+          "path": "src/engine/modules/behaviour/index.js",
+          "kind": "import-statement",
+          "original": "engine/modules/behaviour"
+        },
+        {
+          "path": "src/engine/modules/camera/index.js",
+          "kind": "import-statement",
+          "original": "engine/modules/camera"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine/service/game/scene.js": {
+      "bytes": 1281,
+      "imports": [
+        {
+          "path": "src/engine/service/game/world-context.js",
+          "kind": "import-statement",
+          "original": "./world-context"
+        },
+        {
+          "path": "src/engine/core/system/base/system.js",
+          "kind": "import-statement",
+          "original": "engine/core/system/base/system"
+        },
+        {
+          "path": "src/engine/service/auto-generated/stripped-modules.generated.js",
+          "kind": "import-statement",
+          "original": "engine/service/auto-generated/stripped-modules.generated"
         }
       ],
       "format": "esm"
@@ -22669,122 +23269,6 @@
       ],
       "format": "esm"
     },
-    "src/engine/modules/behaviour/component/mono-behaviour.js": {
-      "bytes": 221,
-      "imports": [
-        {
-          "path": "src/engine/core/component/behaviour.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/behaviour"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/behaviour/system/mono-behaviour-system.js": {
-      "bytes": 1353,
-      "imports": [
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "engine/core/system/base/system"
-        },
-        {
-          "path": "src/engine/modules/behaviour/component/mono-behaviour.js",
-          "kind": "import-statement",
-          "original": "../component/mono-behaviour"
-        },
-        {
-          "path": "src/engine/core/decorator/interested-component.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/interested-component"
-        },
-        {
-          "path": "src/engine/core/decorator/execute-order.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/execute-order"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/behaviour/index.js": {
-      "bytes": 129,
-      "imports": [
-        {
-          "path": "src/engine/modules/behaviour/component/mono-behaviour.js",
-          "kind": "import-statement",
-          "original": "./component/mono-behaviour"
-        },
-        {
-          "path": "src/engine/modules/behaviour/system/mono-behaviour-system.js",
-          "kind": "import-statement",
-          "original": "./system/mono-behaviour-system"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/camera/component/camera-view.js": {
-      "bytes": 1747,
-      "imports": [
-        {
-          "path": "src/engine/core/component/base/component.js",
-          "kind": "import-statement",
-          "original": "engine/core/component/base/component"
-        },
-        {
-          "path": "src/engine/alias/three-alias.js",
-          "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/camera/system/camera-system.js": {
-      "bytes": 1118,
-      "imports": [
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "engine/core/system/base/system"
-        },
-        {
-          "path": "src/engine/core/decorator/interested-component.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/interested-component"
-        },
-        {
-          "path": "src/engine/core/world.js",
-          "kind": "import-statement",
-          "original": "engine/core/world"
-        },
-        {
-          "path": "src/engine/modules/camera/component/camera-view.js",
-          "kind": "import-statement",
-          "original": "../component/camera-view"
-        },
-        {
-          "path": "src/engine/core/decorator/execute-order.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/execute-order"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/camera/index.js": {
-      "bytes": 108,
-      "imports": [
-        {
-          "path": "src/engine/modules/camera/component/camera-view.js",
-          "kind": "import-statement",
-          "original": "./component/camera-view"
-        },
-        {
-          "path": "src/engine/modules/camera/system/camera-system.js",
-          "kind": "import-statement",
-          "original": "./system/camera-system"
-        }
-      ],
-      "format": "esm"
-    },
     "src/engine/modules/index.js": {
       "bytes": 173,
       "imports": [
@@ -22917,371 +23401,8 @@
       ],
       "format": "esm"
     },
-    "src/engine/modules/animation-3d/component/mesh-animator.js": {
-      "bytes": 3131,
-      "imports": [
-        {
-          "path": "src/engine/engine.js",
-          "kind": "import-statement",
-          "original": "engine"
-        },
-        {
-          "path": "src/engine/alias/three-alias.js",
-          "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/animation-3d/system/mesh-animator-system.js": {
-      "bytes": 1295,
-      "imports": [
-        {
-          "path": "src/engine/core/decorator/interested-component.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/interested-component"
-        },
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "engine/core/system/base/system"
-        },
-        {
-          "path": "src/engine/modules/animation-3d/component/mesh-animator.js",
-          "kind": "import-statement",
-          "original": "../component/mesh-animator"
-        },
-        {
-          "path": "src/engine/core/decorator/execute-order.js",
-          "kind": "import-statement",
-          "original": "engine/core/decorator/execute-order"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/modules/animation-3d/index.js": {
-      "bytes": 125,
-      "imports": [
-        {
-          "path": "src/engine/modules/animation-3d/component/mesh-animator.js",
-          "kind": "import-statement",
-          "original": "./component/mesh-animator"
-        },
-        {
-          "path": "src/engine/modules/animation-3d/system/mesh-animator-system.js",
-          "kind": "import-statement",
-          "original": "./system/mesh-animator-system"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/service/auto-generated/stripped-modules.generated.js": {
-      "bytes": 426,
-      "imports": [
-        {
-          "path": "src/engine/modules/render-3d/index.js",
-          "kind": "import-statement",
-          "original": "engine/modules/render-3d"
-        },
-        {
-          "path": "src/engine/modules/animation-3d/index.js",
-          "kind": "import-statement",
-          "original": "engine/modules/animation-3d"
-        },
-        {
-          "path": "src/engine/modules/behaviour/index.js",
-          "kind": "import-statement",
-          "original": "engine/modules/behaviour"
-        },
-        {
-          "path": "src/engine/modules/camera/index.js",
-          "kind": "import-statement",
-          "original": "engine/modules/camera"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine/service/game/scene.js": {
-      "bytes": 1281,
-      "imports": [
-        {
-          "path": "src/engine/service/game/world-context.js",
-          "kind": "import-statement",
-          "original": "./world-context"
-        },
-        {
-          "path": "src/engine/core/system/base/system.js",
-          "kind": "import-statement",
-          "original": "engine/core/system/base/system"
-        },
-        {
-          "path": "src/engine/service/auto-generated/stripped-modules.generated.js",
-          "kind": "import-statement",
-          "original": "engine/service/auto-generated/stripped-modules.generated"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/assets/AS_1.png": {
-      "bytes": 20855,
-      "imports": []
-    },
-    "src/assets/bg.png": {
-      "bytes": 92145,
-      "imports": []
-    },
-    "src/assets/Block_Color.png": {
-      "bytes": 7012,
-      "imports": []
-    },
-    "src/assets/duck_model.glb": {
-      "bytes": 101760,
-      "imports": []
-    },
-    "src/assets/font/mikado_black.txt": {
-      "bytes": 46974,
-      "imports": []
-    },
-    "src/assets/font/mikado_black_number.txt": {
-      "bytes": 2050,
-      "imports": []
-    },
-    "src/assets/font/mikado_black_number_0.png": {
-      "bytes": 20888,
-      "imports": []
-    },
-    "src/assets/font/mikado_black_texture.png": {
-      "bytes": 82764,
-      "imports": []
-    },
-    "src/assets/ground_line.png": {
-      "bytes": 11901,
-      "imports": []
-    },
-    "src/assets/icon.png": {
-      "bytes": 23300,
-      "imports": []
-    },
-    "src/assets/matcap.png": {
-      "bytes": 7001,
-      "imports": []
-    },
-    "src/assets/new train.png": {
-      "bytes": 16567,
-      "imports": []
-    },
-    "src/assets/pixel_block_model.glb": {
-      "bytes": 4024,
-      "imports": []
-    },
-    "src/assets/queue.png": {
-      "bytes": 10912,
-      "imports": []
-    },
-    "src/assets/rail_model.glb": {
-      "bytes": 38524,
-      "imports": []
-    },
-    "src/assets/rail_shadow.png": {
-      "bytes": 12424,
-      "imports": []
-    },
-    "src/assets/shadow_circle.png": {
-      "bytes": 1872,
-      "imports": []
-    },
-    "src/assets/sphere.glb": {
-      "bytes": 10360,
-      "imports": []
-    },
-    "src/assets/sphere_2.glb": {
-      "bytes": 10360,
-      "imports": []
-    },
-    "src/assets/squid_model.glb": {
-      "bytes": 434280,
-      "imports": []
-    },
-    "src/assets/squid_model1.glb": {
-      "bytes": 101104,
-      "imports": []
-    },
-    "src/assets/start.png": {
-      "bytes": 3047,
-      "imports": []
-    },
-    "src/assets/toon_ramp.png": {
-      "bytes": 5177,
-      "imports": []
-    },
-    "src/assets/train.glb": {
-      "bytes": 536356,
-      "imports": []
-    },
-    "src/assets/tut_hand.png": {
-      "bytes": 20754,
-      "imports": []
-    },
-    "src/assets/warning_texture.png": {
-      "bytes": 20950,
-      "imports": []
-    },
-    "src/assets/water.png": {
-      "bytes": 3714,
-      "imports": []
-    },
-    "src/assets/water_texture.png": {
-      "bytes": 20264,
-      "imports": []
-    },
-    "src/engine/alias/auto-asset.js": {
-      "bytes": 1842,
-      "imports": [
-        {
-          "path": "src/assets/AS_1.png",
-          "kind": "import-statement",
-          "original": "assets/AS_1.png"
-        },
-        {
-          "path": "src/assets/bg.png",
-          "kind": "import-statement",
-          "original": "assets/bg.png"
-        },
-        {
-          "path": "src/assets/Block_Color.png",
-          "kind": "import-statement",
-          "original": "assets/Block_Color.png"
-        },
-        {
-          "path": "src/assets/duck_model.glb",
-          "kind": "import-statement",
-          "original": "assets/duck_model.glb"
-        },
-        {
-          "path": "src/assets/font/mikado_black.txt",
-          "kind": "import-statement",
-          "original": "assets/font/mikado_black.txt"
-        },
-        {
-          "path": "src/assets/font/mikado_black_number.txt",
-          "kind": "import-statement",
-          "original": "assets/font/mikado_black_number.txt"
-        },
-        {
-          "path": "src/assets/font/mikado_black_number_0.png",
-          "kind": "import-statement",
-          "original": "assets/font/mikado_black_number_0.png"
-        },
-        {
-          "path": "src/assets/font/mikado_black_texture.png",
-          "kind": "import-statement",
-          "original": "assets/font/mikado_black_texture.png"
-        },
-        {
-          "path": "src/assets/ground_line.png",
-          "kind": "import-statement",
-          "original": "assets/ground_line.png"
-        },
-        {
-          "path": "src/assets/icon.png",
-          "kind": "import-statement",
-          "original": "assets/icon.png"
-        },
-        {
-          "path": "src/assets/matcap.png",
-          "kind": "import-statement",
-          "original": "assets/matcap.png"
-        },
-        {
-          "path": "src/assets/new train.png",
-          "kind": "import-statement",
-          "original": "assets/new train.png"
-        },
-        {
-          "path": "src/assets/pixel_block_model.glb",
-          "kind": "import-statement",
-          "original": "assets/pixel_block_model.glb"
-        },
-        {
-          "path": "src/assets/queue.png",
-          "kind": "import-statement",
-          "original": "assets/queue.png"
-        },
-        {
-          "path": "src/assets/rail_model.glb",
-          "kind": "import-statement",
-          "original": "assets/rail_model.glb"
-        },
-        {
-          "path": "src/assets/rail_shadow.png",
-          "kind": "import-statement",
-          "original": "assets/rail_shadow.png"
-        },
-        {
-          "path": "src/assets/shadow_circle.png",
-          "kind": "import-statement",
-          "original": "assets/shadow_circle.png"
-        },
-        {
-          "path": "src/assets/sphere.glb",
-          "kind": "import-statement",
-          "original": "assets/sphere.glb"
-        },
-        {
-          "path": "src/assets/sphere_2.glb",
-          "kind": "import-statement",
-          "original": "assets/sphere_2.glb"
-        },
-        {
-          "path": "src/assets/squid_model.glb",
-          "kind": "import-statement",
-          "original": "assets/squid_model.glb"
-        },
-        {
-          "path": "src/assets/squid_model1.glb",
-          "kind": "import-statement",
-          "original": "assets/squid_model1.glb"
-        },
-        {
-          "path": "src/assets/start.png",
-          "kind": "import-statement",
-          "original": "assets/start.png"
-        },
-        {
-          "path": "src/assets/toon_ramp.png",
-          "kind": "import-statement",
-          "original": "assets/toon_ramp.png"
-        },
-        {
-          "path": "src/assets/train.glb",
-          "kind": "import-statement",
-          "original": "assets/train.glb"
-        },
-        {
-          "path": "src/assets/tut_hand.png",
-          "kind": "import-statement",
-          "original": "assets/tut_hand.png"
-        },
-        {
-          "path": "src/assets/warning_texture.png",
-          "kind": "import-statement",
-          "original": "assets/warning_texture.png"
-        },
-        {
-          "path": "src/assets/water.png",
-          "kind": "import-statement",
-          "original": "assets/water.png"
-        },
-        {
-          "path": "src/assets/water_texture.png",
-          "kind": "import-statement",
-          "original": "assets/water_texture.png"
-        }
-      ],
-      "format": "esm"
-    },
     "src/scripts/_load-assets/AssetLoader.js": {
-      "bytes": 1507,
+      "bytes": 1645,
       "imports": [
         {
           "path": "src/engine/alias/auto-asset.js",
@@ -23479,7 +23600,7 @@
       "format": "esm"
     },
     "src/scripts/model/TileEntity.js": {
-      "bytes": 6926,
+      "bytes": 6966,
       "imports": [
         {
           "path": "src/engine/engine.js",
@@ -23722,7 +23843,7 @@
       "format": "esm"
     },
     "src/scripts/controller/TouchController.js": {
-      "bytes": 1595,
+      "bytes": 1732,
       "imports": [
         {
           "path": "src/engine/engine.js",
@@ -24082,35 +24203,8 @@
       ],
       "format": "esm"
     },
-    "src/engine-ts/core/component/Text3D.js": {
-      "bytes": 4248,
-      "imports": [
-        {
-          "path": "src/engine/alias/three-alias.js",
-          "kind": "import-statement",
-          "original": "engine/alias/three-alias"
-        }
-      ],
-      "format": "esm"
-    },
-    "src/engine-ts/core/scene-graph/game-object-3d-new.js": {
-      "bytes": 1395,
-      "imports": [
-        {
-          "path": "node_modules/three/build/three.module.js",
-          "kind": "import-statement",
-          "original": "three"
-        },
-        {
-          "path": "src/engine-ts/core/component/Text3D.js",
-          "kind": "import-statement",
-          "original": "../component/Text3D"
-        }
-      ],
-      "format": "esm"
-    },
     "src/scripts/_scene/GameScene.js": {
-      "bytes": 2686,
+      "bytes": 2496,
       "imports": [
         {
           "path": "src/engine/service/game/scene.js",
@@ -24203,20 +24297,55 @@
           "original": "scripts/controller/GameController"
         },
         {
-          "path": "src/engine-ts/core/scene-graph/game-object-3d-new.js",
+          "path": "node_modules/three/build/three.module.js",
           "kind": "import-statement",
-          "original": "engine-ts/core/scene-graph/game-object-3d-new"
+          "original": "three"
         }
       ],
       "format": "esm"
     },
     "src/game.js": {
-      "bytes": 167,
+      "bytes": 1272,
       "imports": [
+        {
+          "path": "src/engine-ts/core/extension-objects/text-3d.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/extension-objects/text-3d"
+        },
+        {
+          "path": "src/engine-ts/core/render/three-renderer.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/render/three-renderer"
+        },
+        {
+          "path": "src/engine-ts/core/scene-graph/game-object-3d.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/scene-graph/game-object-3d"
+        },
+        {
+          "path": "src/engine-ts/core/world.js",
+          "kind": "import-statement",
+          "original": "engine-ts/core/world"
+        },
+        {
+          "path": "src/scripts/_load-assets/AssetLoader.js",
+          "kind": "import-statement",
+          "original": "scripts/_load-assets/AssetLoader"
+        },
+        {
+          "path": "src/scripts/_load-assets/MaterialFactory.js",
+          "kind": "import-statement",
+          "original": "scripts/_load-assets/MaterialFactory"
+        },
         {
           "path": "src/scripts/_scene/GameScene.js",
           "kind": "import-statement",
           "original": "scripts/_scene/GameScene"
+        },
+        {
+          "path": "node_modules/three/build/three.module.js",
+          "kind": "import-statement",
+          "original": "three"
         }
       ],
       "format": "esm"
@@ -24231,38 +24360,8 @@
         "node_modules/stats.js/build/stats.min.js": {
           "bytesInOutput": 1905
         },
-        "src/engine/core/world.js": {
-          "bytesInOutput": 1469
-        },
-        "src/engine/core/render/render-pipeline.js": {
-          "bytesInOutput": 2041
-        },
-        "src/engine/core/event/event-bus.js": {
-          "bytesInOutput": 1097
-        },
-        "src/engine/core/component/base/component.js": {
-          "bytesInOutput": 1201
-        },
-        "src/engine/core/component/transform.js": {
-          "bytesInOutput": 2836
-        },
-        "src/engine/core/component/render-order.js": {
-          "bytesInOutput": 540
-        },
-        "src/engine/core/scene-graph/game-object.js": {
-          "bytesInOutput": 855
-        },
-        "src/engine/core/system/base/system.js": {
-          "bytesInOutput": 128
-        },
-        "src/engine/service/game/world-context.js": {
-          "bytesInOutput": 126
-        },
-        "src/engine/modules/render-3d/index.js": {
-          "bytesInOutput": 229
-        },
         "node_modules/three/build/three.core.js": {
-          "bytesInOutput": 220114
+          "bytesInOutput": 221343
         },
         "node_modules/three/build/three.module.js": {
           "bytesInOutput": 321203
@@ -24281,111 +24380,6 @@
         },
         "node_modules/three-stdlib/loaders/GLTFLoader.js": {
           "bytesInOutput": 44206
-        },
-        "src/engine/modules/render-3d/component/transform-3d.js": {
-          "bytesInOutput": 729
-        },
-        "src/engine/core/component/renderer.js": {
-          "bytesInOutput": 48
-        },
-        "src/engine/modules/render-3d/component/mesh-renderer.js": {
-          "bytesInOutput": 1638
-        },
-        "src/engine/modules/render-3d/component/render-order-3d.js": {
-          "bytesInOutput": 52
-        },
-        "src/engine/modules/render-3d/component/abstract/light-3d.js": {
-          "bytesInOutput": 241
-        },
-        "src/engine/modules/render-3d/component/ambient-light.js": {
-          "bytesInOutput": 115
-        },
-        "src/engine/modules/render-3d/component/directional-light.js": {
-          "bytesInOutput": 115
-        },
-        "src/engine/modules/render-3d/component/instanced-mesh-renderer.js": {
-          "bytesInOutput": 2992
-        },
-        "src/engine/modules/render-3d/component/dynamic-text-3d.js": {
-          "bytesInOutput": 2391
-        },
-        "src/engine/core/decorator/interested-component.js": {
-          "bytesInOutput": 94
-        },
-        "src/engine/core/decorator/execute-order.js": {
-          "bytesInOutput": 54
-        },
-        "src/engine/modules/render-3d/system/render-3d-system.js": {
-          "bytesInOutput": 717
-        },
-        "src/engine/modules/render-3d/system/light-system.js": {
-          "bytesInOutput": 123
-        },
-        "src/engine/modules/animation-3d/index.js": {
-          "bytesInOutput": 65
-        },
-        "src/engine/core/index.js": {
-          "bytesInOutput": 0
-        },
-        "src/engine/core/component/behaviour.js": {
-          "bytesInOutput": 162
-        },
-        "src/engine/core/render/render-service.js": {
-          "bytesInOutput": 200
-        },
-        "src/engine/core/render/three-renderer.js": {
-          "bytesInOutput": 1686
-        },
-        "src/engine/service/game/game-object-3d.js": {
-          "bytesInOutput": 311
-        },
-        "src/engine/service/index.js": {
-          "bytesInOutput": 0
-        },
-        "src/engine/service/game/instantiate.js": {
-          "bytesInOutput": 57
-        },
-        "src/engine/modules/behaviour/index.js": {
-          "bytesInOutput": 67
-        },
-        "src/engine/modules/behaviour/component/mono-behaviour.js": {
-          "bytesInOutput": 107
-        },
-        "src/engine/modules/behaviour/system/mono-behaviour-system.js": {
-          "bytesInOutput": 453
-        },
-        "src/engine/modules/camera/index.js": {
-          "bytesInOutput": 57
-        },
-        "src/engine/modules/camera/component/camera-view.js": {
-          "bytesInOutput": 706
-        },
-        "src/engine/modules/camera/system/camera-system.js": {
-          "bytesInOutput": 372
-        },
-        "src/engine/asset/loader/load-three-texture.js": {
-          "bytesInOutput": 407
-        },
-        "src/engine/asset/index.js": {
-          "bytesInOutput": 0
-        },
-        "src/engine/asset/loader/load-model.js": {
-          "bytesInOutput": 56
-        },
-        "src/engine/asset/loader/load-bitmap-font.js": {
-          "bytesInOutput": 997
-        },
-        "src/engine/modules/animation-3d/component/mesh-animator.js": {
-          "bytesInOutput": 1505
-        },
-        "src/engine/modules/animation-3d/system/mesh-animator-system.js": {
-          "bytesInOutput": 426
-        },
-        "src/engine/service/auto-generated/stripped-modules.generated.js": {
-          "bytesInOutput": 59
-        },
-        "src/engine/service/game/scene.js": {
-          "bytesInOutput": 346
         },
         "src/assets/bg.png": {
           "bytesInOutput": 122892
@@ -24447,6 +24441,141 @@
         "src/assets/water_texture.png": {
           "bytesInOutput": 27052
         },
+        "src/engine/core/event/event-bus.js": {
+          "bytesInOutput": 1097
+        },
+        "src/engine/core/component/base/component.js": {
+          "bytesInOutput": 1201
+        },
+        "src/engine/core/component/transform.js": {
+          "bytesInOutput": 2836
+        },
+        "src/engine/core/component/render-order.js": {
+          "bytesInOutput": 540
+        },
+        "src/engine/core/scene-graph/game-object.js": {
+          "bytesInOutput": 855
+        },
+        "src/engine/core/index.js": {
+          "bytesInOutput": 0
+        },
+        "src/engine/core/component/behaviour.js": {
+          "bytesInOutput": 162
+        },
+        "src/engine/core/system/base/system.js": {
+          "bytesInOutput": 128
+        },
+        "src/engine/core/world.js": {
+          "bytesInOutput": 1469
+        },
+        "src/engine/core/render/render-pipeline.js": {
+          "bytesInOutput": 2041
+        },
+        "src/engine/core/component/renderer.js": {
+          "bytesInOutput": 48
+        },
+        "src/engine/core/render/render-service.js": {
+          "bytesInOutput": 200
+        },
+        "src/engine/core/render/three-renderer.js": {
+          "bytesInOutput": 1778
+        },
+        "src/engine/modules/render-3d/component/transform-3d.js": {
+          "bytesInOutput": 729
+        },
+        "src/engine/modules/render-3d/component/render-order-3d.js": {
+          "bytesInOutput": 52
+        },
+        "src/engine/service/game/game-object-3d.js": {
+          "bytesInOutput": 311
+        },
+        "src/engine/service/index.js": {
+          "bytesInOutput": 0
+        },
+        "src/engine/service/game/world-context.js": {
+          "bytesInOutput": 126
+        },
+        "src/engine/service/game/instantiate.js": {
+          "bytesInOutput": 57
+        },
+        "src/engine/modules/render-3d/index.js": {
+          "bytesInOutput": 229
+        },
+        "src/engine/modules/render-3d/component/mesh-renderer.js": {
+          "bytesInOutput": 1638
+        },
+        "src/engine/modules/render-3d/component/abstract/light-3d.js": {
+          "bytesInOutput": 241
+        },
+        "src/engine/modules/render-3d/component/ambient-light.js": {
+          "bytesInOutput": 115
+        },
+        "src/engine/modules/render-3d/component/directional-light.js": {
+          "bytesInOutput": 115
+        },
+        "src/engine/modules/render-3d/component/instanced-mesh-renderer.js": {
+          "bytesInOutput": 2992
+        },
+        "src/engine/modules/render-3d/component/dynamic-text-3d.js": {
+          "bytesInOutput": 2391
+        },
+        "src/engine/core/decorator/interested-component.js": {
+          "bytesInOutput": 94
+        },
+        "src/engine/core/decorator/execute-order.js": {
+          "bytesInOutput": 54
+        },
+        "src/engine/modules/render-3d/system/render-3d-system.js": {
+          "bytesInOutput": 717
+        },
+        "src/engine/modules/render-3d/system/light-system.js": {
+          "bytesInOutput": 123
+        },
+        "src/engine/modules/animation-3d/index.js": {
+          "bytesInOutput": 65
+        },
+        "src/engine/modules/animation-3d/component/mesh-animator.js": {
+          "bytesInOutput": 1505
+        },
+        "src/engine/modules/animation-3d/system/mesh-animator-system.js": {
+          "bytesInOutput": 426
+        },
+        "src/engine/modules/behaviour/index.js": {
+          "bytesInOutput": 67
+        },
+        "src/engine/modules/behaviour/component/mono-behaviour.js": {
+          "bytesInOutput": 80
+        },
+        "src/engine/modules/behaviour/system/mono-behaviour-system.js": {
+          "bytesInOutput": 453
+        },
+        "src/engine/modules/camera/index.js": {
+          "bytesInOutput": 57
+        },
+        "src/engine/modules/camera/component/camera-view.js": {
+          "bytesInOutput": 706
+        },
+        "src/engine/modules/camera/system/camera-system.js": {
+          "bytesInOutput": 372
+        },
+        "src/engine/service/auto-generated/stripped-modules.generated.js": {
+          "bytesInOutput": 59
+        },
+        "src/engine/service/game/scene.js": {
+          "bytesInOutput": 346
+        },
+        "src/engine/asset/loader/load-three-texture.js": {
+          "bytesInOutput": 407
+        },
+        "src/engine/asset/index.js": {
+          "bytesInOutput": 0
+        },
+        "src/engine/asset/loader/load-model.js": {
+          "bytesInOutput": 56
+        },
+        "src/engine/asset/loader/load-bitmap-font.js": {
+          "bytesInOutput": 997
+        },
         "src/scripts/_load-assets/AssetLoader.js": {
           "bytesInOutput": 497
         },
@@ -24462,20 +24591,29 @@
         "src/scripts/_config/Config.js": {
           "bytesInOutput": 3302
         },
-        "src/engine-ts/core/component/Text3D.js": {
-          "bytesInOutput": 1889
+        "src/scripts/_config/Tag.js": {
+          "bytesInOutput": 34
         },
-        "src/engine-ts/core/scene-graph/game-object-3d-new.js": {
-          "bytesInOutput": 541
+        "src/scripts/_core/EventEmitter.js": {
+          "bytesInOutput": 402
+        },
+        "src/scripts/_core/GameEventType.js": {
+          "bytesInOutput": 163
+        },
+        "src/scripts/controller/TouchController.js": {
+          "bytesInOutput": 831
+        },
+        "src/scripts/controller/CameraController.js": {
+          "bytesInOutput": 695
         },
         "src/scripts/_scene/GameScene.js": {
-          "bytesInOutput": 539
+          "bytesInOutput": 467
         },
         "src/game.js": {
           "bytesInOutput": 51
         }
       },
-      "bytes": 1605291
+      "bytes": 1606208
     }
   }
 }

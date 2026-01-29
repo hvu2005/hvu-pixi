@@ -1,10 +1,8 @@
-import { Text3D } from "engine-ts/core/extension-objects/text-3d";
-import { three } from "engine-ts/core/render/three-renderer";
-import { GameObject3D } from "engine-ts/core/scene-graph/game-object-3d";
-import { world } from "engine-ts/core/world";
+import { AmbientLight, DirectionalLight } from "@three.alias";
+import { GameObject3D, world } from "engine-ts/dist";
+import { three } from "engine-ts/dist/core/render/three-renderer";
 import { Asset, loadAssets } from "scripts/_load-assets/AssetLoader";
-import { Material, loadMaterials } from "scripts/_load-assets/MaterialFactory";
-import { AmbientLight, BoxGeometry, DirectionalLight, Mesh } from "three";
+import { loadMaterials } from "scripts/_load-assets/MaterialFactory";
 
 
 

@@ -22,5 +22,5 @@
     "src",
     "**/*.js",
     "**/*.d.ts"
-  ]
+, "tsconfig.json"  ]
 }

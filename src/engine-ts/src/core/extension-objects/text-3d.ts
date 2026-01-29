@@ -3,27 +3,27 @@ import {
     BufferGeometry,
     BufferAttribute,
     MeshBasicMaterial,
-    DoubleSide
-} from "engine/alias/three-alias";
+    DoubleSide,
+    Texture
+} from "three";
 
-/**
- * @typedef {Object} Text3DOptions
- * @property {number} [maxChars=999]
- * @property {number} [size=1]
- * @property {string} [align="left"]
- * @property {number} [color=0xffffff]
- * @property {number} [opacity=1]
- * @property {string} [text=""]
- */
+type Text3DOptions = {
+    maxChars?: number;    // default 999
+    size?: number;        // default 1
+    align?: string;       // default "left"
+    color?: number;       // default 0xffffff
+    opacity?: number;     // default 1
+    text?: string;        // default ""
+}
 
-export class Text3D extends Mesh {
+export class Text3D extends Mesh<BufferGeometry, MeshBasicMaterial> {
+    public font: any;
+    public texture: Texture;
+    public maxChars: number;
+    public align: string;
+    private _charCount: number;
 
-    /**
-     * @param {Texture} atlasTex
-     * @param {Object} fontJson
-     * @param {Text3DOptions} options
-     */
-    constructor(atlasTex, fontJson, options = {}) {
+    constructor(atlasTex: Texture, fontJson: any, options: Text3DOptions = {}) {
 
         const geometry = Text3D._buildGeometry(options.maxChars || 999);
         const material = Text3D._buildMaterial(
@@ -47,7 +47,7 @@ export class Text3D extends Mesh {
 
     // ---------- STATIC BUILDERS ----------
 
-    static _buildGeometry(maxChars) {
+    static _buildGeometry(maxChars: number): BufferGeometry {
         const quadCount = maxChars;
         const vertCount = quadCount * 4;
         const indexCount = quadCount * 6;
@@ -76,7 +76,7 @@ export class Text3D extends Mesh {
         return geo;
     }
 
-    static _buildMaterial(texture, color, opacity) {
+    static _buildMaterial(texture: Texture, color: number, opacity: number): MeshBasicMaterial {
         texture.needsUpdate = true;
         return new MeshBasicMaterial({
             map: texture,
@@ -90,18 +90,18 @@ export class Text3D extends Mesh {
 
     // ---------- API ----------
 
-    setColor(color) {
+    setColor(color: number) {
         this.material.color.set(color);
     }
 
-    setOpacity(opacity) {
+    setOpacity(opacity: number) {
         this.material.opacity = opacity;
     }
 
     /**
      * @param {string} text
      */
-    setText(text) {
+    setText(text: string) {
         const chars = [...text];
         const max = Math.min(chars.length, this.maxChars);
 
